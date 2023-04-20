@@ -19,3 +19,4 @@ typedef struct entity
 #endif
 
 int mapSetUp();
+int logSetUp();

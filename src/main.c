@@ -12,6 +12,7 @@ int ncursesSetUp() {
 int main(void) {	
 	ncursesSetUp();
 	mapSetUp();
+	logSetUp();
 	while (getch() != 'q');
 	endwin();
 	return 0;
