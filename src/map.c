@@ -39,6 +39,28 @@ int mapSetUp() {
     mvprintw(20,160,"|                                       |");
     mvprintw(21,160,"+---------------------------------------+");
 
+    mvprintw(24,160,"+---------------------------------------+");
+    mvprintw(25,160,"| =MENU INTERFACE=                      |");
+    mvprintw(26,160,"|                                       |");
+    mvprintw(27,160,"|  (1) MOB STATUS                       |");
+    mvprintw(28,160,"|  (2) SHOP LIST                        |");
+    mvprintw(29,160,"|  (ESC)                                |");
+    mvprintw(30,160,"|                                       |");
+    mvprintw(31,160,"|                                       |");
+    mvprintw(32,160,"|                                       |");
+    mvprintw(33,160,"|                                       |");
+    mvprintw(34,160,"|                                       |");
+    mvprintw(35,160,"|                                       |");
+    mvprintw(36,160,"|                                       |");
+    mvprintw(37,160,"|                                       |");
+    mvprintw(38,160,"|                                       |");
+    mvprintw(39,160,"|                                       |");
+    mvprintw(40,160,"|                                       |");
+    mvprintw(41,160,"|                                       |");
+    mvprintw(42,160,"|                                       |");
+    mvprintw(43,160,"|                                       |");
+    mvprintw(44,160,"+---------------------------------------+");
+    
  
 	return 0;
 }
