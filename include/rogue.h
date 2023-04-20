@@ -3,20 +3,28 @@
 
 #include <ncurses.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct position
-{
-  int y;
+{ 
   int x;
-} Position;
+  int y;
+} position;
 
-typedef struct entity
+typedef struct player
 {
-  Position pos;
+  int posX;
+  int posY;
   char ch;
-} entity;
+} player;
 
 #endif
 
 int mapSetUp();
+
 int logSetUp();
+
+int handleInput(int input, player * user);
+int movePlayer(int x, int y, player * user);
+
+player * playerSetUp();

@@ -1,13 +1,16 @@
 #include <rogue.h>
 
 int mapSetUp() {
-
     for(int i=5;i<45;i++){
         for(int j=5;j<140;j++){
-            if (i == 5 || i == 44 || j == 5 || j == 139)
+            if (i == 5 || i == 44 || j == 5 || j == 139) {
                 mvprintw(i,j,"#");
-            else
+                //map[i][j] = '#';
+            }
+            else {
                 mvprintw(i,j,".");
+                //map[i][j] = '.';
+            }
         }
     }
     mvprintw(5,180, "+-------------------+");
@@ -39,19 +42,3 @@ int mapSetUp() {
  
 	return 0;
 }
-/*
-    mvprintw(14,150,"  \``-.");
-    mvprintw(15,150,"  )  _`-.");
-    mvprintw(16,150," ,  : `. \)");
-    mvprintw(17,150," : _   '  \'");
-    mvprintw(18,150," ; *` _.   `--._");
-    mvprintw(19,150," `-.-'          `-.");
-    mvprintw(20,150,"   |       `       `.");
-    mvprintw(21,150,"   :.       .        \ ");
-    mvprintw(22,150,"   | \  .   :   .-'   .");
-    mvprintw(23,150,"   :  )-.;  ;  /      :");
-    mvprintw(24,150,"   :  ;  | :  :       ;-.");
-    mvprintw(25,150,"   ; /   : |`-:     _ `- )");
-    mvprintw(26,150,",-' /  ,-' ; .-`- .' `--'");
-    mvprintw(27,150,"`--'   `---' `---'");
-*/

@@ -10,10 +10,20 @@ int ncursesSetUp() {
 }
 
 int main(void) {	
+	player * user;
+	position start_pos = {9,9};
+	int exits;
+
 	ncursesSetUp();
 	mapSetUp();
 	logSetUp();
-	while (getch() != 'q');
+
+	user = playerSetUp(start_pos);
+
+	// MAIN GAME LOOP
+	while ((exits = getch()) != 'q') {
+		handleInput(exits,user);
+	}
 	endwin();
 	return 0;
 }
