@@ -12,7 +12,6 @@ int ncursesSetUp() {
 int main(void) {	
 	ncursesSetUp();
 	mapSetUp();
-	drawPlayer();
 	while (getch() != 'q');
 	endwin();
 	return 0;
