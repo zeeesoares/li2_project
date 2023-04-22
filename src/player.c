@@ -12,28 +12,27 @@ player * playerSetUp(position start_pos) {
     return newPlayer;
 }
 
-int handleInput(int input, player * user) {
+void handleInput(int input, player * user) {
     switch (input)
     {
     case 'w':
-        movePlayer(user->posY - 1,user->posX, user);
+        checkMove(user->posY - 1,user->posX, user);
         break;
     case 's':
-        movePlayer(user->posY + 1,user->posX, user);
+        checkMove(user->posY + 1,user->posX, user);
         break;
     case 'a':
-        movePlayer(user->posY,user->posX - 1, user);
+        checkMove(user->posY,user->posX - 1, user);
         break;
     case 'd':
-        movePlayer(user->posY,user->posX + 1, user);
+        checkMove(user->posY,user->posX + 1, user);
         break;
     default:
         break;
     }
-
 }
 
-int movePlayer(int y, int x, player * user) {
+void movePlayer(int y, int x, player * user) {
     mvaddch(user->posY,user->posX,'.');
 
     user -> posX = x;
@@ -44,6 +43,13 @@ int movePlayer(int y, int x, player * user) {
 }
 
 
-int checkMove(int y, int x, player * user) {
-    
+void checkMove(int y, int x, player * user) {
+    switch (mvinch(y,x))
+    {
+    case '.':
+        movePlayer(y,x,user);
+        break;
+    default:
+        break;
+    }
 }

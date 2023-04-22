@@ -18,7 +18,6 @@ typedef struct player
   char ch;
 } player;
 
-#endif
 
 // functions map.c
 int mapSetUp();
@@ -27,17 +26,20 @@ int mapSetUp();
 int logSetUp();
 
 // functions player.c
-int handleInput(int input, player * user);
-int movePlayer(int x, int y, player * user);
+void handleInput(int input, player * user);
+void movePlayer(int x, int y, player * user);
+void checkMove(int y, int x, player * user);
 player * playerSetUp();
 
 // functions draw.c
 
 
 // functions engine.c
-
-
+int ncursesSetUp();
+int gameLoop(int input, player * user);
 // functions room.c
 
 
 // functions fov.c
+
+#endif
