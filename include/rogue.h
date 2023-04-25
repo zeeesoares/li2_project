@@ -4,6 +4,8 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+
 
 typedef struct position
 { 
@@ -32,7 +34,7 @@ void checkMove(int y, int x, player * user);
 player * playerSetUp();
 
 // functions draw.c
-
+void drawEverything();
 
 // functions engine.c
 int ncursesSetUp();
