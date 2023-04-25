@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 
+
 typedef struct position
 { 
   int x;
@@ -33,7 +34,7 @@ void checkMove(int y, int x, player * user);
 player * playerSetUp();
 
 // functions draw.c
-
+void drawEverything();
 
 // functions engine.c
 int ncursesSetUp();

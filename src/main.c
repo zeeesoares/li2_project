@@ -1,9 +1,12 @@
 #include <rogue.h>
 
 
-int main(void) {	
+int main(void) {
+	srandom(time(NULL));
+	keypad(stdscr, true);
+
 	player * user;
-	position start_pos = {9,9};
+	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
 	int inputs = 0;
 
 	keypad(stdscr,true);
@@ -13,6 +16,7 @@ int main(void) {
 
 	//ver map.c
 	mapSetUp();
+	drawEverything();
 
 	//ver log.c
 	logSetUp();
@@ -24,5 +28,7 @@ int main(void) {
 	gameLoop(inputs,user);
 
 	endwin();
+	free(user);
+
 	return 0;
 }
