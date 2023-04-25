@@ -9,6 +9,8 @@ int main(void) {
 	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
 	int inputs = 0;
 
+	keypad(stdscr,true);
+
 	//ver engine.c
 	ncursesSetUp();
 
