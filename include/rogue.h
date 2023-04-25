@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 typedef struct position
 { 

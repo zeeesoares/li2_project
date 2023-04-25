@@ -6,6 +6,8 @@ int main(void) {
 	position start_pos = {9,9};
 	int inputs = 0;
 
+	keypad(stdscr,true);
+
 	//ver engine.c
 	ncursesSetUp();
 
