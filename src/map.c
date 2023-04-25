@@ -1,35 +1,33 @@
 #include <rogue.h>
 
 int mapSetUp() {
-    srand(time(NULL));
-    const int comprimento=45;
-    const int largura=140;
-    char map[comprimento][largura];
-    int flag;
-    WINDOW *mapa=newwin(comprimento,largura,0,0);
-    for(int i=0;i<comprimento;i++){
-        for(int j=0;j<largura;j++){
-            flag=rand()%2;
-            if (flag == 0){
-                map[i][j]='.';
+    int rows = 40;
+    int cols = 135;
+
+    // alocar memória para o array bidimensional
+    char **map = (char **) malloc(rows * sizeof(char *));
+    for(int i = 0; i < rows; i++) {
+        map[i] = (char *) malloc(cols * sizeof(char));
+    }
+
+    // preencher o array bidimensional com caracteres aleatórios
+    int limit = RAND_MAX / 2;
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            int r = rand();
+            if(r < limit) {
+                map[i][j] = '#';
+            } else {
+                map[i][j] = '.';
             }
-            else{
-                map[i][j]='#';
-            }
-              
         }
     }
 
-
-    for(int i=0;i<comprimento;i++){
-        for(int j=0;j<largura;j++){
-            mvprintw(mapa,i,j,"%c",map[i][j]);
+    // imprimir o mapa
+    initscr();
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            mvprintw(i+5, j+5, "%c", map[i][j]);
         }
-        putchar('\n');
-
     }
-
-    wrefresh(mapa);
-
-	return 0;
 }
