@@ -22,7 +22,7 @@ typedef struct player
 
 
 // functions map.c
-int mapSetUp();
+char ** mapSetUp();
 
 // functions log.c
 int logSetUp();
@@ -39,6 +39,8 @@ void drawEverything();
 // functions engine.c
 int ncursesSetUp();
 int gameLoop(int input, player * user);
+void closeGame(player * user, char ** map);
+
 // functions room.c
 
 

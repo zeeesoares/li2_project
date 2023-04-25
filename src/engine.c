@@ -18,3 +18,10 @@ int gameLoop(int input, player * user) {
 	}
     return 0;
 }
+
+void closeGame(player * user, char ** map)
+{
+	endwin();
+	free(user);
+	free(map);
+}
