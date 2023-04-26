@@ -46,6 +46,20 @@ char ** mapSetUp() {
                 }
             }
         }
+        for(int i = 1; i < rows-6; i++) {
+            for(int j = 1; j < cols-6; j++) {
+                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+3])){
+                    char hold=map[i][j+1];
+                    map[i][j+1]=map[i][j+3];
+                    map[i][j+3]=hold;
+                }
+                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+4][j])){
+                    char hold=map[i+1][j];
+                    map[i+1][j]=map[i+4][j];
+                    map[i+4][j]=hold;
+                }
+            }
+        }
     
     
          for(int i = 1; i < rows-4; i++) {
@@ -67,6 +81,20 @@ char ** mapSetUp() {
     for(int i = 2; i < rows-2; i++) {
         for(int j = 2; j < cols-2; j++) {
             if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j] && map[i][j]<map[i-1][j]) {
+                map[i][j] = '.';
+            }
+        }
+    }
+    for(int i = 1; i < 2; i++) {
+        for(int j = 1; j < cols-2; j++) {
+            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j]) {
+                map[i][j] = '.';
+            }
+        }
+    }
+    for(int i = 38; i < 40; i++) {
+        for(int j = 1; j < cols-2; j++) {
+            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i-1][j]) {
                 map[i][j] = '.';
             }
         }
