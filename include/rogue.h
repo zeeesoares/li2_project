@@ -20,6 +20,13 @@ typedef struct player
   char ch;
 } player;
 
+typedef struct gameState
+{
+  position playerPos;
+  player * user;
+  char ** map;
+} gameState;
+
 
 // functions map.c
 char ** mapSetUp();
@@ -34,12 +41,13 @@ void checkMove(int y, int x, player * user);
 player * playerSetUp();
 
 // functions draw.c
-void drawEverything();
+void drawEverything(char ** map);
+void drawMap(char ** map);
 
 // functions engine.c
 int ncursesSetUp();
-int gameLoop(int input, player * user);
-void closeGame(player * user, char ** map);
+int gameLoop(int input, gameState *);
+void closeGame(gameState *);
 
 // functions room.c
 
