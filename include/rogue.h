@@ -1,6 +1,9 @@
 #ifndef ROGUE_H
 #define ROGUE_H
 
+#define MAP_HEIGHT 50
+#define MAP_WIDTH 150
+
 #include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,6 +15,20 @@ typedef struct position
   int x;
   int y;
 } position;
+
+typedef struct tile
+{
+  char ch;
+  bool walkable;
+} tile;
+
+typedef struct room
+{
+  int height; 
+  int width;
+  position pos;
+  position center;
+} room;
 
 typedef struct player
 {
@@ -30,6 +47,9 @@ typedef struct gameState
 
 // functions map.c
 char ** mapSetUp();
+void freeMap(void);
+position setupmap(void);
+
 
 // functions log.c
 int logSetUp();
@@ -48,8 +68,13 @@ void drawMap(char ** map);
 int ncursesSetUp();
 int gameLoop(int input, gameState *);
 void closeGame(gameState *);
+player* createPlayer(position start_pos);
+
 
 // functions room.c
+room createRoom(int y, int x, int height, int width);
+void addRoomToMap(room roomzinho);
+void connectRoomCenters(position centerOne, position centerTwo);
 
 
 // functions fov.c

@@ -25,3 +25,23 @@ void closeGame(gameState * game)
 	free(game->user);
 	free(game->map);
 }
+
+
+player* jogador;
+tile** map;
+
+void drawTile(void)
+{ 
+  for (int y = 5; y < 50; y++)
+  { 
+    for (int x = 5; x < 150; x++)
+    { 
+      mvaddch(y, x, map[y][x].ch);
+    } 
+  } 
+} 
+
+void drawEntity(player* entity)
+{ 
+  mvaddch(entity->posY, entity->posX, entity->ch);
+} 

@@ -1,37 +1,39 @@
 #include <rogue.h>
 
+player* jogador;
+tile** map;
 
-int main(void) {
-	srandom(time(NULL));
-	keypad(stdscr, true);
-	start_color();
-	
-	//ver engine.c
-	ncursesSetUp();
+tile** createTiles(void) // nao recebe argumentos nenhuns e retorna um array bidimencial (pointer para pointer para tiles)
+{ 
+  tile** tiles = calloc(50, sizeof(tile*)); // defenimos tiles e alloca na memorua uma aquantidade de tiles do tamanho do MAP_HEIGHT
 
-	gameState * game;
-	game = malloc(sizeof(struct gameState));
+  for (int y = 5; y < 50; y++)
+  { 
+    tiles[y] = calloc(150, sizeof(tile)); // Vemos todos os pointers que acabaram de ser alocados, e para cada um deles é allocado um numero de tiles igual a MAP_WIDTH
+    for (int x = 5; x < 150; x++) // neste loop acedece-se a cada tile para inicializar a sua variavel. # representa parede e walkable esta a false para o player nao andar por paredes
+    { 
+      tiles[y][x].ch = '#';
+      tiles[y][x].walkable = false;
+    }
+  } 
 
-	player * user;
-	char ** map;
-	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
-	int inputs = 0;
+  return tiles;
+} 
 
-	//ver map.c
-	map = mapSetUp();
-	drawEverything(map);
+int main(void)
+{
 
-	//ver log.c
-	logSetUp();
+	position start_pos;
 
-	//setup do "player/user"
-	user = playerSetUp(start_pos);
+  cursesSetup();
 
-	game->map = map;
-	game->user = user;
-	// ver engine.c
-	gameLoop(inputs,game);
+  map = createTiles();
+  start_pos = setupmap();
+  jogador = createPlayer(start_pos);
 
-	closeGame(game);
-	return 0;
+  //gameLoop();
+
+  //closeGame();
+
+  return 0;
 }

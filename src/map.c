@@ -1,103 +1,55 @@
 #include <rogue.h>
 
-char ** mapSetUp() {
-    int rows = 40;
-    int cols = 135;
+tile** map;
 
 
-    // alocar memória para o array bidimensional
-    char **map = (char **) malloc(rows * sizeof(char *));
-    for(int i = 0; i < rows; i++) {
-        map[i] = (char *) malloc(cols * sizeof(char));
-    }
+tile** createTiles(void) // nao recebe argumentos nenhuns e retorna um array bidimencial (pointer para pointer para tiles)
+{ 
+  tile** tiles = calloc(50, sizeof(tile*)); // defenimos tiles e alloca na memorua uma aquantidade de tiles do tamanho do MAP_HEIGHT
 
-    // preencher o array bidimensional com caracteres aleatórios
-    int count = 0;
+  for (int y = 5; y < 50; y++)
+  { 
+    tiles[y] = calloc(150, sizeof(tile)); // Vemos todos os pointers que acabaram de ser alocados, e para cada um deles é allocado um numero de tiles igual a MAP_WIDTH
+    for (int x = 5; x < 150; x++) // neste loop acedece-se a cada tile para inicializar a sua variavel. # representa parede e walkable esta a false para o player nao andar por paredes
+    { 
+      tiles[y][x].ch = '#';
+      tiles[y][x].walkable = false;
+    }
+  } 
 
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            if ((i == 0)| (j == 0)| (i == 39) | (j == 134)) {
-                map[i][j] = '#';
-            }
-            else {
-                int r = rand()%4;
-                if(r ==0 ) {
-                    map[i][j] = '#';
-                    count++;
-                } 
-                else {
-                map[i][j] = '.';
-                }
-            }
-        }
-    }
-    for(int k=0;k<5;k++){
-        for(int i = 1; i < rows-4; i++) {
-            for(int j = 1; j < cols-4; j++) {
-                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+2])){
-                    char hold=map[i][j+1];
-                    map[i][j+1]=map[i][j+2];
-                    map[i][j+2]=hold;
-                }
-                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+2][j])){
-                    char hold=map[i+1][j];
-                    map[i+1][j]=map[i+2][j];
-                    map[i+2][j]=hold;
-                }
-            }
-        }
-        for(int i = 1; i < rows-6; i++) {
-            for(int j = 1; j < cols-6; j++) {
-                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+3])){
-                    char hold=map[i][j+1];
-                    map[i][j+1]=map[i][j+3];
-                    map[i][j+3]=hold;
-                }
-                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+4][j])){
-                    char hold=map[i+1][j];
-                    map[i+1][j]=map[i+4][j];
-                    map[i+4][j]=hold;
-                }
-            }
-        }
-    
-    
-         for(int i = 1; i < rows-4; i++) {
-            for(int j = 1; j < cols-4; j++) {
-                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+3])){
-                    char hold=map[i][j+1];
-                    map[i][j+1]=map[i][j+3];
-                    map[i][j+3]=hold;
-                }
-                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+3][j])){
-                    char hold=map[i+1][j];
-                    map[i+1][j]=map[i+3][j];
-                    map[i+3][j]=hold;
-                }
-            }
-        }
-    }
+  return tiles;
+} 
 
-    for(int i = 2; i < rows-2; i++) {
-        for(int j = 2; j < cols-2; j++) {
-            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j] && map[i][j]<map[i-1][j]) {
-                map[i][j] = '.';
-            }
-        }
-    }
-    for(int i = 1; i < 2; i++) {
-        for(int j = 1; j < cols-2; j++) {
-            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j]) {
-                map[i][j] = '.';
-            }
-        }
-    }
-    for(int i = 38; i < 40; i++) {
-        for(int j = 1; j < cols-2; j++) {
-            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i-1][j]) {
-                map[i][j] = '.';
-            }
-        }
-    }
-    return map;
+position setupmap(void)
+{
+  int y, x, height, width, n_rooms;
+  n_rooms =  (rand() % 11) + 5;
+  room* rooms = calloc(n_rooms, sizeof(room));
+  position start_pos; // localicacao inicial do player
+
+  for (int i = 0; i < n_rooms; i++)
+  {
+    y = (rand() % (MAP_HEIGHT - 10)) + 5;
+    x = (rand() % (MAP_WIDTH - 20)) + 5;
+    height = (rand() % 7) + 3;
+    width = (rand() % 15) + 5;
+    rooms[i] = createRoom(y, x, height, width);
+    addRoomToMap(rooms[i]);
+  }
+
+  start_pos.y = rooms[0].center.y;
+  start_pos.x = rooms[0].center.x;
+
+  free(rooms);
+
+  return start_pos;
 }
+
+void freeMap(void) // funcao usada para dar free a cada linha de arrays antes de finalmente dar free ao mapa em si
+{ 
+  for (int y = 5; y < 50; y++)
+  { 
+    free(map[y]);
+  } 
+  free(map);
+} 
