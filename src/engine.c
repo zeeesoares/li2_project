@@ -14,7 +14,8 @@ int ncursesSetUp() {
 // loop que faz o jogo acontecer
 int gameLoop(int input, gameState * game) {
     while ((input = getch()) != 'q') {
-		handleInput(input,game->user);
+		handleInput(input,game);
+		handleInventory(input);
 	}
     return 0;
 }
