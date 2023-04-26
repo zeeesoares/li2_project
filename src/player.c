@@ -7,7 +7,6 @@ player * playerSetUp(position start_pos) {
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
 
-    mvaddch(newPlayer->pos.y,newPlayer->pos.x,newPlayer->ch);
     mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
     return newPlayer;
 }
@@ -15,17 +14,17 @@ player * playerSetUp(position start_pos) {
 void handleInput(int input, gameState * game) {
     switch (input)
     {
-    case KEY_UP:
-        checkMove(game->user->pos.y - 1,game->user->pos.x, game->user);
+    case 'w':
+        checkMove(game->user->pos.y - 1,game->user->pos.x, game);
         break;
-    case KEY_DOWN:
-        checkMove(game->user->pos.y + 1,game->user->pos.x, game->user);
+    case 's':
+        checkMove(game->user->pos.y + 1,game->user->pos.x, game);
         break;
-    case KEY_LEFT:
-        checkMove(game->user->pos.y,game->user->pos.x - 1, game->user);
+    case 'a':
+        checkMove(game->user->pos.y,game->user->pos.x - 1, game);
         break;
-    case KEY_RIGHT:
-        checkMove(game->user->pos.y,game->user->pos.x + 1, game->user);
+    case 'd':
+        checkMove(game->user->pos.y,game->user->pos.x + 1, game);
         break;
     default:
         break;
@@ -34,23 +33,29 @@ void handleInput(int input, gameState * game) {
 }
 
 void movePlayer(int y, int x, player * user) {
-    mvaddch(user->pos.y,user->pos.x,'.');
 
     user -> pos.x = x;
     user -> pos.y = y;
 
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+
+    attron(COLOR_PAIR(1)); // Ativa a cor vermelha
     mvaddch(user->pos.y,user->pos.x,user->ch);
+    attroff(COLOR_PAIR(1)); // Desativa a cor vermelha
     move(user -> pos.y, user -> pos.x);
 }
 
+void imprimeEspaco(int y, int x) {
+    init_pair(4, COLOR_GREEN, COLOR_BLACK);
+    attron(COLOR_PAIR(4));
+    mvaddch(y,x,'.');
+    attroff(COLOR_PAIR(4));
+}
 
-void checkMove(int y, int x, player * user) {
-    switch (mvinch(y,x))
-    {
-    case '.':
-        movePlayer(y,x,user);
-        break;
-    default:
-        break;
+
+void checkMove(int y, int x, gameState * game) {
+    if (game->map[y-5][x-5] == '.') {
+        imprimeEspaco(game->user->pos.y,game->user->pos.x);
+        movePlayer(y, x, game->user);
     }
 }

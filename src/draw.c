@@ -1,7 +1,8 @@
 #include <rogue.h>
 
 void drawEverything(gameState * game) {
-    drawMap(game->map);    
+    drawMap(game->map);
+    drawPlayer(game->user); 
     drawCoins();
     drawInterface();
     drawInventory();
@@ -9,20 +10,43 @@ void drawEverything(gameState * game) {
     drawMob(game->mob);
 }
 
+
 void drawMap(char ** map) {
     int rows = 40;
     int cols = 135;
 
+    init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    
     // imprimir o mapa
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
-            mvprintw(i+5, j+5, "%c", map[i][j]);
+            if (map[i][j] == '.') {
+                attron(COLOR_PAIR(3));
+                mvprintw(i+5, j+5, "%c", map[i][j]);
+                attroff(COLOR_PAIR(3));
+            }
+            else mvprintw(i+5, j+5, "%c", map[i][j]);
         }
     }
 }
 
+
+void drawPlayer(player * user) {
+
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+
+    attron(COLOR_PAIR(1)); // Ativa a cor vermelha
+    mvaddch(user->pos.y,user->pos.x,user->ch);
+    attroff(COLOR_PAIR(1)); // Desativa a cor vermelha
+}
+
 void drawMob(entity_mob * mob) {
+
+    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+
+    attron(COLOR_PAIR(2)); // Ativa a cor vermelha
     mvaddch(mob->pos.y,mob->pos.x,mob->ch);
+    attroff(COLOR_PAIR(2)); // Desativa a cor vermelha
 }
 
 void drawInventory() {

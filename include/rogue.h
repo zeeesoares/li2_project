@@ -44,7 +44,7 @@ void invLog(int weapon, int count);
 // functions player.c
 void handleInput(int input, gameState * game);
 void movePlayer(int x, int y, player * user);
-void checkMove(int y, int x, player * user);
+void checkMove(int y, int x, gameState * game);
 player * playerSetUp();
 
 // functions mobs.c
@@ -52,6 +52,7 @@ entity_mob * mobsSetUp(position start_pos);
 
 // functions draw.c
 void drawEverything(gameState * game);
+void drawPlayer(player * user);
 void drawMap(char ** map);
 void drawInventory();
 void drawMob(entity_mob * mob);
