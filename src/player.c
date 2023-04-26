@@ -8,7 +8,16 @@ player * playerSetUp(position start_pos) {
     newPlayer->posY = start_pos.y;
     newPlayer->ch = '@';
 
-    mvaddch(newPlayer->posY,newPlayer->posX,newPlayer->ch);
+    start_color();
+
+	init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK);
+	init_pair(COLOR_GREEN,COLOR_GREEN,COLOR_BLACK);
+	init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK);
+    
+
+    attron(COLOR_PAIR(COLOR_BLUE));
+    mvaddch(newPlayer->posY,newPlayer->posX,'@');
+    attroff(COLOR_PAIR(COLOR_BLUE));
     mvprintw(46,122,"rows: %d, cols: %d",newPlayer->posY,newPlayer->posX);
     return newPlayer;
 }
@@ -35,12 +44,22 @@ void handleInput(int input, player * user) {
 }
 
 void movePlayer(int y, int x, player * user) {
+    start_color();
+
+	init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK);
+	init_pair(COLOR_GREEN,COLOR_GREEN,COLOR_BLACK);
+	init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK);
+    
+
+
+
     mvaddch(user->posY,user->posX,'.');
 
     user -> posX = x;
     user -> posY = y;
-
-    mvaddch(user->posY,user->posX,user->ch);
+    attron(COLOR_PAIR(COLOR_BLUE));
+    mvaddch(user->posY,user->posX,'@');
+    attroff(COLOR_PAIR(COLOR_BLUE));
     move(user -> posY, user -> posX);
 }
 
