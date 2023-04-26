@@ -1,6 +1,7 @@
 #include <rogue.h>
 
-void drawEverything() {
+void drawEverything(char ** map) {
+    drawMap(map);
     mvprintw(5,180, "+-------------------+");
     mvprintw(6,180, "|                   |");
     mvprintw(7,180, "|    HP: 100/100    |");
@@ -49,4 +50,16 @@ void drawEverything() {
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"+---------------------------------------+");
     
+}
+
+void drawMap(char ** map) {
+    int rows = 40;
+    int cols = 135;
+
+    // imprimir o mapa
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            mvprintw(i+5, j+5, "%c", map[i][j]);
+        }
+    }
 }

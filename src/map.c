@@ -99,11 +99,5 @@ char ** mapSetUp() {
             }
         }
     }
-    // imprimir o mapa
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            mvprintw(i+5, j+5, "%c", map[i][j]);
-        }
-    }
     return map;
 }

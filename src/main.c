@@ -4,20 +4,22 @@
 int main(void) {
 	srandom(time(NULL));
 	keypad(stdscr, true);
+	start_color();
+	
+	//ver engine.c
+	ncursesSetUp();
+
+	gameState * game;
+	game = malloc(sizeof(struct gameState));
 
 	player * user;
 	char ** map;
 	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
 	int inputs = 0;
 
-	keypad(stdscr,true);
-
-	//ver engine.c
-	ncursesSetUp();
-
 	//ver map.c
 	map = mapSetUp();
-	drawEverything();
+	drawEverything(map);
 
 	//ver log.c
 	logSetUp();
@@ -25,9 +27,11 @@ int main(void) {
 	//setup do "player/user"
 	user = playerSetUp(start_pos);
 
+	game->map = map;
+	game->user = user;
 	// ver engine.c
-	gameLoop(inputs,user);
+	gameLoop(inputs,game);
 
-	closeGame(user,map);
+	closeGame(game);
 	return 0;
 }

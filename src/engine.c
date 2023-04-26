@@ -12,16 +12,16 @@ int ncursesSetUp() {
 }
 
 // loop que faz o jogo acontecer
-int gameLoop(int input, player * user) {
+int gameLoop(int input, gameState * game) {
     while ((input = getch()) != 'q') {
-		handleInput(input,user);
+		handleInput(input,game->user);
 	}
     return 0;
 }
 
-void closeGame(player * user, char ** map)
+void closeGame(gameState * game)
 {
 	endwin();
-	free(user);
-	free(map);
+	free(game->user);
+	free(game->map);
 }
