@@ -18,6 +18,9 @@ typedef struct player
   int posX;
   int posY;
   char ch;
+  int vida;
+  int mana;
+
 } player;
 
 
@@ -35,6 +38,8 @@ player * playerSetUp();
 
 // functions draw.c
 void drawEverything();
+//int health_Bar(50,player * user);
+//int mana_Bar(20,player * user);
 
 // functions engine.c
 int ncursesSetUp();

@@ -1,12 +1,73 @@
 #include <rogue.h>
 
 void drawEverything() {
+    start_color();
     mvprintw(5,180, "+-------------------+");
     mvprintw(6,180, "|                   |");
-    mvprintw(7,180, "|    HP: 100/100    |");
-    mvprintw(8,180, "|    Mana: 82/82    |");
-    mvprintw(9,180, "|    XP: 11234      |");
-    mvprintw(10,180,"|    LVL: 123       |");
+char vida[12];
+    //vida[0]='|';
+    for(int i=1;i<((100)-50)/10;i++){
+        vida[i]='#';
+    }
+    
+    for(int i=((100)-50)/10;i<11;i++){
+        vida[i]='.';
+    }
+    vida[11]='|';
+
+    mvprintw(7,180, "|   HP:");
+    for(int i=1;i<12;i++){
+        if((100)-50<50){
+            init_pair(2,COLOR_YELLOW,COLOR_BLACK);
+            attron(COLOR_PAIR(2));
+            mvprintw(7,188+i,"%c",vida[i]);
+            attroff(COLOR_PAIR(2));
+        }
+        if((100)-50<10){
+            init_pair(1,COLOR_RED,COLOR_BLACK);
+            attron(COLOR_PAIR(1));
+            mvprintw(7,188+i,"%c",vida[i]);
+            attroff(COLOR_PAIR(1));
+        }
+        else{
+            init_pair(3,COLOR_GREEN,COLOR_BLACK);
+            attron(COLOR_PAIR(3));
+            mvprintw(7,188+i,"%c",vida[i]);
+            attroff(COLOR_PAIR(3));
+        } 
+    }
+        mvprintw(7,200, "|");
+
+        char mana[12];
+    //mana[0]='|';
+    for(int i=1;i<((100)-20)/10;i++){
+        mana[i]='#';
+    }
+    for(int i=((100)-20)/10;i<11;i++){
+        mana[i]='.';
+    }
+
+    mana[11]='|';
+
+    mvprintw(8,179, " |   Mana:");
+    for(int i=1;i<12;i++){
+        if((100)-20<50){
+            init_pair(1,COLOR_CYAN,COLOR_BLACK);
+            attron(COLOR_PAIR(1));
+            mvprintw(8,188+i,"%c",mana[i]);
+            attroff(COLOR_PAIR(1));
+        }
+        else{
+            init_pair(1,COLOR_BLUE,COLOR_BLACK);
+            attron(COLOR_PAIR(1));
+            mvprintw(8,188+i,"%c",mana[i]);
+            attroff(COLOR_PAIR(1));
+        }    
+    }
+    mvprintw(8,200, "|");
+
+    mvprintw(9,180, "|   XP: 11234       |");
+    mvprintw(10,180,"|   LVL: 123        |");
     mvprintw(11,180,"|                   |");
     mvprintw(12,180,"+-------------------+");
 
