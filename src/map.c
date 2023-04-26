@@ -1,12 +1,9 @@
 #include <rogue.h>
 
-int mapSetUp() {
+char ** mapSetUp() {
     int rows = 40;
     int cols = 135;
-    float percBlocks = 0.40;
-    int totalBlocks = rows*cols;
-    float maxCard = percBlocks *totalBlocks;
-    int numCards = 0; 
+
 
     // alocar memória para o array bidimensional
     char **map = (char **) malloc(rows * sizeof(char *));
@@ -19,7 +16,7 @@ int mapSetUp() {
 
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
-            if (i == 0| j == 0| i == 39 | j == 134) {
+            if ((i == 0)| (j == 0)| (i == 39) | (j == 134)) {
                 map[i][j] = '#';
             }
             else {
@@ -66,11 +63,19 @@ int mapSetUp() {
             }
         }
     }
+
+    for(int i = 2; i < rows-2; i++) {
+        for(int j = 2; j < cols-2; j++) {
+            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j] && map[i][j]<map[i-1][j]) {
+                map[i][j] = '.';
+            }
+        }
+    }
     // imprimir o mapa
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
             mvprintw(i+5, j+5, "%c", map[i][j]);
         }
     }
-    return 0;
+    return map;
 }

@@ -6,6 +6,7 @@ int main(void) {
 	keypad(stdscr, true);
 
 	player * user;
+	char ** map;
 	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
 	int inputs = 0;
 
@@ -15,7 +16,7 @@ int main(void) {
 	ncursesSetUp();
 
 	//ver map.c
-	mapSetUp();
+	map = mapSetUp();
 	drawEverything();
 
 	//ver log.c
@@ -27,8 +28,6 @@ int main(void) {
 	// ver engine.c
 	gameLoop(inputs,user);
 
-	endwin();
-	free(user);
-
+	closeGame(user,map);
 	return 0;
 }

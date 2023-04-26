@@ -9,6 +9,7 @@ player * playerSetUp(position start_pos) {
     newPlayer->ch = '@';
 
     mvaddch(newPlayer->posY,newPlayer->posX,newPlayer->ch);
+    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->posY,newPlayer->posX);
     return newPlayer;
 }
 
@@ -30,6 +31,7 @@ void handleInput(int input, player * user) {
     default:
         break;
     }
+    mvprintw(46,122,"rows: %d, cols: %d",user->posY,user->posX);
 }
 
 void movePlayer(int y, int x, player * user) {
