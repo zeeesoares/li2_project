@@ -17,7 +17,7 @@ int ncursesSetUp() {
 int gameLoop(int input, gameState * game) {
     while ((input = getch()) != 'q') {
 		handleInput(input,game);
-		handleInventory(input);
+		//handleInventory(input,game);
 	}
     return 0;
 }

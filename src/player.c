@@ -45,14 +45,6 @@ void movePlayer(int y, int x, player * user) {
     move(user -> pos.y, user -> pos.x);
 }
 
-void imprimeEspaco(int y, int x) {
-    init_pair(4, COLOR_GREEN, COLOR_BLACK);
-    attron(COLOR_PAIR(4));
-    mvaddch(y,x,'.');
-    attroff(COLOR_PAIR(4));
-}
-
-
 void checkMove(int y, int x, gameState * game) {
     if (game->map[y-5][x-5] == '.') {
         imprimeEspaco(game->user->pos.y,game->user->pos.x);

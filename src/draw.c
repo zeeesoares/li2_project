@@ -30,6 +30,14 @@ void drawMap(char ** map) {
     }
 }
 
+void imprimeEspaco(int y, int x) {
+    init_pair(4, COLOR_GREEN, COLOR_BLACK);
+    attron(COLOR_PAIR(4));
+    mvaddch(y,x,'.');
+    attroff(COLOR_PAIR(4));
+}
+
+
 
 void drawPlayer(player * user) {
 

@@ -16,8 +16,10 @@ typedef struct position
 typedef struct player
 {
   position pos;
+  int weapon;
   char ch;
 } player;
+
 
 typedef struct entity_mob
 {
@@ -59,6 +61,7 @@ void drawMob(entity_mob * mob);
 void drawStatus();
 void drawInterface();
 void drawCoins();
+void imprimeEspaco(int y, int x); 
 
 // functions engine.c
 int ncursesSetUp();
@@ -68,7 +71,7 @@ void closeGame(gameState *);
 // functions room.c
 
 //function inventory.c
-void handleInventory(int input);
+void handleInventory(int input, gameState * game);
 
 // functions fov.c
 
