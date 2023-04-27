@@ -25,7 +25,7 @@ int main(void)
 
 	position start_pos;
 
-  cursesSetup();
+  ncursesSetUp();
 
   map = createTiles();
   start_pos = setupmap();
