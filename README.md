@@ -1,6 +1,6 @@
 # LI2_project :wave:
 
-- Projeto baseado num jogo Roguelike produzido em C, coma biblioteca ncurses.
+- Projeto baseado num jogo Roguelike produzido em C, com a biblioteca ncurses.
 
 ## :space_invader: Colaborators:
 - José Soares;

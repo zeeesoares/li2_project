@@ -15,13 +15,26 @@ typedef struct position
 
 typedef struct player
 {
-  int posX;
-  int posY;
+  position pos;
   char ch;
   int vida;
   int mana;
 
 } player;
+
+typedef struct entity_mob
+{
+  position pos;
+  char ch;
+  int type;
+} entity_mob;
+
+typedef struct gameState
+{
+  player * user;
+  char ** map;
+  entity_mob * mob;
+} gameState;
 
 
 // functions map.c
@@ -29,25 +42,35 @@ char ** mapSetUp();
 
 // functions log.c
 int logSetUp();
+void invLog(int weapon, int count);
 
 // functions player.c
-void handleInput(int input, player * user);
+void handleInput(int input, gameState * game);
 void movePlayer(int x, int y, player * user);
 void checkMove(int y, int x, player * user);
 player * playerSetUp();
 
+// functions mobs.c
+entity_mob * mobsSetUp(position start_pos);
+
 // functions draw.c
-void drawEverything();
-//int health_Bar(50,player * user);
-//int mana_Bar(20,player * user);
+void drawEverything(gameState * game);
+void drawMap(char ** map);
+void drawInventory();
+void drawMob(entity_mob * mob);
+void drawStatus();
+void drawInterface();
+void drawCoins();
 
 // functions engine.c
 int ncursesSetUp();
-int gameLoop(int input, player * user);
-void closeGame(player * user, char ** map);
+int gameLoop(int input, gameState *);
+void closeGame(gameState *);
 
 // functions room.c
 
+//function inventory.c
+void handleInventory(int input);
 
 // functions fov.c
 

@@ -1,6 +1,6 @@
 #include <rogue.h>
 
-void drawEverything() {
+void drawEverything(gameState * game) {
     start_color();
     mvprintw(5,180, "+-------------------+");
     mvprintw(6,180, "|                   |");
@@ -70,15 +70,31 @@ char vida[12];
     mvprintw(10,180,"|   LVL: 123        |");
     mvprintw(11,180,"|                   |");
     mvprintw(12,180,"+-------------------+");
+    drawMap(game->map);    
+    drawCoins();
+    drawInterface();
+    drawInventory();
+    drawStatus();
+    drawMob(game->mob);
+}
 
+void drawMap(char ** map) {
+    int rows = 40;
+    int cols = 135;
 
-    mvprintw(5,160,"+---------+");
-    mvprintw(6,160,"|         |");
-    mvprintw(7,160,"|  Coins  |");
-    mvprintw(8,160,"|         |");
-    mvprintw(9,160,"+---------+");
+    // imprimir o mapa
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            mvprintw(i+5, j+5, "%c", map[i][j]);
+        }
+    }
+}
 
+void drawMob(entity_mob * mob) {
+    mvaddch(mob->pos.y,mob->pos.x,mob->ch);
+}
 
+void drawInventory() {
     mvprintw(14,160,"+---------------------------------------+");
     mvprintw(15,160,"| =Inventory=                           |");
     mvprintw(16,160,"|                                       |");
@@ -87,7 +103,17 @@ char vida[12];
     mvprintw(19,160,"|  (3) Potion (Poison) - o              |");
     mvprintw(20,160,"|                                       |");
     mvprintw(21,160,"+---------------------------------------+");
+}
 
+void drawCoins() {
+    mvprintw(5,160,"+---------+");
+    mvprintw(6,160,"|         |");
+    mvprintw(7,160,"|  Coins  |");
+    mvprintw(8,160,"|         |");
+    mvprintw(9,160,"+---------+");
+}
+
+void drawInterface() {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MENU INTERFACE=                      |");
     mvprintw(26,160,"|                                       |");
@@ -109,5 +135,5 @@ char vida[12];
     mvprintw(42,160,"|                                       |");
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"+---------------------------------------+");
-    
 }
+

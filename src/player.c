@@ -4,44 +4,43 @@ player * playerSetUp(position start_pos) {
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
-    newPlayer->posX =  start_pos.x;
-    newPlayer->posY = start_pos.y;
+    newPlayer->pos = start_pos;
     newPlayer->ch = '@';
 
-    mvaddch(newPlayer->posY,newPlayer->posX,newPlayer->ch);
-    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->posY,newPlayer->posX);
+    mvaddch(newPlayer->pos.y,newPlayer->pos.x,newPlayer->ch);
+    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
     return newPlayer;
 }
 
-void handleInput(int input, player * user) {
+void handleInput(int input, gameState * game) {
     switch (input)
     {
-    case 'w':
-        checkMove(user->posY - 1,user->posX, user);
+    case KEY_UP:
+        checkMove(game->user->pos.y - 1,game->user->pos.x, game->user);
         break;
-    case 's':
-        checkMove(user->posY + 1,user->posX, user);
+    case KEY_DOWN:
+        checkMove(game->user->pos.y + 1,game->user->pos.x, game->user);
         break;
-    case 'a':
-        checkMove(user->posY,user->posX - 1, user);
+    case KEY_LEFT:
+        checkMove(game->user->pos.y,game->user->pos.x - 1, game->user);
         break;
-    case 'd':
-        checkMove(user->posY,user->posX + 1, user);
+    case KEY_RIGHT:
+        checkMove(game->user->pos.y,game->user->pos.x + 1, game->user);
         break;
     default:
         break;
     }
-    mvprintw(46,122,"rows: %d, cols: %d",user->posY,user->posX);
+    mvprintw(46,122,"rows: %d, cols: %d",game->user->pos.y,game->user->pos.x);
 }
 
 void movePlayer(int y, int x, player * user) {
-    mvaddch(user->posY,user->posX,'.');
+    mvaddch(user->pos.y,user->pos.x,'.');
 
-    user -> posX = x;
-    user -> posY = y;
+    user -> pos.x = x;
+    user -> pos.y = y;
 
-    mvaddch(user->posY,user->posX,user->ch);
-    move(user -> posY, user -> posX);
+    mvaddch(user->pos.y,user->pos.x,user->ch);
+    move(user -> pos.y, user -> pos.x);
 }
 
 
