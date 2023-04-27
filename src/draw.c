@@ -10,33 +10,39 @@ void drawEverything(gameState * game) {
     drawMob(game->mob);
 }
 
+void drawMenu() {
+    mvprintw(24,50,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
+    mvprintw(25,50,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
+    mvprintw(26,50," 888     888  888   .d88' 888      888 888            888       8   888");
+    mvprintw(27,50," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
+    mvprintw(28,50," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
+    mvprintw(29,50," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
+    mvprintw(30,50,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
+}
+
 
 void drawMap(char ** map) {
     int rows = 40;
     int cols = 135;
 
-    init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_BLUE, COLOR_BLACK);
     
     // imprimir o mapa
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
-            if (map[i][j] == '.') {
-                attron(COLOR_PAIR(3));
-                mvprintw(i+5, j+5, "%c", map[i][j]);
-                attroff(COLOR_PAIR(3));
-            }
-            else mvprintw(i+5, j+5, "%c", map[i][j]);
+            attron(COLOR_PAIR(3));
+            mvprintw(i+5, j+5, "%c", map[i][j]);
+            attroff(COLOR_PAIR(3));
         }
     }
 }
 
 void imprimeEspaco(int y, int x) {
-    init_pair(4, COLOR_GREEN, COLOR_BLACK);
-    attron(COLOR_PAIR(4));
+    //init_pair(4, COLOR_GREEN, COLOR_BLACK);
+    //attron(COLOR_PAIR(4));
     mvaddch(y,x,'.');
-    attroff(COLOR_PAIR(4));
+    //attroff(COLOR_PAIR(4));
 }
-
 
 
 void drawPlayer(player * user) {

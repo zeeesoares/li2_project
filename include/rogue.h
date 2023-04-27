@@ -20,7 +20,6 @@ typedef struct player
   char ch;
 } player;
 
-
 typedef struct entity_mob
 {
   position pos;
@@ -28,8 +27,22 @@ typedef struct entity_mob
   int type;
 } entity_mob;
 
+typedef struct tile 
+{
+  char ch;
+  int visible;
+  int walkable;
+} tile;
+
+typedef struct menu
+{
+  int jogar;
+  int sair;
+} menu;
+
 typedef struct gameState
 {
+  menu modo;
   player * user;
   char ** map;
   entity_mob * mob;
@@ -54,6 +67,7 @@ entity_mob * mobsSetUp(position start_pos);
 
 // functions draw.c
 void drawEverything(gameState * game);
+void drawMenu();
 void drawPlayer(player * user);
 void drawMap(char ** map);
 void drawInventory();
@@ -66,6 +80,7 @@ void imprimeEspaco(int y, int x);
 // functions engine.c
 int ncursesSetUp();
 int gameLoop(int input, gameState *);
+int menuLoop(int input, gameState * game);
 void closeGame(gameState *);
 
 // functions room.c

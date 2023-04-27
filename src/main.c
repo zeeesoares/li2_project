@@ -3,7 +3,6 @@
 
 int main(void) {
 	srandom(time(NULL));
-	keypad(stdscr, true);
 	start_color();
 	
 	//ver engine.c
@@ -11,6 +10,8 @@ int main(void) {
 
 	gameState * game;
 	game = malloc(sizeof(struct gameState));
+	game->modo.jogar = 1;
+	game->modo.sair = 0;
 
 	player * user;
 	entity_mob * mob;
@@ -19,6 +20,7 @@ int main(void) {
 	position start_posMOb = {rand() % 17 + 20,rand() % 17 + 20};
 	int inputs = 0;
 
+	menuLoop(inputs,game);
 	//ver map.c
 	map = mapSetUp();
 	//ver log.c
@@ -35,9 +37,9 @@ int main(void) {
 	game->user = user;
 	game->mob = mob;
 
-	drawEverything(game);
 
-	// ver engine.c
+	drawEverything(game);
+	// ver engine.cend:
 	gameLoop(inputs,game);
 
 	closeGame(game);

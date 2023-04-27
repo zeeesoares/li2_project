@@ -13,8 +13,10 @@ int ncursesSetUp() {
     return 0;
 }
 
+
 // loop que faz o jogo acontecer
 int gameLoop(int input, gameState * game) {
+	if (game->modo.sair == 1) return 0;
     while ((input = getch()) != 'q') {
 		handleInput(input,game);
 		//handleInventory(input,game);
@@ -22,9 +24,20 @@ int gameLoop(int input, gameState * game) {
     return 0;
 }
 
+int menuLoop(int input, gameState * game) {
+	keypad(stdscr, true);
+	drawMenu();
+	while ((input = getch()) != 'q') {
+		if (game->modo.jogar == 1 && input == 10)
+			break;
+	}
+	return 0;
+}
+
 void closeGame(gameState * game)
 {
-	endwin();
 	free(game->user);
 	free(game->map);
+	endwin();
+	reset_shell_mode();
 }
