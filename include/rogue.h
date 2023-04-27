@@ -21,6 +21,17 @@ typedef struct player
   int mana;
 
 } player;
+/*
+typedef struct armas
+{
+  position pos;
+  int maos;
+  int espada;
+  int arco;
+  int pocao;
+} armas;
+*/
+
 
 typedef struct entity_mob
 {
@@ -34,6 +45,7 @@ typedef struct gameState
   player * user;
   char ** map;
   entity_mob * mob;
+  //weapons * arma;
 } gameState;
 
 
@@ -42,7 +54,7 @@ char ** mapSetUp();
 
 // functions log.c
 int logSetUp();
-void invLog(int weapon, int count);
+void invLog(int weapons, int count);
 
 // functions player.c
 void handleInput(int input, gameState * game);

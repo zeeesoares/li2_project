@@ -1,6 +1,6 @@
 #include <rogue.h>
 
-
+/*
 int health_Bar(int Dano,player * user){
     char vida[12];
     //vida[0]='|';
@@ -71,3 +71,4 @@ int mana_Bar(int cast,player * user){
 
     return user;
 }
+*/

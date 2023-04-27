@@ -17,6 +17,7 @@ void handleInput(int input, gameState * game) {
     {
     case KEY_UP:
         checkMove(game->user->pos.y - 1,game->user->pos.x, game->user);
+        
         break;
     case KEY_DOWN:
         checkMove(game->user->pos.y + 1,game->user->pos.x, game->user);

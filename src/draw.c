@@ -74,7 +74,7 @@ char vida[12];
     drawCoins();
     drawInterface();
     drawInventory();
-    drawStatus();
+    //drawStatus();
     drawMob(game->mob);
 }
 

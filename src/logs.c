@@ -5,16 +5,19 @@ int logSetUp() {
     return 0;
 }
 
-void invLog(int weapon, int count) {
-    switch (weapon)
+void invLog(int weapons, int count) {
+    switch (weapons)
     {
     case 1:
-        mvprintw(50+count,5,"ESPADA EQUIPADA!!!");
+        mvprintw(50+count,5,"DESARMADO!!!");
         break;
     case 2:
-        mvprintw(50+count,5,"ARCO EQUIPADA!!!");
+        mvprintw(50+count,5,"ESPADA EQUIPADA!!!");
         break;
     case 3:
+        mvprintw(50+count,5,"ARCO EQUIPADA!!!");
+        break;
+    case 4:
         mvprintw(50+count,5,"POCAO EQUIPADA!!!");
         break;
     

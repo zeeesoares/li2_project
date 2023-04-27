@@ -7,6 +7,8 @@ int ncursesSetUp() {
 	curs_set(0);
 	printw("Hello World!");
 	noecho();
+	start_color();
+	bkgd(COLOR_BLACK);
 	refresh();
     return 0;
 }
