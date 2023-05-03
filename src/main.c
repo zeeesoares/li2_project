@@ -3,29 +3,32 @@
 
 int main(void) {
 	srandom(time(NULL));
-	keypad(stdscr, true);
 	start_color();
+
 	
 	//ver engine.c
 	ncursesSetUp();
 
 	gameState * game;
 	game = malloc(sizeof(struct gameState));
+	game->modo.jogar = 1;
+	game->modo.sair = 0;
 
 	player * user;
 	entity_mob * mob;
-	char ** map;
+	tile ** map;
 	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
 	position start_posMOb = {rand() % 17 + 20,rand() % 17 + 20};
 	int inputs = 0;
 
+	//menuLoop(inputs,game);
 	//ver map.c
-	map = mapSetUp();
+	map = mapSetUp(createMap());
 	//ver log.c
 	logSetUp();
 
 	//setup do "player/user"
-	user = playerSetUp(start_pos);
+	user = playerSetUp(start_pos,map);
 
 	//setup do "mob"
 	mob = mobsSetUp(start_posMOb);
@@ -36,8 +39,7 @@ int main(void) {
 	game->mob = mob;
 
 	drawEverything(game);
-
-	// ver engine.c
+	// ver engine.cend:
 	gameLoop(inputs,game);
 
 	closeGame(game);

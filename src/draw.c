@@ -1,7 +1,9 @@
 #include <rogue.h>
 
 void drawEverything(gameState * game) {
-    drawMap(game->map);    
+    clear();
+    drawMap(game->map);
+    drawPlayer(game->user); 
     drawCoins();
     drawInterface();
     drawInventory();
@@ -9,16 +11,50 @@ void drawEverything(gameState * game) {
     drawMob(game->mob);
 }
 
-void drawMap(char ** map) {
-    int rows = 40;
-    int cols = 135;
+void drawMenu() {
+    mvprintw(24,50,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
+    mvprintw(25,50,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
+    mvprintw(26,50," 888     888  888   .d88' 888      888 888            888       8   888");
+    mvprintw(27,50," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
+    mvprintw(28,50," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
+    mvprintw(29,50," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
+    mvprintw(30,50,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
 
-    // imprimir o mapa
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            mvprintw(i+5, j+5, "%c", map[i][j]);
-        }
-    }
+
+    mvprintw(41,90,"       dP                                           d8");
+    mvprintw(42,90,"       88                                          d8'");
+    mvprintw(43,90,"       88 .d8888b. .d8888b. .d8888b. 88d888b.     d8'");
+    mvprintw(44,90,"       88 88'  `88 88'  `88 88'  `88 88'  `88     Y8.  88888888");
+    mvprintw(45,90,"88.  .d8P 88.  .88 88.  .88 88.  .88 88            Y8.");
+    mvprintw(46,90," `Y8888'  `88888P' `8888P88 `88888P8 dP             Y8   ");
+    mvprintw(47,90,"                        .88");
+    mvprintw(48,90,"                    d8888P");
+
+}
+
+
+void drawMap(tile ** map)
+{
+    int rows = 40;
+	int cols = 135;
+	for (int y = 0; y < rows; y++)
+	{
+		for (int x = 0; x < cols; x++)
+		{
+			if (map[y][x].visible)
+			{
+				mvaddch(y+5, x+5, map[y][x].ch | map[y][x].color);
+			}
+            if (map[y][x].walkable)
+            {
+				mvaddch(y+5, x+5, map[y][x].ch | map[y][x].color);
+			}
+		}
+	}
+}
+
+void drawPlayer(player * user) {
+    mvaddch(user->pos.y, user->pos.x, user->ch | user->color);
 }
 
 void drawMob(entity_mob * mob) {
