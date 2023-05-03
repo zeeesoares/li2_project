@@ -5,7 +5,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 
+#define VISIBLE_COLOR 1
+#define WALK_COLOR 2
 
 typedef struct position
 { 
@@ -30,6 +33,7 @@ typedef struct entity_mob
 typedef struct tile 
 {
   char ch;
+  int color;
   int visible;
   int walkable;
 } tile;
@@ -44,13 +48,17 @@ typedef struct gameState
 {
   menu modo;
   player * user;
-  char ** map;
+  tile ** map;
   entity_mob * mob;
 } gameState;
 
 
 // functions map.c
-char ** mapSetUp();
+//char ** mapSetUp();
+tile ** mapSetUp();
+tile ** createMap();
+void freeMap(tile ** map);
+
 
 // functions log.c
 int logSetUp();
@@ -60,7 +68,7 @@ void invLog(int weapon, int count);
 void handleInput(int input, gameState * game);
 void movePlayer(int x, int y, player * user);
 void checkMove(int y, int x, gameState * game);
-player * playerSetUp();
+player * playerSetUp(position start_pos, tile ** map);
 
 // functions mobs.c
 entity_mob * mobsSetUp(position start_pos);
@@ -69,13 +77,12 @@ entity_mob * mobsSetUp(position start_pos);
 void drawEverything(gameState * game);
 void drawMenu();
 void drawPlayer(player * user);
-void drawMap(char ** map);
+void drawMap(tile ** map);
 void drawInventory();
 void drawMob(entity_mob * mob);
 void drawStatus();
 void drawInterface();
 void drawCoins();
-void imprimeEspaco(int y, int x); 
 
 // functions engine.c
 int ncursesSetUp();
@@ -89,5 +96,6 @@ void closeGame(gameState *);
 void handleInventory(int input, gameState * game);
 
 // functions fov.c
+
 
 #endif

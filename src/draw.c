@@ -1,6 +1,7 @@
 #include <rogue.h>
 
 void drawEverything(gameState * game) {
+    clear();
     drawMap(game->map);
     drawPlayer(game->user); 
     drawCoins();
@@ -18,49 +19,46 @@ void drawMenu() {
     mvprintw(28,50," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
     mvprintw(29,50," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
     mvprintw(30,50,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
+
+
+    mvprintw(41,90,"       dP                                           d8");
+    mvprintw(42,90,"       88                                          d8'");
+    mvprintw(43,90,"       88 .d8888b. .d8888b. .d8888b. 88d888b.     d8'");
+    mvprintw(44,90,"       88 88'  `88 88'  `88 88'  `88 88'  `88     Y8.  88888888");
+    mvprintw(45,90,"88.  .d8P 88.  .88 88.  .88 88.  .88 88            Y8.");
+    mvprintw(46,90," `Y8888'  `88888P' `8888P88 `88888P8 dP             Y8   ");
+    mvprintw(47,90,"                        .88");
+    mvprintw(48,90,"                    d8888P");
+
 }
 
 
-void drawMap(char ** map) {
-    int rows = 40;
-    int cols = 135;
-
-    init_pair(3, COLOR_BLUE, COLOR_BLACK);
-    
-    // imprimir o mapa
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            attron(COLOR_PAIR(3));
-            mvprintw(i+5, j+5, "%c", map[i][j]);
-            attroff(COLOR_PAIR(3));
-        }
-    }
+void drawMap(tile ** map)
+{
+    int rows = 50;
+	int cols = 150;
+	for (int y = 0; y < rows; y++)
+	{
+		for (int x = 0; x < cols; x++)
+		{
+			if (map[y][x].visible)
+			{
+				mvaddch(y+5, x+5, map[y][x].ch | map[y][x].color);
+			}
+            if (map[y][x].walkable)
+            {
+				mvaddch(y+5, x+5, map[y][x].ch | map[y][x].color);
+			}
+		}
+	}
 }
-
-void imprimeEspaco(int y, int x) {
-    //init_pair(4, COLOR_GREEN, COLOR_BLACK);
-    //attron(COLOR_PAIR(4));
-    mvaddch(y,x,'.');
-    //attroff(COLOR_PAIR(4));
-}
-
 
 void drawPlayer(player * user) {
-
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-
-    attron(COLOR_PAIR(1)); // Ativa a cor vermelha
     mvaddch(user->pos.y,user->pos.x,user->ch);
-    attroff(COLOR_PAIR(1)); // Desativa a cor vermelha
 }
 
 void drawMob(entity_mob * mob) {
-
-    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
-
-    attron(COLOR_PAIR(2)); // Ativa a cor vermelha
     mvaddch(mob->pos.y,mob->pos.x,mob->ch);
-    attroff(COLOR_PAIR(2)); // Desativa a cor vermelha
 }
 
 void drawInventory() {

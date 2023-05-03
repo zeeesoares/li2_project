@@ -1,9 +1,11 @@
 #include <rogue.h>
 
-player * playerSetUp(position start_pos) {
+player * playerSetUp(position start_pos, tile ** map) {
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
+    while (map[start_pos.y-5][start_pos.x-5].ch == '#')
+        start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
 
@@ -37,17 +39,13 @@ void movePlayer(int y, int x, player * user) {
     user -> pos.x = x;
     user -> pos.y = y;
 
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-
-    attron(COLOR_PAIR(1)); // Ativa a cor vermelha
     mvaddch(user->pos.y,user->pos.x,user->ch);
-    attroff(COLOR_PAIR(1)); // Desativa a cor vermelha
+
     move(user -> pos.y, user -> pos.x);
 }
 
 void checkMove(int y, int x, gameState * game) {
-    if (game->map[y-5][x-5] == '.') {
-        imprimeEspaco(game->user->pos.y,game->user->pos.x);
+    if (game->map[y-5][x-5].ch == '.') {
         movePlayer(y, x, game->user);
     }
 }

@@ -4,6 +4,7 @@
 int main(void) {
 	srandom(time(NULL));
 	start_color();
+
 	
 	//ver engine.c
 	ncursesSetUp();
@@ -15,19 +16,19 @@ int main(void) {
 
 	player * user;
 	entity_mob * mob;
-	char ** map;
+	tile ** map;
 	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
 	position start_posMOb = {rand() % 17 + 20,rand() % 17 + 20};
 	int inputs = 0;
 
-	menuLoop(inputs,game);
+	//menuLoop(inputs,game);
 	//ver map.c
-	map = mapSetUp();
+	map = mapSetUp(createMap());
 	//ver log.c
 	logSetUp();
 
 	//setup do "player/user"
-	user = playerSetUp(start_pos);
+	user = playerSetUp(start_pos,map);
 
 	//setup do "mob"
 	mob = mobsSetUp(start_posMOb);
@@ -36,7 +37,6 @@ int main(void) {
 	game->map = map;
 	game->user = user;
 	game->mob = mob;
-
 
 	drawEverything(game);
 	// ver engine.cend:
