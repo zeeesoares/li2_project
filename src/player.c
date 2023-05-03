@@ -1,39 +1,19 @@
 #include <rogue.h>
 
-player * playerSetUp(position start_pos) {
+player * playerSetUp(position start_pos, tile ** map) {
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
+    while (map[start_pos.y-5][start_pos.x-5].ch == '#')
+        start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
-    newPlayer->weapon=1;
+    newPlayer->color = COLOR_PAIR(SWORDC);
 
-    mvaddch(newPlayer->pos.y,newPlayer->pos.x,newPlayer->ch);
     mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
     return newPlayer;
 }
 
-void drawWeapon(gameState * game) {
-    switch (game->user->weapon)
-    {
-    case 1:
-        break;
-    case 2:
-        if (game->map[game->user->pos.y-5][game->user->pos.x+1-5] == '.')
-        mvaddch(game->user->pos.y,game->user->pos.x+1,'/');
-        break;
-    case 3:
-        if (game->map[game->user->pos.y-5][game->user->pos.x+1-5] == '.')
-        mvaddch(game->user->pos.y,game->user->pos.x+1,'>');
-        break;
-    case 4:
-        if (game->map[game->user->pos.y-5][game->user->pos.x+1-5] == '.')
-        mvaddch(game->user->pos.y,game->user->pos.x+1,'o');
-        break;
-    default:
-        break;
-    }
-}
 
 void undrawWeapon(int y, int x) {
     imprimeEspaco(y,x);
@@ -69,38 +49,24 @@ void handleInput(int input, gameState * game) {
     {
     case 'w':
         checkMove(game->user->pos.y - 1,game->user->pos.x, game);
-        drawWeapon(game);
-        undrawWeapon(game->user->pos.y+1,game->user->pos.x+1);
         break;
     case 's':
         checkMove(game->user->pos.y + 1,game->user->pos.x, game);
-        drawWeapon(game);
-        undrawWeapon(game->user->pos.y-1,game->user->pos.x+1);
         break;
     case 'a':
         checkMove(game->user->pos.y,game->user->pos.x - 1, game);
-        drawWeapon(game);
-        undrawWeapon(game->user->pos.y,game->user->pos.x+2);
         break;
     case 'd':
         checkMove(game->user->pos.y,game->user->pos.x + 1, game);
-        drawWeapon(game);
-        undrawWeapon(game->user->pos.y,game->user->pos.x-1);
         break;
-    case '1':
-        game->user->weapon = 1;
+    case 49:
+        game->user->color = COLOR_PAIR(SWORDC);
         break;
     case '2':
-        game->user->weapon = 2;
-        drawWeapon(game);
+        game->user->color = COLOR_PAIR(BOWC);
         break;
-    case '3':
-        game->user->weapon = 3;
-        drawWeapon(game);
-        break;
-    case '4':
-        game->user->weapon = 4;
-        drawWeapon(game);
+    case 51:
+        game->user->color = COLOR_PAIR(POTIONC);
         break;
     default:
         break;
@@ -109,23 +75,17 @@ void handleInput(int input, gameState * game) {
 }
 
 void movePlayer(int y, int x, player * user) {
-    mvaddch(user->pos.y,user->pos.x,'.');
 
     user -> pos.x = x;
     user -> pos.y = y;
 
     mvaddch(user->pos.y,user->pos.x,user->ch);
+
     move(user -> pos.y, user -> pos.x);
 }
 
-
-void checkMove(int y, int x, player * user) {
-    switch (mvinch(y,x))
-    {
-    case '.':
-        movePlayer(y,x,user);
-        break;
-    default:
-        break;
+void checkMove(int y, int x, gameState * game) {
+    if (game->map[y-5][x-5].ch == '.') {
+        movePlayer(y, x, game->user);
     }
 }
