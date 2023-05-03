@@ -74,7 +74,7 @@ tile ** mapSetUp(tile ** tilesInit) {
         }
     
     
-         for(int i = 1; i < rows-4; i++) {
+        for(int i = 1; i < rows-4; i++) {
             for(int j = 1; j < cols-4; j++) {
                 if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+3].ch)){
                     char hold=tilesInit[i][j+1].ch;
