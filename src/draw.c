@@ -35,8 +35,8 @@ void drawMenu() {
 
 void drawMap(tile ** map)
 {
-    int rows = 50;
-	int cols = 150;
+    int rows = 40;
+	int cols = 135;
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < cols; x++)
@@ -54,7 +54,7 @@ void drawMap(tile ** map)
 }
 
 void drawPlayer(player * user) {
-    mvaddch(user->pos.y,user->pos.x,user->ch);
+    mvaddch(user->pos.y, user->pos.x, user->ch | user->color);
 }
 
 void drawMob(entity_mob * mob) {

@@ -8,6 +8,7 @@ player * playerSetUp(position start_pos, tile ** map) {
         start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
+    newPlayer->color = COLOR_PAIR(SWORDC);
 
     mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
     return newPlayer;
@@ -27,6 +28,15 @@ void handleInput(int input, gameState * game) {
         break;
     case 'd':
         checkMove(game->user->pos.y,game->user->pos.x + 1, game);
+        break;
+    case 49:
+        game->user->color = COLOR_PAIR(SWORDC);
+        break;
+    case 50:
+        game->user->color = COLOR_PAIR(BOWC);
+        break;
+    case 51:
+        game->user->color = COLOR_PAIR(POTIONC);
         break;
     default:
         break;

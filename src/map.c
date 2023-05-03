@@ -2,8 +2,8 @@
 
 
 tile ** createMap() {
-    int rows = 50;
-	int cols = 150;
+    int rows = 40;
+	int cols = 135;
     tile ** tiles = calloc(rows,sizeof(tile *));
 
     for (int i = 0; i < rows; i++) {
@@ -20,8 +20,8 @@ tile ** createMap() {
 
 
 tile ** mapSetUp(tile ** tilesInit) {
-    int rows = 50;
-	int cols = 150;
+    int rows = 40;
+	int cols = 135;
     // preencher o array bidimensional com caracteres aleatórios
     int count = 0;
     srand(time(NULL));

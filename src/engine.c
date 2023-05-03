@@ -10,6 +10,9 @@ int ncursesSetUp() {
 	start_color();	
 	init_pair(VISIBLE_COLOR, COLOR_BLUE, COLOR_BLACK);
 	init_pair(WALK_COLOR, COLOR_WHITE, COLOR_BLACK);
+	init_pair(SWORDC,COLOR_RED,COLOR_BLACK);
+	init_pair(BOWC,COLOR_GREEN,COLOR_BLACK);
+	init_pair(POTIONC,COLOR_YELLOW,COLOR_BLACK);
 	bkgd(COLOR_BLACK);
 	refresh();
     return 0;

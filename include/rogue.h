@@ -9,6 +9,9 @@
 
 #define VISIBLE_COLOR 1
 #define WALK_COLOR 2
+#define SWORDC 3
+#define BOWC 4
+#define POTIONC 5
 
 typedef struct position
 { 
@@ -20,6 +23,7 @@ typedef struct player
 {
   position pos;
   int weapon;
+  int color;
   char ch;
 } player;
 
