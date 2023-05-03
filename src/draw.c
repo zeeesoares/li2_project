@@ -137,3 +137,28 @@ void drawInterface() {
     mvprintw(44,160,"+---------------------------------------+");
 }
 
+void drawWeapon(gameState * game) {
+    switch (game->user->weapon)
+    {
+    case 1:
+        break;
+    case 2:
+        if (game->map[game->user->pos.y-5][game->user->pos.x+1-5] == '.')
+        mvaddch(game->user->pos.y,game->user->pos.x+1,'/');
+        break;
+    case 3:
+        if (game->map[game->user->pos.y-5][game->user->pos.x+1-5] == '.')
+        mvaddch(game->user->pos.y,game->user->pos.x+1,'>');
+        break;
+    case 4:
+        if (game->map[game->user->pos.y-5][game->user->pos.x+1-5] == '.')
+        mvaddch(game->user->pos.y,game->user->pos.x+1,'o');
+        break;
+    default:
+        break;
+    }
+}
+
+void undrawWeapon(int y, int x) {
+    imprimeEspaco(y,x);
+}

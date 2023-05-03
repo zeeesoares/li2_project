@@ -16,6 +16,7 @@ typedef struct position
 typedef struct player
 {
   position pos;
+  int weapon;
   char ch;
   int vida;
   int mana;
@@ -82,8 +83,7 @@ void closeGame(gameState *);
 // functions room.c
 
 //function inventory.c
-void handleInventory(int input);
-
+void handleInventory(int input, gameState * game);
 // functions fov.c
 
 #endif
