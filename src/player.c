@@ -1,57 +1,48 @@
 #include <rogue.h>
 
-player * playerSetUp(position start_pos) {
-    player * newPlayer;
-    newPlayer = malloc(sizeof(player));
 
-    newPlayer->posX =  start_pos.x;
-    newPlayer->posY = start_pos.y;
-    newPlayer->ch = '@';
 
-    mvaddch(newPlayer->posY,newPlayer->posX,newPlayer->ch);
-    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->posY,newPlayer->posX);
-    return newPlayer;
+player* createPlayer(position start_pos)
+{
+  player* newPlayer = calloc(1, sizeof(player));
+
+  newPlayer->posY = start_pos.y;
+  newPlayer->posX = start_pos.x;
+  newPlayer->ch = '@';
+
+  return newPlayer;
 }
 
-void handleInput(int input, player * user) {
-    switch (input)
-    {
+void handleInput(int input)
+{
+
+    position newPos = { jogador->posY, jogador->posX };
+
+  switch(input)
+  {
+    //move up
     case 'w':
-        checkMove(user->posY - 1,user->posX, user);
-        break;
+      newPos.y--;
+    //move down
     case 's':
-        checkMove(user->posY + 1,user->posX, user);
-        break;
+      newPos.y++;
+    //move left
     case 'a':
-        checkMove(user->posY,user->posX - 1, user);
-        break;
+      newPos.x--;
+    //move right
     case 'd':
-        checkMove(user->posY,user->posX + 1, user);
-        break;
+      newPos.x++;
     default:
-        break;
-    }
-    mvprintw(46,122,"rows: %d, cols: %d",user->posY,user->posX);
+      break;
+  }
+  movePlayer(newPos);
 }
 
-void movePlayer(int y, int x, player * user) {
-    mvaddch(user->posY,user->posX,'.');
-
-    user -> posX = x;
-    user -> posY = y;
-
-    mvaddch(user->posY,user->posX,user->ch);
-    move(user -> posY, user -> posX);
-}
-
-
-void checkMove(int y, int x, player * user) {
-    switch (mvinch(y,x))
-    {
-    case '.':
-        movePlayer(y,x,user);
-        break;
-    default:
-        break;
-    }
+void movePlayer(position newPos)
+{ 
+  if (mapinha[newPos.y][newPos.x].walkable)
+  {
+    jogador->posY = newPos.y;
+    jogador->posX = newPos.x;
+  }
 }

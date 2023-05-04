@@ -1,47 +1,33 @@
 #include <rogue.h>
 
-
-// setup das funçoes do ncurses
-int ncursesSetUp() {
-	initscr();
-	curs_set(0);
-	printw("Hello World!");
-	noecho();
-	refresh();
-    return 0;
-}
-
-// loop que faz o jogo acontecer
-int gameLoop(int input, gameState * game) {
-    while ((input = getch()) != 'q') {
-		handleInput(input,game->user);
-	}
-    return 0;
-}
-
-void closeGame(gameState * game)
-{
-	endwin();
-	free(game->user);
-	free(game->map);
-}
-
-
-player* jogador;
-tile** map;
-
-void drawTile(void)
+void cursesSetup(void)
 { 
-  for (int y = 5; y < 50; y++)
+  initscr();
+  noecho();
+  curs_set(0);
+}
+
+void gameLoops()
+{ 
+  int ch=0;
+  drawEverything();
+
+
+  while(ch == getch())
   { 
-    for (int x = 5; x < 150; x++)
+    if (ch == 'q')
     { 
-      mvaddch(y, x, map[y][x].ch);
+      break;
     } 
+
+    handleInput(ch);
+    drawEverything();
+
   } 
 } 
 
-void drawEntity(player* entity)
+void closeGames()
 { 
-  mvaddch(entity->posY, entity->posX, entity->ch);
+  endwin();
+  free(jogador);
 } 

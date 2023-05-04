@@ -20,15 +20,16 @@ typedef struct tile
 {
   char ch;
   bool walkable;
+  bool transparent;
 } tile;
 
-typedef struct room
+typedef struct
 {
   int height; 
   int width;
   position pos;
   position center;
-} room;
+} Room;
 
 typedef struct player
 {
@@ -46,37 +47,43 @@ typedef struct gameState
 
 
 // functions map.c
-char ** mapSetUp();
-void freeMap(void);
+tile** createMapTiles(void);
 position setupmap(void);
+void freeMap(void);
+
+
 
 
 // functions log.c
 int logSetUp();
 
 // functions player.c
-void handleInput(int input, player * user);
-void movePlayer(int x, int y, player * user);
-void checkMove(int y, int x, player * user);
-player * playerSetUp();
+player* createPlayer(position start_pos);
+void handleInput(int input);
+void movePlayer(position newPos);
 
 // functions draw.c
-void drawEverything(char ** map);
-void drawMap(char ** map);
+void drawMap(void);
+void drawEntity(player* jogador);
+void drawEverything(void);
 
 // functions engine.c
-int ncursesSetUp();
-int gameLoop(int input, gameState *);
-void closeGame(gameState *);
-player* createPlayer(position start_pos);
+bool ncursesSetUp(void);
+void gameLoops(void);
+void closeGames(void);
 
 
 // functions room.c
-room createRoom(int y, int x, int height, int width);
-void addRoomToMap(room roomzinho);
-void connectRoomCenters(position centerOne, position centerTwo);
+Room createRoom(int y, int x, int height, int width);
+void addRoomToMap(Room room);
+
 
 
 // functions fov.c
 
+extern player* jogador;
+extern tile** mapinha;
+extern player* user;
+
 #endif
+

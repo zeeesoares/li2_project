@@ -1,16 +1,14 @@
 #include <rogue.h>
 
-tile** map;
 
-
-tile** createTiles(void) // nao recebe argumentos nenhuns e retorna um array bidimencial (pointer para pointer para tiles)
+tile** createMapTiles(void)
 { 
-  tile** tiles = calloc(50, sizeof(tile*)); // defenimos tiles e alloca na memorua uma aquantidade de tiles do tamanho do MAP_HEIGHT
+  tile** tiles = calloc(MAP_HEIGHT, sizeof(tile*));
 
   for (int y = 5; y < 50; y++)
   { 
-    tiles[y] = calloc(150, sizeof(tile)); // Vemos todos os pointers que acabaram de ser alocados, e para cada um deles é allocado um numero de tiles igual a MAP_WIDTH
-    for (int x = 5; x < 150; x++) // neste loop acedece-se a cada tile para inicializar a sua variavel. # representa parede e walkable esta a false para o player nao andar por paredes
+    tiles[y] = calloc(150, sizeof(tile));
+    for (int x = 5; x < 150; x++)
     { 
       tiles[y][x].ch = '#';
       tiles[y][x].walkable = false;
@@ -20,17 +18,17 @@ tile** createTiles(void) // nao recebe argumentos nenhuns e retorna um array bid
   return tiles;
 } 
 
-position setupmap(void)
+position setupMap(void)
 {
   int y, x, height, width, n_rooms;
   n_rooms =  (rand() % 11) + 5;
-  room* rooms = calloc(n_rooms, sizeof(room));
-  position start_pos; // localicacao inicial do player
+  Room* rooms = calloc(n_rooms, sizeof(Room));
+  position start_pos;
 
   for (int i = 0; i < n_rooms; i++)
   {
-    y = (rand() % (MAP_HEIGHT - 10)) + 5;
-    x = (rand() % (MAP_WIDTH - 20)) + 5;
+    y = (rand() % (MAP_HEIGHT - 10)) + 1;
+    x = (rand() % (MAP_WIDTH - 20)) + 1;
     height = (rand() % 7) + 3;
     width = (rand() % 15) + 5;
     rooms[i] = createRoom(y, x, height, width);
@@ -45,11 +43,12 @@ position setupmap(void)
   return start_pos;
 }
 
-void freeMap(void) // funcao usada para dar free a cada linha de arrays antes de finalmente dar free ao mapa em si
+
+void freeMap(void)
 { 
-  for (int y = 5; y < 50; y++)
+  for (int y = 0; y < MAP_HEIGHT; y++)
   { 
-    free(map[y]);
+    free(mapinha[y]);
   } 
-  free(map);
+  free(mapinha);
 } 
