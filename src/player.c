@@ -1,10 +1,11 @@
 #include <rogue.h>
 
-player * playerSetUp(position start_pos, tile ** map) {
+player * playerSetUp(tile ** map) {
+    position start_pos = {rand() % 87 + 30,rand() % 17 + 20};
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
-    while (map[start_pos.y-5][start_pos.x-5].ch == '#')
+    while (map[start_pos.y-3][start_pos.x-3].ch == '#')
         start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
@@ -55,7 +56,10 @@ void movePlayer(int y, int x, player * user) {
 }
 
 void checkMove(int y, int x, gameState * game) {
-    if (game->map[y-5][x-5].ch == '.') {
+    int margem = 3;
+    if (game->map[y-margem][x-margem].ch == '.') {
+        clearFOV(game);
         movePlayer(y, x, game->user);
+        makeFOV(game);
     }
 }

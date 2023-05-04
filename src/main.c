@@ -17,27 +17,27 @@ int main(void) {
 	player * user;
 	entity_mob * mob;
 	tile ** map;
-	position start_pos = {rand() % 17 + 30,rand() % 17 + 20};
-	position start_posMOb = {rand() % 17 + 20,rand() % 17 + 20};
+	shop * shop;
 	int inputs = 0;
 
-	//menuLoop(inputs,game);
 	//ver map.c
 	map = mapSetUp(createMap());
 	//ver log.c
 	logSetUp();
 
 	//setup do "player/user"
-	user = playerSetUp(start_pos,map);
+	user = playerSetUp(map);
 
 	//setup do "mob"
-	mob = mobsSetUp(start_posMOb);
-
+	mob = mobsSetUp(map);
+	shop = shopSetup(map);
 	//inicializaçao do game
 	game->map = map;
 	game->user = user;
 	game->mob = mob;
-
+	game->shop = shop;
+	
+	makeFOV(game);
 	drawEverything(game);
 	// ver engine.cend:
 	gameLoop(inputs,game);

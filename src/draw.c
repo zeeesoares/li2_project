@@ -1,16 +1,20 @@
 #include <rogue.h>
 
+// desenha toda a parte gráfica do jogo e é chamada iterativamente na funcao gameLoop(engine.c)
 void drawEverything(gameState * game) {
     clear();
     drawMap(game->map);
     drawPlayer(game->user); 
     drawCoins();
+    //verificaShop(game);
     drawInterface();
     drawInventory();
     drawStatus();
-    drawMob(game->mob);
+    drawMob(game->mob, game->map);
+    drawShop(game->shop, game->map);
 }
 
+// draw (em processo) do menu inicial
 void drawMenu() {
     mvprintw(24,50,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
     mvprintw(25,50,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
@@ -32,35 +36,45 @@ void drawMenu() {
 
 }
 
-
-void drawMap(tile ** map)
-{
-    int rows = 40;
-	int cols = 135;
+// draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
+void drawMap(tile ** map) {
+    int rows = 55; 
+	int cols = 150;
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < cols; x++)
 		{
 			if (map[y][x].visible)
-			{
-				mvaddch(y+5, x+5, map[y][x].ch | map[y][x].color);
+			{   //se o espaço for visivel, a funcao drawMap desenha o char da cor VISIBLE
+				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(VISIBLE_COLOR));
 			}
-            if (map[y][x].walkable)
-            {
-				mvaddch(y+5, x+5, map[y][x].ch | map[y][x].color);
+            if (map[y][x].seen)
+            {   //se o espaço ja nao for visivel, a funcao drawMap desenha o char da cor SEEN
+				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(SEEN_COLOR));
 			}
 		}
 	}
 }
 
+// draw do player na sua posição atual
 void drawPlayer(player * user) {
     mvaddch(user->pos.y, user->pos.x, user->ch | user->color);
 }
 
-void drawMob(entity_mob * mob) {
-    mvaddch(mob->pos.y,mob->pos.x,mob->ch);
+// draw do mob (experimental)
+void drawMob(entity_mob * mob, tile ** map) {
+    int margem = 3;
+    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1)
+        mvaddch(mob->pos.y,mob->pos.x,mob->ch | COLOR_PAIR(SWORDC));
 }
 
+void drawShop(shop * shop, tile ** map) {
+    int margem = 3;
+    if (map[shop->pos.y-margem][shop->pos.x-margem].visible == 1)
+        mvaddch(shop->pos.y,shop->pos.x,shop->ch | COLOR_PAIR(SWORDC));
+}
+
+// draw do Inventory do user
 void drawInventory() {
     mvprintw(14,160,"+---------------------------------------+");
     mvprintw(15,160,"| =Inventory=                           |");
@@ -72,6 +86,7 @@ void drawInventory() {
     mvprintw(21,160,"+---------------------------------------+");
 }
 
+// draw da quantidade de moedas do user
 void drawCoins() {
     mvprintw(5,160,"+---------+");
     mvprintw(6,160,"|         |");
@@ -80,6 +95,7 @@ void drawCoins() {
     mvprintw(9,160,"+---------+");
 }
 
+// draw da interface
 void drawInterface() {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MENU INTERFACE=                      |");
@@ -104,6 +120,7 @@ void drawInterface() {
     mvprintw(44,160,"+---------------------------------------+");
 }
 
+// draw do Status
 void drawStatus() {
     mvprintw(5,180, "+-------------------+");
     mvprintw(6,180, "|                   |");

@@ -2,17 +2,18 @@
 
 
 tile ** createMap() {
-    int rows = 40;
-	int cols = 135;
+    int rows = 55;
+	int cols = 150;
     tile ** tiles = calloc(rows,sizeof(tile *));
 
     for (int i = 0; i < rows; i++) {
         tiles[i] = calloc(cols, sizeof(tile));
         for (int j = 0; j < cols; j++) {
-			tiles[i][j].ch = '#';
-			tiles[i][j].color = COLOR_PAIR(VISIBLE_COLOR);
-			tiles[i][j].walkable = 0;
-			tiles[i][j].visible = 1;
+			tiles[i][j].ch = '.';
+			tiles[i][j].color = COLOR_PAIR(SEEN_COLOR);
+			tiles[i][j].seen = 1;
+			tiles[i][j].visible = 0;
+            tiles[i][j].transparent = 0;
         }
     }
     return tiles;
@@ -20,8 +21,8 @@ tile ** createMap() {
 
 
 tile ** mapSetUp(tile ** tilesInit) {
-    int rows = 40;
-	int cols = 135;
+    int rows = 55;
+	int cols = 150;
     // preencher o array bidimensional com caracteres aleatórios
     int count = 0;
     srand(time(NULL));

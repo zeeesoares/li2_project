@@ -8,10 +8,11 @@
 #include <math.h>
 
 #define VISIBLE_COLOR 1
-#define WALK_COLOR 2
+#define SEEN_COLOR 2
 #define SWORDC 3
 #define BOWC 4
 #define POTIONC 5
+#define MOBCOLOR 6
 
 typedef struct position
 { 
@@ -34,12 +35,18 @@ typedef struct entity_mob
   int type;
 } entity_mob;
 
+typedef struct mob_node {
+    entity_mob *mob;
+    struct mob_node *next;
+} mob_node;
+
 typedef struct tile 
 {
   char ch;
   int color;
   int visible;
-  int walkable;
+  int seen;
+  int transparent;
 } tile;
 
 typedef struct menu
@@ -48,17 +55,31 @@ typedef struct menu
   int sair;
 } menu;
 
+typedef struct Room
+{
+  int height; 
+  int width;
+  position pos;
+  position center;
+} Room;
+
+typedef struct Shop
+{
+  position pos;
+  char ch;
+} shop;
+
 typedef struct gameState
 {
   menu modo;
   player * user;
   tile ** map;
   entity_mob * mob;
+  shop * shop;
 } gameState;
 
 
 // functions map.c
-//char ** mapSetUp();
 tile ** mapSetUp();
 tile ** createMap();
 void freeMap(tile ** map);
@@ -72,10 +93,10 @@ void invLog(int weapon, int count);
 void handleInput(int input, gameState * game);
 void movePlayer(int x, int y, player * user);
 void checkMove(int y, int x, gameState * game);
-player * playerSetUp(position start_pos, tile ** map);
+player * playerSetUp(tile ** map);
 
 // functions mobs.c
-entity_mob * mobsSetUp(position start_pos);
+entity_mob * mobsSetUp(tile ** map);
 
 // functions draw.c
 void drawEverything(gameState * game);
@@ -83,7 +104,8 @@ void drawMenu();
 void drawPlayer(player * user);
 void drawMap(tile ** map);
 void drawInventory();
-void drawMob(entity_mob * mob);
+void drawMob(entity_mob * mob, tile ** map);
+void drawShop(shop * shop, tile ** map);
 void drawStatus();
 void drawInterface();
 void drawCoins();
@@ -97,9 +119,17 @@ void closeGame(gameState *);
 // functions room.c
 
 //function inventory.c
-void handleInventory(int input, gameState * game);
+//void handleInventory(int input, gameState * game);
 
 // functions fov.c
+void makeFOV(gameState * game);
+void clearFOV(gameState * game);
+int getdistance (position origem, position alvo);
+int isInMap(int y, int x);
+
+// functions shop.c
+shop * shopSetup(tile ** map);
+void verificaShop(gameState * game);
 
 
 #endif
