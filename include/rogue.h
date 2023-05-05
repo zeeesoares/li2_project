@@ -13,6 +13,7 @@
 #define BOWC 4
 #define POTIONC 5
 #define MOBCOLOR 6
+#define TRANSPARENT_COLOR 7
 
 typedef struct position
 { 
@@ -106,6 +107,7 @@ void drawMap(tile ** map);
 void drawInventory();
 void drawMob(entity_mob * mob, tile ** map);
 void drawShop(shop * shop, tile ** map);
+void drawShopInterface();
 void drawStatus();
 void drawInterface();
 void drawCoins();

@@ -6,8 +6,8 @@ void drawEverything(gameState * game) {
     drawMap(game->map);
     drawPlayer(game->user); 
     drawCoins();
-    //verificaShop(game);
     drawInterface();
+    verificaShop(game);
     drawInventory();
     drawStatus();
     drawMob(game->mob, game->map);
@@ -46,11 +46,15 @@ void drawMap(tile ** map) {
 		{
 			if (map[y][x].visible)
 			{   //se o espaço for visivel, a funcao drawMap desenha o char da cor VISIBLE
-				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(VISIBLE_COLOR));
+				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(VISIBLE_COLOR) | A_BOLD);
 			}
             if (map[y][x].seen)
             {   //se o espaço ja nao for visivel, a funcao drawMap desenha o char da cor SEEN
 				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(SEEN_COLOR));
+			}
+            if (map[y][x].transparent)
+            {   //se o espaço ja nao for visivel, a funcao drawMap desenha o char da cor SEEN
+				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(TRANSPARENT_COLOR));
 			}
 		}
 	}
@@ -120,6 +124,30 @@ void drawInterface() {
     mvprintw(44,160,"+---------------------------------------+");
 }
 
+void drawShopInterface() {
+    mvprintw(24,160,"+---------------------------------------+");
+    mvprintw(25,160,"| =SHOP LIST=                           |");
+    mvprintw(26,160,"|                                       |");
+    mvprintw(27,160,"|  (1) Sword                            |");
+    mvprintw(28,160,"|         |______________               |");
+    mvprintw(29,160,"|  [======|______________>              |");
+    mvprintw(30,160,"|         |                             |");
+    mvprintw(31,160,"|                                       |");
+    mvprintw(32,160,"|  (2) Bow                              |");
+    mvprintw(34,160,"|      (                                |");
+    mvprintw(35,160,"|       )                               |");
+    mvprintw(36,160,"|   ##-------->                         |");
+    mvprintw(37,160,"|       )                               |");
+    mvprintw(38,160,"|      (                                |");
+    mvprintw(33,160,"|                                       |");
+    mvprintw(39,160,"|                                       |");
+    mvprintw(40,160,"|                                       |");
+    mvprintw(41,160,"|                                       |");
+    mvprintw(42,160,"|                                       |");
+    mvprintw(43,160,"|                                       |");
+    mvprintw(44,160,"+---------------------------------------+");
+}
+
 // draw do Status
 void drawStatus() {
     mvprintw(5,180, "+-------------------+");
@@ -131,3 +159,17 @@ void drawStatus() {
     mvprintw(11,180,"|                   |");
     mvprintw(12,180,"+-------------------+");
 }
+
+/*
+       |______________
+[======|______________>
+       |
+       '
+   (
+    \
+     )
+##--------> 
+     )
+    /
+   (
+*/

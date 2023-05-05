@@ -14,6 +14,6 @@ shop * shopSetup(tile ** map) {
 // verifica se o user esta na shop
 void verificaShop(gameState * game) {
     if (game->user->pos.x == game->shop->pos.x && game->user->pos.y == game->shop->pos.y) {
-        drawInterface();
+        drawShopInterface();
     }
 }

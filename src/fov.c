@@ -3,7 +3,7 @@
 void makeFOV(gameState * game)
 {
 	int y, x, distance;
-	int raio = 10;
+	int raio = 15;
     int margem = 3;
 	position target;
 
@@ -23,9 +23,9 @@ void makeFOV(gameState * game)
 				{
 					game->map[y-margem][x-margem].visible = 1;
 					game->map[y-margem][x-margem].seen = 0;
+                    game->map[y-margem][x-margem].transparent = 0;
                     game->map[y-margem][x-margem].color = VISIBLE_COLOR;
-				}
-                
+				}         
 			}
 		}
 	}
@@ -33,18 +33,27 @@ void makeFOV(gameState * game)
 
 
 void clearFOV(gameState * game) {
-    int x;
-    int y;
+    int x, y, distance;
     int margem = 3;
-    int raio = 10;
+    int raio = 15;
+    position target;
 
-    for (y= game->user->pos.y - raio; y< game->user->pos.y + raio; y++){
-        for (x=game->user->pos.x -raio; x< game->user->pos.x + raio; x++){
-            if (isInMap(y-3,x-3)){
-                game->map[y-margem][x-margem].visible = 0;
-                game->map[y-margem][x-margem].seen = 1;
-                game->map[y-margem][x-margem].color = COLOR_PAIR(SEEN_COLOR);
-            }
+    for (y= game->user->pos.y - raio; y< game->user->pos.y + raio; y++)
+        {
+        for (x=game->user->pos.x -raio; x< game->user->pos.x + raio; x++)
+        {
+            target.y = y;
+			target.x = x;
+			distance = getdistance(game->user->pos, target);
+            if (distance < raio)
+			{   if (isInMap(y-3,x-3))
+			    {
+                    game->map[y-margem][x-margem].visible = 0;
+                    game->map[y-margem][x-margem].seen = 1;
+                    game->map[y-margem][x-margem].transparent = 0;
+                    game->map[y-margem][x-margem].color = COLOR_PAIR(SEEN_COLOR);
+			    }         
+			}
         }
     }
 }
