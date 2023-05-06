@@ -1,35 +1,61 @@
 #include <rogue.h>
 
 void drawEverything(gameState * game) {
+    
+    drawMap(game->map);    
+    clear();
+    drawMap(game->map);
+    drawPlayer(game->user); 
+    drawCoins();
+    drawInterface();
+    drawInventory();
+    //draw_bars();
+    drawStatus();
+    drawMob(game->mob);
+}
+
+void drawStatus(){
+    mvprintw(5,180, "+-------------------+");
+    mvprintw(6,180, "|                   |");
+    mvprintw(7,180, "|   Hp: 34/100      |");
+    mvprintw(8,180, "|   Mana: 54/100    |");
+    mvprintw(9,180, "|   XP: 11234       |");
+    mvprintw(10,180,"|   LVL: 123        |");
+    mvprintw(11,180,"|                   |");
+    mvprintw(12,180,"+-------------------+");
+}
+// as cores estão a pintar tudo inclusive o mapa
+//ver como pintar um sitio em especifico
+void draw_bars(){
     start_color();
     mvprintw(5,180, "+-------------------+");
     mvprintw(6,180, "|                   |");
-char vida[12];
-    //vida[0]='|';
-    for(int i=1;i<((100)-50)/10;i++){
+char vida[11];
+    
+    for(int i=1;i<100/10;i++){
         vida[i]='#';
     }
     
-    for(int i=((100)-50)/10;i<11;i++){
+    for(int i=100/10;i<11;i++){
         vida[i]='.';
     }
-    vida[11]='|';
+    
 
     mvprintw(7,180, "|   HP:");
-    for(int i=1;i<12;i++){
-        if((100)-50<50){
+    for(int i=1;i<11;i++){
+        if((100)-90<=50){
             init_pair(2,COLOR_YELLOW,COLOR_BLACK);
             attron(COLOR_PAIR(2));
             mvprintw(7,188+i,"%c",vida[i]);
             attroff(COLOR_PAIR(2));
         }
-        if((100)-50<10){
+        if((100)-90<=10){
             init_pair(1,COLOR_RED,COLOR_BLACK);
             attron(COLOR_PAIR(1));
             mvprintw(7,188+i,"%c",vida[i]);
             attroff(COLOR_PAIR(1));
         }
-        else{
+        if(90<(100)-50 && (100)-90<=100){
             init_pair(3,COLOR_GREEN,COLOR_BLACK);
             attron(COLOR_PAIR(3));
             mvprintw(7,188+i,"%c",vida[i]);
@@ -38,7 +64,7 @@ char vida[12];
     }
         mvprintw(7,200, "|");
 
-        char mana[12];
+        char mana[11];
     //mana[0]='|';
     for(int i=1;i<((100)-20)/10;i++){
         mana[i]='#';
@@ -47,20 +73,20 @@ char vida[12];
         mana[i]='.';
     }
 
-    mana[11]='|';
+    //mana[11]='|';
 
     mvprintw(8,179, " |   Mana:");
-    for(int i=1;i<12;i++){
-        if((100)-20<50){
+    for(int i=1;i<11;i++){
+        if((100)-20<=50){
             init_pair(1,COLOR_CYAN,COLOR_BLACK);
             attron(COLOR_PAIR(1));
             mvprintw(8,188+i,"%c",mana[i]);
             attroff(COLOR_PAIR(1));
         }
-        else{
+        if(50<(100)-20 && (100)-20<=100){
             init_pair(1,COLOR_BLUE,COLOR_BLACK);
             attron(COLOR_PAIR(1));
-            mvprintw(8,188+i,"%c",mana[i]);
+            mvprintw(8,+i,"%c",mana[i]);
             attroff(COLOR_PAIR(1));
         }    
     }
@@ -70,16 +96,10 @@ char vida[12];
     mvprintw(10,180,"|   LVL: 123        |");
     mvprintw(11,180,"|                   |");
     mvprintw(12,180,"+-------------------+");
-    drawMap(game->map);    
-    clear();
-    drawMap(game->map);
-    drawPlayer(game->user); 
-    drawCoins();
-    drawInterface();
-    drawInventory();
-    //drawStatus();
-    drawMob(game->mob);
+
 }
+
+
 
 void drawMenu() {
     mvprintw(24,50,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
@@ -176,6 +196,3 @@ void drawInterface() {
 
 
 
-void undrawWeapon(int y, int x) {
-    imprimeEspaco(y,x);
-}

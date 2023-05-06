@@ -46,7 +46,7 @@ typedef struct seta
   int v;
   //int dano;
   int range;
-}
+} seta;
 
 typedef struct entity_mob
 {
@@ -107,6 +107,7 @@ void drawMap(tile ** map);
 void drawInventory();
 void drawMob(entity_mob * mob);
 void drawStatus();
+void draw_bars();
 void drawInterface();
 void drawCoins();
 

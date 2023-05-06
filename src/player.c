@@ -15,9 +15,7 @@ player * playerSetUp(position start_pos, tile ** map) {
 }
 
 
-void undrawWeapon(int y, int x) {
-    imprimeEspaco(y,x);
-}
+
 
 
 void handleInventory(int input, gameState * game) {
@@ -26,19 +24,15 @@ void handleInventory(int input, gameState * game) {
     {
     case '1':
         game->user->weapon = 1;
-        drawWeapon(game);
         break;
     case '2':
         game->user->weapon = 2;
-        drawWeapon(game);
         break;
     case '3':
         game->user->weapon = 3;
-        drawWeapon(game);
         break;
     case '4':
         game->user->weapon = 4;
-        drawWeapon(game);
         break;
     default:
         break;
@@ -62,7 +56,7 @@ void handleInput(int input, gameState * game) {
     case 49:
         game->user->color = COLOR_PAIR(SWORDC);
         break;
-    case '2':
+    case 50:
         game->user->color = COLOR_PAIR(BOWC);
         break;
     case 51:
