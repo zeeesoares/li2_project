@@ -8,12 +8,27 @@ shop * shopSetup(tile ** map) {
         start_pos.x += 2;
     newShop->ch = '$';
     newShop->pos = start_pos;
+    newShop->state = 0;
+    newShop->act = 0;
     return newShop;
 }
 
 // verifica se o user esta na shop
 void verificaShop(gameState * game) {
-    if (game->user->pos.x == game->shop->pos.x && game->user->pos.y == game->shop->pos.y) {
+    game->shop->act = 0;
+    int test = game->user->pos.x == game->shop->pos.x && game->user->pos.y == game->shop->pos.y;
+    if (test) game->shop->act = 1;
+    if (test && game->shop->state == 0) {
         drawShopInterface();
     }
+    else if (test && game->shop->state == 1) {
+        drawShopInterfaceSword();
+    }
+    else if (test && game->shop->state == 2) {
+        drawShopInterfaceBows();
+    }
+    else if (test && game->shop->state == 3) {
+        drawShopInterfacePotions();
+    }
+    else game->shop->state = 0;
 }

@@ -10,6 +10,7 @@ player * playerSetUp(tile ** map) {
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
+    newPlayer->coins = 0;
 
     mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
     return newPlayer;
@@ -30,14 +31,29 @@ void handleInput(int input, gameState * game) {
     case 'd':
         checkMove(game->user->pos.y,game->user->pos.x + 1, game);
         break;
-    case 49:
+    case '1':
         game->user->color = COLOR_PAIR(SWORDC);
         break;
-    case 50:
+    case '2':
         game->user->color = COLOR_PAIR(BOWC);
         break;
-    case 51:
+    case '3':
         game->user->color = COLOR_PAIR(POTIONC);
+        break;
+    case 'z':
+        if (game->shop->act == 1 && game->shop->state == 0)
+            game->shop->state = 1;
+        break;
+    case 'x':
+        if (game->shop->act == 1  && game->shop->state == 0)
+            game->shop->state = 2;
+        break;
+    case 'c':
+        if (game->shop->act == 1  && game->shop->state == 0)
+            game->shop->state = 3;
+        break;
+    case 'v':
+        game->shop->state = 0;
         break;
     default:
         break;

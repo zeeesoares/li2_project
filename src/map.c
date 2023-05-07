@@ -11,9 +11,9 @@ tile ** createMap() {
         for (int j = 0; j < cols; j++) {
 			tiles[i][j].ch = '.';
 			tiles[i][j].color = COLOR_PAIR(TRANSPARENT_COLOR);
-			tiles[i][j].seen = 0;
+			tiles[i][j].seen = 1;
 			tiles[i][j].visible = 0;
-            tiles[i][j].transparent = 1;
+            tiles[i][j].transparent = 0;
         }
     }
     return tiles;

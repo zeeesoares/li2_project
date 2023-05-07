@@ -25,6 +25,7 @@ typedef struct player
 {
   position pos;
   int weapon;
+  int coins;
   int color;
   char ch;
 } player;
@@ -33,6 +34,7 @@ typedef struct entity_mob
 {
   position pos;
   char ch;
+  int coins;
   int type;
 } entity_mob;
 
@@ -68,6 +70,8 @@ typedef struct Shop
 {
   position pos;
   char ch;
+  int act;
+  int state;
 } shop;
 
 typedef struct gameState
@@ -98,6 +102,7 @@ player * playerSetUp(tile ** map);
 
 // functions mobs.c
 entity_mob * mobsSetUp(tile ** map);
+void verificaCoins(gameState * game);
 
 // functions draw.c
 void drawEverything(gameState * game);
@@ -110,7 +115,10 @@ void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
 void drawStatus();
 void drawInterface();
-void drawCoins();
+void drawShopInterfaceSword();
+void drawShopInterfaceBows();
+void drawShopInterfacePotions();
+void drawCoins(player * user);
 
 // functions engine.c
 int ncursesSetUp();

@@ -9,8 +9,16 @@ entity_mob * mobsSetUp(tile ** map) {
         start_pos.x += 2;
     mob->pos = start_pos;
     mob->ch = 'O';
+    mob->coins = 200;
     mob->type = 0;
     return mob;
+}
+
+void verificaCoins(gameState * game) {
+    if (game->user->pos.x == game->mob->pos.x && game->user->pos.y == game->mob->pos.y) {
+        game->user->coins += game->mob->coins;
+        drawCoins(game->user);
+    }
 }
 
 /*
