@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <unistd.h>
 
 #define VISIBLE_COLOR 1
 #define WALK_COLOR 2
@@ -123,5 +124,6 @@ void closeGame(gameState *);
 void handleInventory(int input, gameState * game);
 // functions fov.c
 
-
+//functions combat.c
+void projetil(char direcao,gameState * game);
 #endif

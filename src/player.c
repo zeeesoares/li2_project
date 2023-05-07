@@ -62,6 +62,18 @@ void handleInput(int input, gameState * game) {
     case 51:
         game->user->color = COLOR_PAIR(POTIONC);
         break;
+    case 'i':
+        projetil('i',game);
+        break;
+    case 'j':
+
+        break;
+    case 'l':
+
+        break;
+    case 'k':
+
+        break;
     default:
         break;
     }
