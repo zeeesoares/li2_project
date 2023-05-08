@@ -10,6 +10,9 @@ shop * shopSetup(tile ** map) {
     newShop->pos = start_pos;
     newShop->state = 0;
     newShop->act = 0;
+    newShop->sword = 1;
+    newShop->bow = 1;
+    newShop->potion = 1;
     return newShop;
 }
 
@@ -32,3 +35,65 @@ void verificaShop(gameState * game) {
     }
     else game->shop->state = 0;
 }
+
+void selectItem(shop * shop, int i) {
+    switch (i)
+    {
+    case 1:
+        switch (shop->state)
+            {
+            case 1:
+                if (shop->sword != 1)
+                    shop->sword--;
+                break;
+            case 2:
+                if (shop->bow != 1)
+                    shop->bow--;
+                break;
+            case 3:
+                if (shop->potion != 1)
+                    shop->potion--;
+                break;
+            default:
+                break;
+            }
+        break;
+
+    case 2:
+        switch (shop->state)
+            {
+            case 1:
+                if (shop->sword != 3)
+                    shop->sword++;
+                break;
+            case 2:
+                if (shop->bow != 3)
+                    shop->bow++;
+                break;
+            case 3:
+                if (shop->potion != 3)
+                    shop->potion++;
+                break;
+            default:
+                break;
+            }
+        break;
+
+    default:
+        break;
+    }
+}
+
+/*
+void buyItem(gameState * game) {
+    if (game->shop->act == 1) {
+        switch (game->shop->state)
+        {
+        case 1:
+            break;
+        default:
+            break;
+        }
+    }
+}
+*/

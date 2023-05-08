@@ -4,10 +4,12 @@
 void drawEverything(gameState * game) {
     clear();
     drawMap(game->map);
+    handleInventory(game);
     drawPlayer(game->user);
     drawInterface();
     verificaShop(game);
-    drawInventory();
+    drawSelected(game->shop);
+    drawInventory(game->user);
     drawStatus();
     drawMob(game->mob, game->map);
     drawShop(game->shop, game->map);
@@ -80,13 +82,19 @@ void drawShop(shop * shop, tile ** map) {
 }
 
 // draw do Inventory do user
-void drawInventory() {
+void drawInventory(player * user) {
     mvprintw(14,160,"+---------------------------------------+");
     mvprintw(15,160,"| =Inventory=                           |");
     mvprintw(16,160,"|                                       |");
-    mvprintw(17,160,"|  (1) Sword - NONE                     |");
-    mvprintw(18,160,"|  (2) Bow - NONE                       |");
-    mvprintw(19,160,"|  (3) Potion (Poison) - NON            |");
+    if (user->sword.act == 1)
+        mvprintw(17,160,"|  (1) Sword                            |");
+    else mvprintw(17,160,"|                                       |");
+    if (user->bow.act == 1)
+        mvprintw(18,160,"|  (2) Bow                              |");
+    else mvprintw(18,160,"|                                       |");
+    if (user->potion.act == 1)
+        mvprintw(19,160,"|  (3) Potion                           |");
+    else mvprintw(19,160,"|                                       |");
     mvprintw(20,160,"|                                       |");
     mvprintw(21,160,"+---------------------------------------+");
 }
@@ -160,6 +168,61 @@ void drawShopInterface() {
     mvprintw(48,160,"+---------------------------------------+");
 }
 
+void drawSelected(shop * shop) {
+    switch (shop->state)
+    {
+    case 1:
+        switch (shop->sword)
+        {
+        case 1:
+            mvaddch(44,166,'O' | COLOR_PAIR(SWORDC));
+            break;
+        case 2:
+            mvaddch(44,179,'O' | COLOR_PAIR(SWORDC));
+            break;
+        case 3:
+            mvaddch(44,191,'O' | COLOR_PAIR(SWORDC));
+            break;
+        default:
+            break;
+        }
+        break;
+    case 2:
+        switch (shop->bow)
+        {
+        case 1:
+            mvaddch(44,166,'O' | COLOR_PAIR(SWORDC));
+            break;
+        case 2:
+            mvaddch(44,179,'O' | COLOR_PAIR(SWORDC));
+            break;
+        case 3:
+            mvaddch(44,191,'O' | COLOR_PAIR(SWORDC));
+            break;
+        default:
+            break;
+        }
+        break;
+    case 3:
+        switch (shop->potion)
+        {
+        case 1:
+            mvaddch(41,166,'O' | COLOR_PAIR(SWORDC));
+            break;
+        case 2:
+            mvaddch(41,179,'O' | COLOR_PAIR(SWORDC));
+            break;
+        case 3:
+            mvaddch(41,191,'O' | COLOR_PAIR(SWORDC));
+            break;
+        default:
+            break;
+        }
+        break;
+    default:
+        break;
+    }
+}
 
 void drawShopInterfaceSword() {
     mvprintw(24,160,"+---------------------------------------+");
@@ -176,15 +239,15 @@ void drawShopInterfaceSword() {
     mvprintw(35,160,"|    ||           |||         | |       |");
     mvprintw(36,160,"|    ||        ~-[{o}]-~      | |       |");
     mvprintw(37,160,"|    ||           |/|         | |       |");
-    mvprintw(38,160,"|    ||           |/|         | |       |");
-    mvprintw(39,160,"|    |/           |_|         |/        |");
-    mvprintw(40,160,"|                                       |");
-    mvprintw(41,160,"|  Dano: 24    Dano: 30     Dano: 40    |");
-    mvprintw(42,160,"|  Rank: B     Rank: A      Rank: S     |");
-    mvprintw(43,160,"|  Cost: 4000  Cost: 5000   Cost: 7000  |");
+    mvprintw(38,160,"|    |/           |_|         |/        |");
+    mvprintw(39,160,"|                                       |");
+    mvprintw(40,160,"|  Dano: 24    Dano: 30     Dano: 40    |");
+    mvprintw(41,160,"|  Rank: B     Rank: A      Rank: S     |");
+    mvprintw(42,160,"|  Cost: 4000  Cost: 5000   Cost: 7000  |");
+    mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"|                         (v) - sair    |");
+    mvprintw(46,160,"| (a) <- | (d) -> | (b) buy |  (v) sair |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
@@ -212,7 +275,7 @@ void drawShopInterfaceBows() {
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"|                         (v) - sair    |");
+    mvprintw(46,160,"| (a) <- | (d) -> | (b) buy |  (v) sair |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
@@ -240,7 +303,7 @@ void drawShopInterfacePotions() {
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"|                         (v) - sair    |");
+    mvprintw(46,160,"| (a) <- | (d) -> | (b) buy |  (v) sair |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }

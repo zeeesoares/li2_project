@@ -21,10 +21,19 @@ typedef struct position
   int y;
 } position;
 
+typedef struct item
+{
+  int act;
+  int dano;
+} item;
+
 typedef struct player
 {
   position pos;
   int weapon;
+  item sword;
+  item bow;
+  item potion;
   int coins;
   int color;
   char ch;
@@ -72,6 +81,9 @@ typedef struct Shop
   char ch;
   int act;
   int state;
+  int sword;
+  int bow;
+  int potion;
 } shop;
 
 typedef struct gameState
@@ -109,7 +121,7 @@ void drawEverything(gameState * game);
 void drawMenu();
 void drawPlayer(player * user);
 void drawMap(tile ** map);
-void drawInventory();
+void drawInventory(player * user);
 void drawMob(entity_mob * mob, tile ** map);
 void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
@@ -119,6 +131,7 @@ void drawShopInterfaceSword();
 void drawShopInterfaceBows();
 void drawShopInterfacePotions();
 void drawCoins(player * user);
+void drawSelected(shop * shop);
 
 // functions engine.c
 int ncursesSetUp();
@@ -129,6 +142,8 @@ void closeGame(gameState *);
 // functions room.c
 
 //function inventory.c
+void handleInventory(gameState * game);
+
 //void handleInventory(int input, gameState * game);
 
 // functions fov.c
@@ -140,6 +155,7 @@ int isInMap(int y, int x);
 // functions shop.c
 shop * shopSetup(tile ** map);
 void verificaShop(gameState * game);
+void selectItem(shop * shop, int i);
 
 
 #endif

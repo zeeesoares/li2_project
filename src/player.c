@@ -11,34 +11,42 @@ player * playerSetUp(tile ** map) {
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
     newPlayer->coins = 0;
-
-    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
+    newPlayer->sword.act = 1;
+    newPlayer->sword.dano = 10;
+    newPlayer->bow.act = 0;
+    newPlayer->bow.dano = 0;
+    newPlayer->potion.act = 0;
+    newPlayer->potion.dano = 0;
     return newPlayer;
 }
 
 void handleInput(int input, gameState * game) {
+    keypad(stdscr, true);
     switch (input)
     {
-    case 'w':
+    case KEY_UP:
         checkMove(game->user->pos.y - 1,game->user->pos.x, game);
         break;
-    case 's':
+    case KEY_DOWN:
         checkMove(game->user->pos.y + 1,game->user->pos.x, game);
         break;
-    case 'a':
+    case KEY_LEFT:
         checkMove(game->user->pos.y,game->user->pos.x - 1, game);
         break;
-    case 'd':
+    case KEY_RIGHT:
         checkMove(game->user->pos.y,game->user->pos.x + 1, game);
         break;
     case '1':
-        game->user->color = COLOR_PAIR(SWORDC);
+        if (game->user->sword.act == 1)
+            game->user->weapon = 0;
         break;
     case '2':
-        game->user->color = COLOR_PAIR(BOWC);
+        if (game->user->bow.act == 1)    
+            game->user->weapon = 1;
         break;
     case '3':
-        game->user->color = COLOR_PAIR(POTIONC);
+        if (game->user->potion.act == 1)  
+            game->user->weapon = 2;
         break;
     case 'z':
         if (game->shop->act == 1 && game->shop->state == 0)
@@ -52,13 +60,22 @@ void handleInput(int input, gameState * game) {
         if (game->shop->act == 1  && game->shop->state == 0)
             game->shop->state = 3;
         break;
+    case 'a':
+        if (game->shop->act == 1) {
+            selectItem(game->shop,1);
+        }
+        break;
+    case 'd':
+        if (game->shop->act == 1) {
+            selectItem(game->shop,2);
+        }
+        break;
     case 'v':
         game->shop->state = 0;
         break;
     default:
         break;
     }
-    mvprintw(46,122,"rows: %d, cols: %d",game->user->pos.y,game->user->pos.x);
 }
 
 void movePlayer(int y, int x, player * user) {
