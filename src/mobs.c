@@ -2,7 +2,7 @@
 
 
 entity_mob * mobsSetUp(tile ** map) {
-    position start_pos = {rand() % 17 + 20,rand() % 17 + 20};
+    position start_pos = {rand() % 69 + 20,rand() % 17 + 20};
     entity_mob * mob;
     mob = malloc(sizeof(entity_mob));
     while (map[start_pos.y-3][start_pos.x-3].ch == '#')

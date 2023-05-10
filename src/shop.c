@@ -46,10 +46,6 @@ void selectItem(shop * shop, int i) {
                 if (shop->sword != 1)
                     shop->sword--;
                 break;
-            case 2:
-                if (shop->bow != 1)
-                    shop->bow--;
-                break;
             case 3:
                 if (shop->potion != 1)
                     shop->potion--;
@@ -65,10 +61,6 @@ void selectItem(shop * shop, int i) {
             case 1:
                 if (shop->sword != 3)
                     shop->sword++;
-                break;
-            case 2:
-                if (shop->bow != 3)
-                    shop->bow++;
                 break;
             case 3:
                 if (shop->potion != 3)
