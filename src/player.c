@@ -4,78 +4,52 @@ player * playerSetUp(position start_pos) {
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
-    newPlayer->posX =  start_pos.x;
-    newPlayer->posY = start_pos.y;
+    newPlayer->pos = start_pos;
     newPlayer->ch = '@';
+    newPlayer->color = COLOR_PAIR(VISIBLE_COLOR);
 
-    mvaddch(newPlayer->posY,newPlayer->posX,newPlayer->ch);
-    start_color();
-
-	init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK);
-	init_pair(COLOR_GREEN,COLOR_GREEN,COLOR_BLACK);
-	init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK);
-
-
-    attron(COLOR_PAIR(COLOR_BLUE));
-    mvaddch(newPlayer->posY,newPlayer->posX,'@');
-    attroff(COLOR_PAIR(COLOR_BLUE));
-    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->posY,newPlayer->posX);
+    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
     return newPlayer;
 }
 
-
-
-void handleInput(int input, player * user) {
+void handleInput(int input, gameState * game) {
     switch (input)
     {
     case 'w':
-        checkMove(user->posY - 1,user->posX, user);
+        checkMove(game->user->pos.y - 1,game->user->pos.x, game);
         break;
     case 's':
-        checkMove(user->posY + 1,user->posX, user);
+        checkMove(game->user->pos.y + 1,game->user->pos.x, game);
         break;
     case 'a':
-        checkMove(user->posY,user->posX - 1, user);
+        checkMove(game->user->pos.y,game->user->pos.x - 1, game);
         break;
     case 'd':
-        checkMove(user->posY,user->posX + 1, user);
+        checkMove(game->user->pos.y,game->user->pos.x + 1, game);
         break;
     default:
         break;
     }
-    mvprintw(46,122,"rows: %d, cols: %d",user->posY,user->posX);
+    mvprintw(46,122,"rows: %d, cols: %d",game->user->pos.y,game->user->pos.x);
 }
 
 void movePlayer(int y, int x, player * user) {
-    start_color();
+    clearFOV(user);
+    user -> pos.x = x;
+    user -> pos.y = y;
+    makeFOV(user);
 
-	init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK);
-	init_pair(COLOR_GREEN,COLOR_GREEN,COLOR_BLACK);
-	init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
 
-
-
-
-    mvaddch(user->posY,user->posX,'.');
-
-    user -> posX = x;
-    user -> posY = y;
-
-    mvaddch(user->posY,user->posX,user->ch);
-    attron(COLOR_PAIR(COLOR_BLUE));
-    mvaddch(user->posY,user->posX,'@');
-    attroff(COLOR_PAIR(COLOR_BLUE));
-    move(user -> posY, user -> posX);
+    attron(COLOR_PAIR(1)); // Ativa a cor vermelha
+    mvaddch(user->pos.y,user->pos.x,user->ch);
+    attroff(COLOR_PAIR(1)); // Desativa a cor vermelha
+    move(user -> pos.y, user -> pos.x);
 }
 
-void checkMove(int y, int x, player * user) {
-    switch (mvinch(y,x))
-    {
-    case '.':
-        movePlayer(y,x,user);
-        break;
-    default:
-        break;
+void checkMove(int y, int x, gameState * game) {
+    if (game->map[y-5][x-5] == '.') {
+        imprimeEspaco(game->user->pos.y,game->user->pos.x);
+        movePlayer(y, x, game->user);
     }
-
 }
