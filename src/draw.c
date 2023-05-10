@@ -11,10 +11,11 @@ void drawEverything(gameState * game) {
     drawSelected(game->shop);
     drawInventory(game->user);
     drawStatus();
-    drawMob(game->mob, game->map);
+    //drawMob(game->mob, game->map);
+    drawMobs(game->mobs, game->map);
     drawShop(game->shop, game->map);
     drawCoins(game->user);
-    verificaCoins(game);
+
 }
 
 // draw (em processo) do menu inicial
@@ -71,8 +72,15 @@ void drawPlayer(player * user) {
 // draw do mob (experimental)
 void drawMob(entity_mob * mob, tile ** map) {
     int margem = 3;
-    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1)
+    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1 && mob->vida != 0)
         mvaddch(mob->pos.y,mob->pos.x,mob->ch | COLOR_PAIR(SWORDC));
+}
+
+void drawMobs(mob_node * mobs, tile **map) {
+    while (mobs != NULL) { // enquanto houver nós na lista
+        drawMob(mobs->mob, map); // desenha o mob atual
+        mobs = mobs->next; // avança para o próximo nó
+    }
 }
 
 void drawShop(shop * shop, tile ** map) {

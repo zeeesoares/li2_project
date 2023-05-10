@@ -19,7 +19,6 @@ tile ** createMap() {
     return tiles;
 }
 
-
 tile ** mapSetUp(tile ** tilesInit) {
     int rows = 55;
 	int cols = 150;
@@ -73,7 +72,7 @@ tile ** mapSetUp(tile ** tilesInit) {
                 }
             }
         }
-    
+        
     
         for(int i = 1; i < rows-4; i++) {
             for(int j = 1; j < cols-4; j++) {

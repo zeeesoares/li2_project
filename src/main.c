@@ -16,6 +16,7 @@ int main(void) {
 
 	player * user;
 	entity_mob * mob;
+	mob_node * mobs;
 	tile ** map;
 	shop * shop;
 	int inputs = 0;
@@ -29,10 +30,12 @@ int main(void) {
 	user = playerSetUp(map);
 
 	//setup do "mob"
+	mobs = createMobLList(10,map);
 	mob = mobsSetUp(map);
 	shop = shopSetup(map);
 	//inicializaçao do game
 	game->map = map;
+	game->mobs = mobs;
 	game->user = user;
 	game->mob = mob;
 	game->shop = shop;

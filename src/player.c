@@ -10,7 +10,8 @@ player * playerSetUp(tile ** map) {
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
-    newPlayer->coins = 0;
+    newPlayer->coins = 70000;
+    newPlayer->weapon = 0;
     newPlayer->sword.act = 1;
     newPlayer->sword.dano = 10;
     newPlayer->bow.act = 0;
