@@ -1,5 +1,4 @@
 #include "rogue.h"
-/*
 void makeFOV(gameState * game)
 {
 	int y, x, distance;
@@ -74,5 +73,8 @@ int isInMap(int y, int x) {
     }
     return 0;
 }
+<<<<<<< HEAD
 
 */
+=======
+>>>>>>> origin/main
