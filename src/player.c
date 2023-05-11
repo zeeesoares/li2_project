@@ -46,7 +46,10 @@ void movePlayer(position newPos)
 {
 	if (dungeon[newPos.y][newPos.x].walkable)
 	{
+		clearFOV(player);
 		player->pos.y = newPos.y;
 		player->pos.x = newPos.x;
+		makeFOV(player);
 	}
 }
+

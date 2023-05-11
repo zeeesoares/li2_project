@@ -16,7 +16,7 @@ typedef struct position
 	int x;
 } position;
 
-typedef struct
+typedef struct tile
 {
 	char ch;
 	int color;
@@ -24,7 +24,7 @@ typedef struct
 	bool transparent;
 	bool visible;
 	bool seen;
-} Tile;
+} tile;
 
 typedef struct
 {
@@ -41,11 +41,18 @@ typedef struct
 	int color;
 } Entity;
 
+typedef struct menu
+{
+	int jogar;
+	int sair;
+} menu;
+
 
 typedef struct gameState
 {
+	menu modo;
 	Entity* user;
-	char ** map;
+	tile ** map;
 } gameState;
 
 
@@ -60,7 +67,7 @@ void gameLoop(void);
 void closeGame(void);
 
 //map.c functions
-Tile** createMapTiles(void);
+tile** createMapTiles(void);
 position setupMap(void);
 void freeMap(void);
 
@@ -75,12 +82,17 @@ void addRoomToMap(Room room);
 void connectRoomCenters(position centerOne, position centerTwo);
 
 // fov.c functions
-
+void makeFOV(Entity* player);
+void clearFOV(Entity* player);
+int getDistance(position origin, position target);
+bool isInMap(int y, int x);
+bool lineOfSight(position origin, position target);
+int getSign(int a);
 
 // externs
 extern const int MAP_HEIGHT;
 extern const int MAP_WIDTH;
 extern Entity* player;
-extern Tile** dungeon;
+extern tile** dungeon;
 
 #endif

@@ -4,7 +4,7 @@ const int MAP_HEIGHT = 50;
 const int	MAP_WIDTH = 150;
 
 Entity* player;
-Tile** dungeon;
+tile** dungeon;
 
 int main(void)
 {
@@ -17,7 +17,7 @@ int main(void)
 	{
 		srand(time(NULL));
 
-		dungeon = createTiles();
+		dungeon = createMapTiles();
 		start_pos = setupMap();
 		player = createPlayer(start_pos);
 

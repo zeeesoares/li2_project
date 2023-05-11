@@ -1,12 +1,12 @@
 #include <rogue.h>
 
-Tile** createMapTiles(void)
+tile** createMapTiles(void)
 {
-	Tile** tiles = calloc(MAP_HEIGHT, sizeof(Tile*));
+	tile** tiles = calloc(MAP_HEIGHT, sizeof(tile*));
 
 	for (int y = 0; y < MAP_HEIGHT; y++)
 	{
-		tiles[y] = calloc(MAP_WIDTH, sizeof(Tile));
+		tiles[y] = calloc(MAP_WIDTH, sizeof(tile));
 		for (int x = 0; x < MAP_WIDTH; x++)
 		{
 			tiles[y][x].ch = '#';

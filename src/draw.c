@@ -30,6 +30,6 @@ void drawEntity(Entity* entity)
 void drawEveryDungeon(void)
 {
 	clear();
-	drawMap();
+	drawDungeon();
 	drawEntity(player);
 }
