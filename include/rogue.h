@@ -23,13 +23,16 @@ typedef struct position
 
 typedef struct item
 {
-  int act;
+  char class;
   int dano;
+  int get[3];
 } item;
 
 typedef struct player
 {
   position pos;
+  int vida;
+  int stamina;
   int weapon;
   item sword;
   item bow;
@@ -130,7 +133,7 @@ void drawMob(entity_mob * mob, tile ** map);
 void drawMobs(mob_node *mobs, tile **map);
 void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
-void drawStatus();
+void drawStatus(gameState * game);
 void drawInterface();
 void drawShopInterfaceSword();
 void drawShopInterfaceBows();
@@ -162,6 +165,7 @@ int lineOfSight(tile ** map, position origem, position alvo);
 shop * shopSetup(tile ** map);
 void verificaShop(gameState * game);
 void selectItem(shop * shop, int i);
+void buyItem(gameState * game);
 
 
 #endif
