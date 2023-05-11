@@ -53,7 +53,7 @@ int menuLoop(int input, gameState * game) {
 void closeGame(gameState * game)  // funcao que encerra o ncurses e liberta a memoria da heap
 {
 	free(game->user);
-	free(game->mob);
+	freeMobList(game->mobs);
 	free(game->shop);
 	freeMap(game->map);
 	endwin();
