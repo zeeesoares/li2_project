@@ -55,6 +55,11 @@ typedef struct gameState
 	tile ** map;
 } gameState;
 
+typedef struct portal
+{
+	int dimensao;
+} portal;
+
 
 //draw.c functions
 void drawDungeon(void);
