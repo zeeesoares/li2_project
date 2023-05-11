@@ -21,12 +21,12 @@ Tile** createMapTiles(void)
 	return tiles;
 }
 
-Position setupMap(void)
+position setupMap(void)
 {
 	int y, x, height, width, n_rooms;
 	n_rooms =  (rand() % 11) + 5;
 	Room* rooms = calloc(n_rooms, sizeof(Room));
-	Position start_pos;
+	position start_pos;
 
 	for (int i = 0; i < n_rooms; i++)
 	{
@@ -55,7 +55,7 @@ void freeMap(void)
 {
 	for (int y = 0; y < MAP_HEIGHT; y++)
 	{
-		free(map[y]);
+		free(dungeon[y]);
 	}
-	free(map);
+	free(dungeon);
 }

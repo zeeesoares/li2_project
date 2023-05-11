@@ -10,11 +10,11 @@
 #define VISIBLE_COLOR 1
 #define SEEN_COLOR 2
 
-typedef struct
+typedef struct position
 {
 	int y;
 	int x;
-} Position;
+} position;
 
 typedef struct
 {
@@ -30,21 +30,29 @@ typedef struct
 {
 	int height;
 	int width;
-	Position pos;
-	Position center;
+	position pos;
+	position center;
 } Room;
 
 typedef struct
 {
-	Position pos;
+	position pos;
 	char ch;
 	int color;
 } Entity;
 
+
+typedef struct gameState
+{
+	Entity* user;
+	char ** map;
+} gameState;
+
+
 //draw.c functions
-void drawMap(void);
+void drawDungeon(void);
 void drawEntity(Entity* entity);
-void drawEverything(void);
+void drawEveryDungeon(void);
 
 //engine.c functions
 bool cursesSetup(void);
@@ -53,31 +61,26 @@ void closeGame(void);
 
 //map.c functions
 Tile** createMapTiles(void);
-Position setupMap(void);
+position setupMap(void);
 void freeMap(void);
 
 // player.c functions
-Entity* createPlayer(Position start_pos);
+Entity* createPlayer(position start_pos);
 void handleInput(int input);
-void movePlayer(Position newPos);
+void movePlayer(position newPos);
 
 // room.c functions
 Room createRoom(int y, int x, int height, int width);
 void addRoomToMap(Room room);
-void connectRoomCenters(Position centerOne, Position centerTwo);
+void connectRoomCenters(position centerOne, position centerTwo);
 
 // fov.c functions
-void makeFOV(Entity* player);
-void clearFOV(Entity* player);
-int getDistance(Position origin, Position target);
-bool isInMap(int y, int x);
-bool lineOfSight(Position origin, Position target);
-int getSign(int a);
+
 
 // externs
 extern const int MAP_HEIGHT;
 extern const int MAP_WIDTH;
 extern Entity* player;
-extern Tile** map;
+extern Tile** dungeon;
 
 #endif

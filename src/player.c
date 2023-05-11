@@ -1,7 +1,7 @@
 #include <rogue.h>
 
 
-Entity* createPlayer(Position start_pos)
+Entity* createPlayer(position start_pos)
 {
 	Entity* newPlayer = calloc(1, sizeof(Entity));
 
@@ -15,7 +15,7 @@ Entity* createPlayer(Position start_pos)
 
 void handleInput(int input)
 {
-	Position newPos = { player->pos.y, player->pos.x };
+	position newPos = { player->pos.y, player->pos.x };
 
 	switch(input)
 	{
@@ -42,9 +42,9 @@ void handleInput(int input)
 	movePlayer(newPos);
 }
 
-void movePlayer(Position newPos)
+void movePlayer(position newPos)
 {
-	if (map[newPos.y][newPos.x].walkable)
+	if (dungeon[newPos.y][newPos.x].walkable)
 	{
 		player->pos.y = newPos.y;
 		player->pos.x = newPos.x;

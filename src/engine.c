@@ -27,8 +27,7 @@ void gameLoop(void)
 {
 	int ch;
 
-	makeFOV(player);
-	drawEverything();
+	drawEveryDungeon();
 
 	while(ch = getch())
 	{
@@ -38,7 +37,7 @@ void gameLoop(void)
 		}
 
 		handleInput(ch);
-		drawEverything();
+		drawEveryDungeon();
 	}
 }
 

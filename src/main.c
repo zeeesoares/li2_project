@@ -1,14 +1,14 @@
 #include <rogue.h>
 
-const int MAP_HEIGHT = 25;
-const int	MAP_WIDTH = 100;
+const int MAP_HEIGHT = 50;
+const int	MAP_WIDTH = 150;
 
 Entity* player;
-Tile** map;
+Tile** dungeon;
 
 int main(void)
 {
-	Position start_pos;
+	position start_pos;
 	bool compatibleTerminal;
 
 	compatibleTerminal = cursesSetup();
@@ -17,7 +17,7 @@ int main(void)
 	{
 		srand(time(NULL));
 
-		map = createTiles();
+		dungeon = createTiles();
 		start_pos = setupMap();
 		player = createPlayer(start_pos);
 
