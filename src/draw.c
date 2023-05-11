@@ -43,7 +43,7 @@ void drawMenu() {
 // draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
 void drawMap(tile ** map) {
     int rows = 55; 
-	int cols = 150;
+	int cols = 145;
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < cols; x++)
