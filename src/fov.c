@@ -73,8 +73,5 @@ int isInMap(int y, int x) {
     }
     return 0;
 }
-<<<<<<< HEAD
 
-*/
-=======
->>>>>>> origin/main
+

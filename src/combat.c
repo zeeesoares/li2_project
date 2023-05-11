@@ -2,7 +2,9 @@
 
 
 void projetil(char direcao,gameState * game){
+
     
+
 }
 
 

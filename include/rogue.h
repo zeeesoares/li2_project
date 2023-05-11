@@ -62,7 +62,7 @@ typedef struct projetil
   int vy;
   //int dano;
   int range;
-  int visivel=0;
+  int visivel;
 } seta;
 
 
