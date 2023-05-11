@@ -1,48 +1,52 @@
 #include <rogue.h>
 
-player* createPlayer(position start_pos)
+
+Entity* createPlayer(Position start_pos)
 {
-  player* newPlayer = calloc(1, sizeof(player));
+	Entity* newPlayer = calloc(1, sizeof(Entity));
 
-  newPlayer->posY = start_pos.y;
-  newPlayer->posX = start_pos.x;
-  newPlayer->ch = '@';
+	newPlayer->pos.y = start_pos.y;
+	newPlayer->pos.x = start_pos.x;
+	newPlayer->ch = '@';
+	newPlayer->color = COLOR_PAIR(VISIBLE_COLOR);
 
-  return newPlayer;
+	return newPlayer;
 }
 
 void handleInput(int input)
 {
+	Position newPos = { player->pos.y, player->pos.x };
 
-  position newPos = { jogador->posY, jogador->posX };
+	switch(input)
+	{
+		//move up
+		case 'w':
+			newPos.y--;
+			break;
+		//move down
+		case 's':
+			newPos.y++;
+			break;
+		//move left
+		case 'a':
+			newPos.x--;
+			break;
+		//move right
+		case 'd':
+			newPos.x++;
+			break;
+		default:
+			break;
+	}
 
-  switch(input)
-  {
-    //move up
-    case 'w':
-      newPos.y--;
-    //move down
-    case 's':
-      newPos.y++;
-      break;
-    //move left
-    case 'a':
-      newPos.x--;
-      break;
-    //move right
-    case 'd':
-      newPos.x++;
-      break;
-    default:
-      break;
-  }
+	movePlayer(newPos);
 }
 
-void movePlayer(position newPos)
-{ 
-  if (mapinha[newPos.y][newPos.x].walkable)
-  {
-    jogador->posY = newPos.y;
-    jogador->posX = newPos.x;
-  }
+void movePlayer(Position newPos)
+{
+	if (map[newPos.y][newPos.x].walkable)
+	{
+		player->pos.y = newPos.y;
+		player->pos.x = newPos.x;
+	}
 }

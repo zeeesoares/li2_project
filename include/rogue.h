@@ -1,88 +1,83 @@
 #ifndef ROGUE_H
 #define ROGUE_H
 
-#define MAP_HEIGHT 50
-#define MAP_WIDTH 150
-
 #include <ncurses.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
+#include <math.h>
 
-
-typedef struct position
-{ 
-  int x;
-  int y;
-} position;
-
-typedef struct tile
-{
-  char ch;
-  bool walkable;
-  bool transparent;
-} tile;
+// color pairs
+#define VISIBLE_COLOR 1
+#define SEEN_COLOR 2
 
 typedef struct
 {
-  int height; 
-  int width;
-  position pos;
-  position center;
+	int y;
+	int x;
+} Position;
+
+typedef struct
+{
+	char ch;
+	int color;
+	bool walkable;
+	bool transparent;
+	bool visible;
+	bool seen;
+} Tile;
+
+typedef struct
+{
+	int height;
+	int width;
+	Position pos;
+	Position center;
 } Room;
 
-typedef struct player
+typedef struct
 {
-  int posX;
-  int posY;
-  char ch;
-} player;
+	Position pos;
+	char ch;
+	int color;
+} Entity;
 
-typedef struct gameState
-{
-  position playerPos;
-  player * user;
-  char ** map;
-} gameState;
-
-
-// functions map.c
-tile** createMapTiles(void);
-position setupmap(void);
-void freeMap(void);
-
-
-
-
-// functions log.c
-int logSetUp();
-
-// functions player.c
-player* createPlayer(position start_pos);
-void handleInput(int input);
-void movePlayer(position newPos);
-
-// functions draw.c
+//draw.c functions
 void drawMap(void);
-void drawEntity(player* jogador);
+void drawEntity(Entity* entity);
 void drawEverything(void);
 
-// functions engine.c
-bool ncursesSetUp(void);
-void gameLoops(void);
-void closeGames(void);
+//engine.c functions
+bool cursesSetup(void);
+void gameLoop(void);
+void closeGame(void);
 
+//map.c functions
+Tile** createMapTiles(void);
+Position setupMap(void);
+void freeMap(void);
 
-// functions room.c
+// player.c functions
+Entity* createPlayer(Position start_pos);
+void handleInput(int input);
+void movePlayer(Position newPos);
+
+// room.c functions
 Room createRoom(int y, int x, int height, int width);
 void addRoomToMap(Room room);
+void connectRoomCenters(Position centerOne, Position centerTwo);
 
+// fov.c functions
+void makeFOV(Entity* player);
+void clearFOV(Entity* player);
+int getDistance(Position origin, Position target);
+bool isInMap(int y, int x);
+bool lineOfSight(Position origin, Position target);
+int getSign(int a);
 
-
-// functions fov.c
-extern player* jogador;
-extern tile** mapinha;
-extern player* user;
+// externs
+extern const int MAP_HEIGHT;
+extern const int MAP_WIDTH;
+extern Entity* player;
+extern Tile** map;
 
 #endif
-
