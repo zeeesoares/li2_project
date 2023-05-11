@@ -23,13 +23,16 @@ typedef struct position
 
 typedef struct item
 {
-  int act;
+  char class;
   int dano;
+  int get[3];
 } item;
 
 typedef struct player
 {
   position pos;
+  int vida;
+  int stamina;
   int weapon;
   item sword;
   item bow;
@@ -43,12 +46,12 @@ typedef struct entity_mob
 {
   position pos;
   char ch;
-  int coins;
+  int vida;
   int type;
 } entity_mob;
 
 typedef struct mob_node {
-    entity_mob *mob;
+    entity_mob * mob;
     struct mob_node *next;
 } mob_node;
 
@@ -91,6 +94,7 @@ typedef struct gameState
   menu modo;
   player * user;
   tile ** map;
+  mob_node * mobs;
   entity_mob * mob;
   shop * shop;
 } gameState;
@@ -114,7 +118,10 @@ player * playerSetUp(tile ** map);
 
 // functions mobs.c
 entity_mob * mobsSetUp(tile ** map);
-void verificaCoins(gameState * game);
+void add_mob_to_list(mob_node **list, tile **map);
+mob_node * createMobLList(int numMobs, tile ** map);
+void freeMobList(mob_node *list);
+void freeMobNode(mob_node *node);
 
 // functions draw.c
 void drawEverything(gameState * game);
@@ -123,9 +130,10 @@ void drawPlayer(player * user);
 void drawMap(tile ** map);
 void drawInventory(player * user);
 void drawMob(entity_mob * mob, tile ** map);
+void drawMobs(mob_node *mobs, tile **map);
 void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
-void drawStatus();
+void drawStatus(gameState * game);
 void drawInterface();
 void drawShopInterfaceSword();
 void drawShopInterfaceBows();
@@ -151,11 +159,13 @@ void makeFOV(gameState * game);
 void clearFOV(gameState * game);
 int getdistance (position origem, position alvo);
 int isInMap(int y, int x);
+int lineOfSight(tile ** map, position origem, position alvo);
 
 // functions shop.c
 shop * shopSetup(tile ** map);
 void verificaShop(gameState * game);
 void selectItem(shop * shop, int i);
+void buyItem(gameState * game);
 
 
 #endif

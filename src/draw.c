@@ -10,11 +10,12 @@ void drawEverything(gameState * game) {
     verificaShop(game);
     drawSelected(game->shop);
     drawInventory(game->user);
-    drawStatus();
-    drawMob(game->mob, game->map);
+    drawStatus(game);
+    //drawMob(game->mob, game->map);
+    drawMobs(game->mobs, game->map);
     drawShop(game->shop, game->map);
     drawCoins(game->user);
-    verificaCoins(game);
+
 }
 
 // draw (em processo) do menu inicial
@@ -42,7 +43,7 @@ void drawMenu() {
 // draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
 void drawMap(tile ** map) {
     int rows = 55; 
-	int cols = 150;
+	int cols = 145;
 	for (int y = 0; y < rows; y++)
 	{
 		for (int x = 0; x < cols; x++)
@@ -71,8 +72,15 @@ void drawPlayer(player * user) {
 // draw do mob (experimental)
 void drawMob(entity_mob * mob, tile ** map) {
     int margem = 3;
-    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1)
+    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1 && mob->vida != 0)
         mvaddch(mob->pos.y,mob->pos.x,mob->ch | COLOR_PAIR(SWORDC));
+}
+
+void drawMobs(mob_node * mobs, tile **map) {
+    while (mobs != NULL) { // enquanto houver nós na lista
+        drawMob(mobs->mob, map); // desenha o mob atual
+        mobs = mobs->next; // avança para o próximo nó
+    }
 }
 
 void drawShop(shop * shop, tile ** map) {
@@ -86,14 +94,14 @@ void drawInventory(player * user) {
     mvprintw(14,160,"+---------------------------------------+");
     mvprintw(15,160,"| =Inventory=                           |");
     mvprintw(16,160,"|                                       |");
-    if (user->sword.act == 1)
-        mvprintw(17,160,"|  (1) Sword                            |");
+    if (user->sword.dano > 0)
+        mvprintw(17,160,"|  (1) Sword - DG: %d Rank: %c           |", user->sword.dano, user->sword.class);
     else mvprintw(17,160,"|                                       |");
-    if (user->bow.act == 1)
-        mvprintw(18,160,"|  (2) Bow                              |");
+    if (user->bow.dano > 0)
+        mvprintw(18,160,"|  (2) Bow - DG: %d Rank: %c             |", user->bow.dano, user->bow.class);
     else mvprintw(18,160,"|                                       |");
-    if (user->potion.act == 1)
-        mvprintw(19,160,"|  (3) Potion                           |");
+    if (user->potion.dano > 0)
+        mvprintw(19,160,"|  (3) Potion - DG: %d Rank: %c          |",user->potion.dano, user->potion.class);
     else mvprintw(19,160,"|                                       |");
     mvprintw(20,160,"|                                       |");
     mvprintw(21,160,"+---------------------------------------+");
@@ -297,7 +305,7 @@ void drawShopInterfacePotions() {
     mvprintw(37,160,"|  Dano: 20     Dano: 15     Dano: 35   |");
     mvprintw(38,160,"|  Tempo: 1s    Tempo: 2s    Tempo: 1s  |");
     mvprintw(39,160,"|  Cost: 2000   Cost: 4000   Cost: 6000 |");
-    mvprintw(40,160,"|                                       |");
+    mvprintw(40,160,"|  Rank: B      Rank: A      Rank: S    |");
     mvprintw(41,160,"|                                       |");
     mvprintw(42,160,"|                                       |");
     mvprintw(43,160,"|                                       |");
@@ -309,15 +317,14 @@ void drawShopInterfacePotions() {
 }
 
 // draw do Status
-void drawStatus() {
-    mvprintw(5,180, "+-------------------+");
-    mvprintw(6,180, "|                   |");
-    mvprintw(7,180, "|    HP: 100/100    |");
-    mvprintw(8,180, "|    Mana: 82/82    |");
-    mvprintw(9,180, "|    XP: 11234      |");
-    mvprintw(10,180,"|    LVL: 123       |");
-    mvprintw(11,180,"|                   |");
-    mvprintw(12,180,"+-------------------+");
+void drawStatus(gameState * game) {
+    mvprintw(5,179, "+--------------------+");
+    mvprintw(6,179, "|                    |");
+    mvprintw(7,179, "|  HP: %3d/100       |", game->user->vida);
+    mvprintw(8,179, "|  Stamina: %3d/100  |", game->user->stamina);
+    mvprintw(9,179, "|  Mobs: x/10        |");
+    mvprintw(10,179,"|                    |");
+    mvprintw(11,179,"+--------------------+");
 }
 
 /*
