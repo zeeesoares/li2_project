@@ -70,16 +70,15 @@ void drawPlayer(player * user) {
 }
 
 // draw do mob (experimental)
-void drawMob(entity_mob * mob, tile ** map) {
+void drawMob(entity_mob mob, tile ** map) {
     int margem = 3;
-    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1 && mob->vida != 0)
-        mvaddch(mob->pos.y,mob->pos.x,mob->ch | COLOR_PAIR(SWORDC));
+    if (map[mob.pos.y-margem][mob.pos.x-margem].visible == 1 && mob.vida != 0)
+        mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(SWORDC));
 }
 
-void drawMobs(mob_node * mobs, tile **map) {
-    while (mobs != NULL) { // enquanto houver nós na lista
-        drawMob(mobs->mob, map); // desenha o mob atual
-        mobs = mobs->next; // avança para o próximo nó
+void drawMobs(entity_mob mobs[], tile **map) {
+    for (int i = 0; i < 10; i++) { // percorre o array de mobs
+        drawMob(mobs[i], map); // desenha o mob atual
     }
 }
 

@@ -15,11 +15,11 @@ int main(void) {
 	game->modo.sair = 0;
 
 	player * user;
-	entity_mob * mob;
-	mob_node * mobs;
+	entity_mob * mobs;
 	tile ** map;
 	shop * shop;
 	int inputs = 0;
+	int sair = 0;
 
 	//ver map.c
 	map = mapSetUp(createMap());
@@ -30,21 +30,21 @@ int main(void) {
 	user = playerSetUp(map);
 
 	//setup do "mob"
-	mobs = createMobLList(10,map);
-	mob = mobsSetUp(map);
+	mobs = createMobArray(10,map);
 	shop = shopSetup(map);
 	//inicializaçao do game
 	game->map = map;
 	game->mobs = mobs;
 	game->user = user;
-	game->mob = mob;
 	game->shop = shop;
 	
 	makeFOV(game);
 	drawEverything(game);
 	// ver engine.cend:
-	gameLoop(inputs,game);
-
+	while (!sair) {
+		gameLoop(inputs,game);
+		sair = 1;
+	}
 	closeGame(game);
 	return 0;
 }

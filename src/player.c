@@ -33,25 +33,25 @@ void handleInput(int input, gameState * game) {
     case KEY_UP:
         if (game->user->stamina > 0) {
             checkMove(game->user->pos.y - 1,game->user->pos.x, game);
-            game->user->stamina--;
+            //game->user->stamina--;
         }
         break;
     case KEY_DOWN:
         if (game->user->stamina > 0) {
             checkMove(game->user->pos.y + 1,game->user->pos.x, game);
-            game->user->stamina--;
+            //game->user->stamina--;
         }
         break;
     case KEY_LEFT:
         if (game->user->stamina > 0) {
             checkMove(game->user->pos.y,game->user->pos.x - 1, game);
-            game->user->stamina--;
+            //game->user->stamina--;
         }
         break;
     case KEY_RIGHT:
         if (game->user->stamina > 0) {
             checkMove(game->user->pos.y,game->user->pos.x + 1, game);
-            game->user->stamina--;
+            //game->user->stamina--;
         }
         break;
     case '1':
