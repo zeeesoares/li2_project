@@ -1,32 +1,45 @@
 #include <rogue.h>
 
-char ** mapSetUp() {
-    int rows = 40;
-    int cols = 135;
 
+tile ** createMap() {
+    int rows = 55;
+	int cols = 150;
+    tile ** tiles = calloc(rows,sizeof(tile *));
 
-    // alocar memória para o array bidimensional
-    char **map = (char **) malloc(rows * sizeof(char *));
-    for(int i = 0; i < rows; i++) {
-        map[i] = (char *) malloc(cols * sizeof(char));
+    for (int i = 0; i < rows; i++) {
+        tiles[i] = calloc(cols, sizeof(tile));
+        for (int j = 0; j < cols; j++) {
+			tiles[i][j].ch = '.';
+			tiles[i][j].color = COLOR_PAIR(TRANSPARENT_COLOR);
+			tiles[i][j].seen = 1;
+			tiles[i][j].visible = 0;
+            tiles[i][j].transparent = 0;
+        }
     }
+    return tiles;
+}
 
+
+tile ** mapSetUp(tile ** tilesInit) {
+    int rows = 55;
+	int cols = 150;
     // preencher o array bidimensional com caracteres aleatórios
     int count = 0;
+    srand(time(NULL));
 
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
-            if ((i == 0)| (j == 0)| (i == 39) | (j == 134)) {
-                map[i][j] = '#';
+            if (i == 0 || j == 0 || i == rows - 1 || j == cols - 1) {
+                tilesInit[i][j].ch = '#';
             }
             else {
                 int r = rand()%4;
                 if(r ==0 ) {
-                    map[i][j] = '#';
+                    tilesInit[i][j].ch = '#';
                     count++;
                 } 
                 else {
-                map[i][j] = '.';
+                tilesInit[i][j].ch = '.';
                 }
             }
         }
@@ -34,45 +47,45 @@ char ** mapSetUp() {
     for(int k=0;k<5;k++){
         for(int i = 1; i < rows-4; i++) {
             for(int j = 1; j < cols-4; j++) {
-                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+2])){
-                    char hold=map[i][j+1];
-                    map[i][j+1]=map[i][j+2];
-                    map[i][j+2]=hold;
+                if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+2].ch)){
+                    char hold=tilesInit[i][j+1].ch;
+                    tilesInit[i][j+1].ch=tilesInit[i][j+2].ch;
+                    tilesInit[i][j+2].ch=hold;
                 }
-                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+2][j])){
-                    char hold=map[i+1][j];
-                    map[i+1][j]=map[i+2][j];
-                    map[i+2][j]=hold;
+                if((tilesInit[i][j].ch<tilesInit[i+1][j].ch)&& (tilesInit[i+1][j].ch>tilesInit[i+2][j].ch)){
+                    char hold=tilesInit[i+1][j].ch;
+                    tilesInit[i+1][j].ch=tilesInit[i+2][j].ch;
+                    tilesInit[i+2][j].ch=hold;
                 }
             }
         }
         for(int i = 1; i < rows-6; i++) {
             for(int j = 1; j < cols-6; j++) {
-                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+3])){
-                    char hold=map[i][j+1];
-                    map[i][j+1]=map[i][j+3];
-                    map[i][j+3]=hold;
+                if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+3].ch)){
+                    char hold=tilesInit[i][j+1].ch;
+                    tilesInit[i][j+1].ch=tilesInit[i][j+3].ch;
+                    tilesInit[i][j+3].ch=hold;
                 }
-                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+4][j])){
-                    char hold=map[i+1][j];
-                    map[i+1][j]=map[i+4][j];
-                    map[i+4][j]=hold;
+                if((tilesInit[i][j].ch<tilesInit[i+1][j].ch)&& (tilesInit[i+1][j].ch>tilesInit[i+4][j].ch)){
+                    char hold=tilesInit[i+1][j].ch;
+                    tilesInit[i+1][j].ch=tilesInit[i+4][j].ch;
+                    tilesInit[i+4][j].ch=hold;
                 }
             }
         }
-
-
-         for(int i = 1; i < rows-4; i++) {
+    
+    
+        for(int i = 1; i < rows-4; i++) {
             for(int j = 1; j < cols-4; j++) {
-                if((map[i][j]<map[i][j+1])&& (map[i][j+1]>map[i][j+3])){
-                    char hold=map[i][j+1];
-                    map[i][j+1]=map[i][j+3];
-                    map[i][j+3]=hold;
+                if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+3].ch)){
+                    char hold=tilesInit[i][j+1].ch;
+                    tilesInit[i][j+1].ch=tilesInit[i][j+3].ch;
+                    tilesInit[i][j+3].ch=hold;
                 }
-                if((map[i][j]<map[i+1][j])&& (map[i+1][j]>map[i+3][j])){
-                    char hold=map[i+1][j];
-                    map[i+1][j]=map[i+3][j];
-                    map[i+3][j]=hold;
+                if((tilesInit[i][j].ch<tilesInit[i+1][j].ch)&& (tilesInit[i+1][j].ch>tilesInit[i+3][j].ch)){
+                    char hold=tilesInit[i+1][j].ch;
+                    tilesInit[i+1][j].ch=tilesInit[i+3][j].ch;
+                    tilesInit[i+3][j].ch=hold;
                 }
             }
         }
@@ -80,24 +93,34 @@ char ** mapSetUp() {
 
     for(int i = 2; i < rows-2; i++) {
         for(int j = 2; j < cols-2; j++) {
-            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j] && map[i][j]<map[i-1][j]) {
-                map[i][j] = '.';
+            if((tilesInit[i][j].ch<tilesInit[i][j+1].ch) && tilesInit[i][j].ch<tilesInit[i][j-1].ch && tilesInit[i][j].ch<tilesInit[i+1][j].ch && tilesInit[i][j].ch<tilesInit[i-1][j].ch) {
+                tilesInit[i][j].ch = '.';
             }
         }
     }
     for(int i = 1; i < 2; i++) {
         for(int j = 1; j < cols-2; j++) {
-            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i+1][j]) {
-                map[i][j] = '.';
+            if((tilesInit[i][j].ch<tilesInit[i][j+1].ch) && tilesInit[i][j].ch<tilesInit[i][j-1].ch && tilesInit[i][j].ch<tilesInit[i+1][j].ch) {
+                tilesInit[i][j].ch = '.';
             }
         }
     }
-    for(int i = 38; i < 40; i++) {
+    for(int i = rows - 2; i < rows; i++) {
         for(int j = 1; j < cols-2; j++) {
-            if((map[i][j]<map[i][j+1]) && map[i][j]<map[i][j-1] && map[i][j]<map[i-1][j]) {
-                map[i][j] = '.';
+            if((tilesInit[i][j].ch<tilesInit[i][j+1].ch) && tilesInit[i][j].ch<tilesInit[i][j-1].ch && tilesInit[i][j].ch<tilesInit[i-1][j].ch) {
+                tilesInit[i][j].ch = '.';
             }
         }
     }
-    return map;
+    return tilesInit;
+}
+
+void freeMap(tile ** map)
+{
+    int rows = 40;
+	for (int y = 0; y < rows; y++)
+	{
+		free(map[y]);
+	}
+	free(map);
 }

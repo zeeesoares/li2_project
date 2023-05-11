@@ -1,55 +1,98 @@
 #include <rogue.h>
 
-player * playerSetUp(position start_pos) {
+player * playerSetUp(tile ** map) {
+    position start_pos = {rand() % 87 + 30,rand() % 17 + 20};
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
+    while (map[start_pos.y-3][start_pos.x-3].ch == '#')
+        start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->ch = '@';
-    newPlayer->color = COLOR_PAIR(VISIBLE_COLOR);
-
-    mvprintw(46,122,"rows: %d, cols: %d",newPlayer->pos.y,newPlayer->pos.x);
+    newPlayer->color = COLOR_PAIR(SWORDC);
+    newPlayer->coins = 0;
+    newPlayer->sword.act = 1;
+    newPlayer->sword.dano = 10;
+    newPlayer->bow.act = 0;
+    newPlayer->bow.dano = 0;
+    newPlayer->potion.act = 0;
+    newPlayer->potion.dano = 0;
     return newPlayer;
 }
 
 void handleInput(int input, gameState * game) {
+    keypad(stdscr, true);
     switch (input)
     {
-    case 'w':
+    case KEY_UP:
         checkMove(game->user->pos.y - 1,game->user->pos.x, game);
         break;
-    case 's':
+    case KEY_DOWN:
         checkMove(game->user->pos.y + 1,game->user->pos.x, game);
         break;
-    case 'a':
+    case KEY_LEFT:
         checkMove(game->user->pos.y,game->user->pos.x - 1, game);
         break;
-    case 'd':
+    case KEY_RIGHT:
         checkMove(game->user->pos.y,game->user->pos.x + 1, game);
+        break;
+    case '1':
+        if (game->user->sword.act == 1)
+            game->user->weapon = 0;
+        break;
+    case '2':
+        if (game->user->bow.act == 1)    
+            game->user->weapon = 1;
+        break;
+    case '3':
+        if (game->user->potion.act == 1)  
+            game->user->weapon = 2;
+        break;
+    case 'z':
+        if (game->shop->act == 1 && game->shop->state == 0)
+            game->shop->state = 1;
+        break;
+    case 'x':
+        if (game->shop->act == 1  && game->shop->state == 0)
+            game->shop->state = 2;
+        break;
+    case 'c':
+        if (game->shop->act == 1  && game->shop->state == 0)
+            game->shop->state = 3;
+        break;
+    case 'a':
+        if (game->shop->act == 1) {
+            selectItem(game->shop,1);
+        }
+        break;
+    case 'd':
+        if (game->shop->act == 1) {
+            selectItem(game->shop,2);
+        }
+        break;
+    case 'v':
+        game->shop->state = 0;
         break;
     default:
         break;
     }
-    mvprintw(46,122,"rows: %d, cols: %d",game->user->pos.y,game->user->pos.x);
 }
 
 void movePlayer(int y, int x, player * user) {
-    clearFOV(user);
+
     user -> pos.x = x;
     user -> pos.y = y;
-    makeFOV(user);
 
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-
-    attron(COLOR_PAIR(1)); // Ativa a cor vermelha
     mvaddch(user->pos.y,user->pos.x,user->ch);
-    attroff(COLOR_PAIR(1)); // Desativa a cor vermelha
+
     move(user -> pos.y, user -> pos.x);
 }
 
 void checkMove(int y, int x, gameState * game) {
-    if (game->map[y-5][x-5] == '.') {
-        imprimeEspaco(game->user->pos.y,game->user->pos.x);
+    int margem = 3;
+    if (game->map[y-margem][x-margem].ch == '.') {
+        clearFOV(game);
         movePlayer(y, x, game->user);
+        makeFOV(game);
     }
 }

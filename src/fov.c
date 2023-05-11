@@ -1,62 +1,80 @@
 #include "rogue.h"
 
-void makeFOV(player* user){
-    int x;
-    int y;
-    int distancia;
-    int raio = 9;
-    position alvo;
+void makeFOV(gameState * game)
+{
+	int y, x, distance;
+	int raio = 15;
+    int margem = 3;
+	position target;
 
-    map[user->pos.y][user->pos.x].visible = true;
-    map[user->pos.y][user->pos.x].seen = true;
+	game->map[game->user->pos.y-margem][game->user->pos.x-margem].visible = 1;
+	game->map[game->user->pos.y-margem][game->user->pos.x-margem].seen = 0;
 
-    for (y= user->pos.y - raio; y< user->pos.y; y++){
-        for (x=user->pos.x -raio; x< user->pos.x;x++){
-            alvo.y = y;
-            alvo.x = x;
-            distancia = getdistance(user->pos, alvo);
+	for (y = game->user->pos.y - raio; y < game->user->pos.y + raio; y++)
+	{
+		for (x = game->user->pos.x - raio; x < game->user->pos.x + raio; x++)
+		{
+			target.y = y;
+			target.x = x;
+			distance = getdistance(game->user->pos, target);
 
-            if (distancia < raio){
-                if (isInMap(y,x) && lineOfSight(user->pos,alvo)){
-                    map[y][x].visible = true;
-                    map[y][x].seen = true;
-                }
-            }
+			if (distance < raio)
+			{   if (isInMap(y-3,x-3) && lineofsight(target,game))
+				{
+					game->map[y-margem][x-margem].visible = 1;
+					game->map[y-margem][x-margem].seen = 0;
+                    game->map[y-margem][x-margem].transparent = 0;
+                    game->map[y-margem][x-margem].color = VISIBLE_COLOR;
+				}         
+			}
+		}
+	}
+}
+
+void clearFOV(gameState * game) {
+    int x, y, distance;
+    int margem = 3;
+    int raio = 15;
+    position target;
+
+    for (y= game->user->pos.y - raio; y< game->user->pos.y + raio; y++)
+        {
+        for (x=game->user->pos.x -raio; x< game->user->pos.x + raio; x++)
+        {
+            target.y = y;
+			target.x = x;
+			distance = getdistance(game->user->pos, target);
+            if (distance < raio)
+			{   if (isInMap(y-3,x-3))
+			    {
+                    game->map[y-margem][x-margem].visible = 0;
+                    game->map[y-margem][x-margem].seen = 1;
+                    game->map[y-margem][x-margem].transparent = 0;
+                    game->map[y-margem][x-margem].color = COLOR_PAIR(SEEN_COLOR);
+			    }         
+			}
         }
     }
 }
 
-void clearFOV(player* user){
-    int x;
-    int y;
-    int raio = 9;
-
-    for (y= user->pos.y - raio; y< user->pos.y; y++){
-        for (x=user->pos.x -raio; x< user->pos.x; x++){
-            if (isInMap(y,x)){
-                map[y][x].visible = false;
-            }
-        }
-    }
-
-int getdistance (position origem, position alvo){
+int getdistance (position origem, position alvo) {
     double dx;
     double dy;
     int distance;
     dx = alvo.x - origem.x;
     dy = alvo.y - origem.y;
-    distance = floor(sqrt((dx * dx) + (dy * dy));
+    distance = floor(sqrt((dx * dx) + (dy * dy)));
     return distance;
 }
 
-bool isInMap(int y, int x){
-    if (( 0 < x && x < 39) && (0 < y && y < 134)){
-        return true;
+int isInMap(int y, int x) {
+    if (( 0 <= y && y < 55) && (0 <= x && x <= 150)){
+        return 1;
     }
-    return false; 
+    return 0;
+}
 
-
-bool lineOfSight(position origem, position alvo){
+int lineofsight(position target,gameState *game){
     int t;
     int x;
     int y;
@@ -67,14 +85,17 @@ bool lineOfSight(position origem, position alvo){
     int delta_x;
     int delta_y;
 
-    delta_x= origem.x - alvo.x;
-    delta_y = origem.y - alvo.x;
+    delta_x= game->user->pos.x - target.x;
+    delta_y = game->user->pos.y - target.x;
 
     sign_x = getSign(delta_x);
     sign_y = getSign(delta_y);
 
-    x = alvo.x;
-    y = alvo.y;
+    abs_delta_x= abs(delta_x);
+    abs_delta_y = abs(delta_y);
+
+    x = target.x;
+    y = target.y;
 
     if (abs_delta_x > abs_delta_y){
         t = abs_delta_y * 2 - abs_delta_x;
@@ -88,12 +109,12 @@ bool lineOfSight(position origem, position alvo){
             x+= sign_x;
             t+= abs_delta_y *2;
 
-            if (x== origem.x && y== origem.y){
+            if (x== game->user->pos.x && y== game->user->pos.y){
                 return true;
             }
 
         }
-        while (map[y][x].transparent);
+        while (game->map[y][x].transparent);
         return false;
     }
     else
@@ -109,16 +130,16 @@ bool lineOfSight(position origem, position alvo){
             y+= sign_y;
             t+= abs_delta_x *2;
 
-            if (x== origem.x && y== origem.y){
+            if (x== game->user->pos.x && y== game->user->pos.y){
                 return true;
             }
 
         }
-        while (map[y][x].transparent);
+        while (game->map[y][x].transparent);
         return false;
     }
 }
 
 int getSign(int a){
-    return (a < 0) ? -1:1; 
+    return (a < 0) ? -1:1;
 }
