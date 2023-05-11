@@ -60,11 +60,6 @@ typedef struct tile
   int transparent;
 } tile;
 
-typedef struct menu
-{
-  int jogar;
-  int sair;
-} menu;
 
 typedef struct Room
 {
@@ -87,9 +82,10 @@ typedef struct Shop
 
 typedef struct gameState
 {
-  menu modo;
+  int modo;
   player * user;
   tile ** map;
+  tile ** dungeon;
   entity_mob * mobs;
   shop * shop;
 } gameState;
@@ -99,6 +95,9 @@ typedef struct gameState
 tile ** mapSetUp();
 tile ** createMap();
 void freeMap(tile ** map);
+
+tile** createDungeonTiles();
+position setupMapDungeons(tile ** dungeon);
 
 
 // functions log.c
@@ -134,6 +133,9 @@ void drawShopInterfacePotions();
 void drawCoins(player * user);
 void drawSelected(shop * shop);
 
+void drawDungeon(tile ** dungeon);
+
+
 // functions engine.c
 int ncursesSetUp();
 int gameLoop(int input, gameState *);
@@ -141,6 +143,9 @@ int menuLoop(int input, gameState * game);
 void closeGame(gameState *);
 
 // functions room.c
+void connectRoomCenters(position centerOne, position centerTwo, tile ** dungeon);
+void addRoomToMap(Room room, tile ** dungeon);
+Room createRoom(int y, int x, int height, int width);
 
 //function inventory.c
 void handleInventory(gameState * game);

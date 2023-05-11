@@ -3,18 +3,24 @@
 // desenha toda a parte gráfica do jogo e é chamada iterativamente na funcao gameLoop(engine.c)
 void drawEverything(gameState * game) {
     clear();
-    drawMap(game->map);
-    handleInventory(game);
-    drawPlayer(game->user);
-    drawInterface();
-    verificaShop(game);
-    drawSelected(game->shop);
-    drawInventory(game->user);
-    drawStatus(game);
-    //drawMob(game->mob, game->map);
-    drawMobs(game->mobs, game->map);
-    drawShop(game->shop, game->map);
-    drawCoins(game->user);
+    if (game->modo == 1) {
+        drawDungeon(game->dungeon);
+        drawPlayer(game->user);
+    }
+    else {
+        drawMap(game->map);
+        handleInventory(game);
+        drawPlayer(game->user);
+        drawInterface();
+        verificaShop(game);
+        drawSelected(game->shop);
+        drawInventory(game->user);
+        drawStatus(game);
+        //drawMob(game->mob, game->map);
+        drawMobs(game->mobs, game->map);
+        drawShop(game->shop, game->map);
+        drawCoins(game->user);
+    }
 
 }
 
@@ -324,6 +330,32 @@ void drawStatus(gameState * game) {
     mvprintw(9,179, "|  Mobs: x/10        |");
     mvprintw(10,179,"|                    |");
     mvprintw(11,179,"+--------------------+");
+}
+
+
+// FUNCOES OLAVO
+void drawDungeon(tile ** dungeon)
+{   
+    int MAP_HEIGHT = 55;
+    int MAP_WIDTH = 145;
+    for (int y = 5; y < MAP_HEIGHT; y++)
+    {
+        for (int x = 5; x < MAP_WIDTH; x++)
+        {
+            if (dungeon[y][x].visible)
+            {
+                mvaddch(y, x, dungeon[y][x].ch | COLOR_PAIR(VISIBLE_COLOR));
+            }
+            else if (dungeon[y][x].seen)
+            {
+                mvaddch(y, x, dungeon[y][x].ch | COLOR_PAIR(SEEN_COLOR));
+            }
+            else
+            {
+                mvaddch(y, x, ' ');
+            }
+        }
+    }
 }
 
 /*

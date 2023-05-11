@@ -31,24 +31,6 @@ int gameLoop(int input, gameState * game) {
 }
 
 
-int menuLoop(int input, gameState * game) {
-	keypad(stdscr, true);
-	drawMenu();
-	while ((input = getch()) != 'q') {
-		if (game->modo.jogar == 1 && input == 10) {
-			game->modo.jogar = 0;
-			game->modo.sair = 1;
-			break;
-		}
-		else if (game->modo.jogar == 1 && input == 10) {
-			game->modo.jogar = 1;
-			game->modo.sair = 0;
-			break;
-		}
-	}
-	return 0;
-}
-
 
 void closeGame(gameState * game)  // funcao que encerra o ncurses e liberta a memoria da heap
 {

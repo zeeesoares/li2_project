@@ -11,10 +11,11 @@ int main(void) {
 
 	gameState * game;
 	game = malloc(sizeof(struct gameState));
-	game->modo.jogar = 1;
-	game->modo.sair = 0;
+	game->modo = 0;
 
+	position pos_dungeon;
 	player * user;
+	tile ** dungeon;
 	entity_mob * mobs;
 	tile ** map;
 	shop * shop;
@@ -23,6 +24,9 @@ int main(void) {
 
 	//ver map.c
 	map = mapSetUp(createMap());
+	dungeon = createDungeonTiles();
+	pos_dungeon = setupMapDungeons(dungeon);
+
 	//ver log.c
 	logSetUp();
 
@@ -34,6 +38,7 @@ int main(void) {
 	shop = shopSetup(map);
 	//inicializaçao do game
 	game->map = map;
+	game->dungeon = dungeon;
 	game->mobs = mobs;
 	game->user = user;
 	game->shop = shop;
