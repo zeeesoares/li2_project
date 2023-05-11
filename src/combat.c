@@ -3,16 +3,19 @@
 
 void projetil(char direcao,gameState * game){
 
-    
+
 
 }
 
 
+/*
+fazer uma funcao que verifica se existe um mob perto do player returna 1 ou 0;
+outra funcao void que dado o resultado da funcao da linha 12 em que encontra o mob e 
+retira o dano da espada do player no campo de vida do mob;
 
 
 
-
-
+*/
 
 
 

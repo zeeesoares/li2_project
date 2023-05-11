@@ -43,8 +43,6 @@ typedef struct player
   int coins;
   int color;
   char ch;
-  int vida;
-  int mana;
 
 } player;
 /*
