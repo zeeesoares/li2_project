@@ -6,7 +6,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <pthread.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #define VISIBLE_COLOR 1
 #define WALK_COLOR 2
@@ -41,13 +43,18 @@ typedef struct armas
 } armas;
 */
 
-typedef struct seta
+typedef struct projetil
 {
   position pos;
-  int v;
+  int vx;
+  int vy;
   //int dano;
   int range;
+  int visivel=0;
 } seta;
+
+
+
 
 typedef struct entity_mob
 {
@@ -69,6 +76,12 @@ typedef struct menu
   int jogar;
   int sair;
 } menu;
+typedef struct 
+{
+  int x;
+  int y;
+  
+}datas;
 
 typedef struct gameState
 {
@@ -77,6 +90,8 @@ typedef struct gameState
   tile ** map;
   entity_mob * mob;
   //weapons * arma;
+  //seta * setas;
+  datas * data;
 } gameState;
 
 
@@ -125,5 +140,7 @@ void handleInventory(int input, gameState * game);
 // functions fov.c
 
 //functions combat.c
-void projetil(char direcao,gameState * game);
+//void projetil(char direcao,gameState * game);
+//void *clean_projetil(void *arg);
+//void create_thread(gameState * game);
 #endif

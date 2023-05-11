@@ -39,6 +39,8 @@ void handleInventory(int input, gameState * game) {
     }
 }
 void handleInput(int input, gameState * game) {
+    
+    
     switch (input)
     {
     case 'w':
@@ -63,20 +65,27 @@ void handleInput(int input, gameState * game) {
         game->user->color = COLOR_PAIR(POTIONC);
         break;
     case 'i':
-        projetil('i',game);
+        //projetil('i',game);
+        //create_thread(game);
         break;
     case 'j':
-
+        //projetil('j',game);
+        
+        
         break;
     case 'l':
+        //projetil('l',game);
 
         break;
     case 'k':
+        
+        //projetil('k',game);
 
         break;
     default:
         break;
     }
+
     mvprintw(46,122,"rows: %d, cols: %d",game->user->pos.y,game->user->pos.x);
 }
 
@@ -91,7 +100,7 @@ void movePlayer(int y, int x, player * user) {
 }
 
 void checkMove(int y, int x, gameState * game) {
-    if (game->map[y-5][x-5].ch == '.') {
+    if (game->map[y-5][x-5].ch == '.' || game->map[y-5][x-5].ch == '|' || game->map[y-5][x-5].ch == '-') {
         movePlayer(y, x, game->user);
     }
 }
