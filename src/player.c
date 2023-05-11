@@ -1,7 +1,5 @@
 #include <rogue.h>
 
-
-
 player* createPlayer(position start_pos)
 {
   player* newPlayer = calloc(1, sizeof(player));
@@ -16,7 +14,7 @@ player* createPlayer(position start_pos)
 void handleInput(int input)
 {
 
-    position newPos = { jogador->posY, jogador->posX };
+  position newPos = { jogador->posY, jogador->posX };
 
   switch(input)
   {
@@ -26,16 +24,18 @@ void handleInput(int input)
     //move down
     case 's':
       newPos.y++;
+      break;
     //move left
     case 'a':
       newPos.x--;
+      break;
     //move right
     case 'd':
       newPos.x++;
+      break;
     default:
       break;
   }
-  movePlayer(newPos);
 }
 
 void movePlayer(position newPos)

@@ -80,7 +80,6 @@ void addRoomToMap(Room room);
 
 
 // functions fov.c
-
 extern player* jogador;
 extern tile** mapinha;
 extern player* user;

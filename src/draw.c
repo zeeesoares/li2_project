@@ -1,6 +1,6 @@
 #include <rogue.h>
 
-void drawMapinha(void)
+void drawMap(void)
 { 
   for (int y = 0; y < MAP_HEIGHT; y++)
   { 
@@ -13,12 +13,12 @@ void drawMapinha(void)
 
 void drawEntity(player* jogador)
 { 
-  mvaddch(jogador->posY, jogador->posX, jogador->ch);
+  mvaddch(jogador->pos.y, jogador->pos.x, jogador->ch);
 } 
 
 void drawEverything(void)
 {
   clear();
-  drawMapinha();
+  drawMap();
   drawEntity(jogador);
 } 

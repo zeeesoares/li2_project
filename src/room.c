@@ -1,6 +1,5 @@
 #include <rogue.h>
 
-
 Room createRoom(int y, int x, int height, int width)
 {
   Room newRoom;

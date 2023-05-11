@@ -7,13 +7,13 @@ void cursesSetup(void)
   curs_set(0);
 }
 
-void gameLoops()
+void gameLoop(void)
 { 
-  int ch=0;
+  int ch;
+
   drawEverything();
 
-
-  while(ch == getch())
+  while(ch = getch())
   { 
     if (ch == 'q')
     { 
@@ -21,12 +21,11 @@ void gameLoops()
     } 
 
     handleInput(ch);
-    drawEverything();
-
+    drawEverythin();
   } 
 } 
 
-void closeGames()
+void closeGame(void)
 { 
   endwin();
   free(jogador);

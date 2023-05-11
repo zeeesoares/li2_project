@@ -2,24 +2,21 @@
 
 player* jogador;
 
-
-
 int main(void)
 {
 
   position start_pos;
 
-  ncursesSetUp();
-  srand(time(NULL));
+  cursesSetup();
 
+  map = createMapTiles();
 
-  mapinha = createMapTiles();
-  start_pos = setupmap();
+  start_pos = setupMap();
   jogador = createPlayer(start_pos);
 
-  gameLoops();
+  gameLoop();
 
-  closeGames();
+  closeGame();
 
   return 0;
 }
