@@ -14,35 +14,27 @@ entity_mob * mobsSetUp(tile ** map) {
     return mob;
 }
 
-void add_mob_to_list(mob_node **list, tile **map) {
-    if (!list) {
-        return; // retorna se o ponteiro para a lista for nulo
+entity_mob *createMobArray(int numMobs, tile **map) {
+    entity_mob *mobArray = malloc(numMobs * sizeof(entity_mob));
+    if (mobArray == NULL) {
+        fprintf(stderr, "Erro: falha na alocação de memória.\n");
+        return NULL;
     }
-    mob_node *new_node = malloc(sizeof(mob_node));
-    new_node->mob = mobsSetUp(map);
-    new_node->next = *list;
-    *list = new_node;
-}
-
-mob_node * createMobLList(int numMobs, tile **map) {
-    mob_node *list = NULL;
-    while (numMobs > 0) {
-        add_mob_to_list(&list, map);
-        numMobs--;
+    for (int i = 0; i < numMobs; i++) {
+        position start_pos = {rand() % 90 + 20, (rand() % 35) + 10};
+        while (map[start_pos.y-3][start_pos.x-3].ch == '#')
+            start_pos.x += 2;
+        mobArray[i].pos = start_pos;
+        mobArray[i].ch = 'O';
+        mobArray[i].vida = 100;
+        mobArray[i].type = 0;
     }
-    return list;
+    return mobArray;
 }
 
-void freeMobNode(mob_node *node) {
-    free(node->mob);
-    free(node);
-}
 
-void freeMobList(mob_node *list) {
-    mob_node *current = list;
-    while (current != NULL) {
-        mob_node *next = current->next;
-        freeMobNode(current);
-        current = next;
+void freeMobs(entity_mob * mobs) {
+    for (int i = 0; i < 11; i++) {
+        free(mobs);
     }
 }
