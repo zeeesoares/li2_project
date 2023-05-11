@@ -2,9 +2,9 @@
 
 void drawDungeon(void)
 {
-	for (int y = 0; y < MAP_HEIGHT; y++)
+	for (int y = 5; y < MAP_HEIGHT; y++)
 	{
-		for (int x = 0; x < MAP_WIDTH; x++)
+		for (int x = 5; x < MAP_WIDTH; x++)
 		{
 			if (dungeon[y][x].visible)
 			{

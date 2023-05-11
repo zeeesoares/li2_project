@@ -1,6 +1,6 @@
 #include <rogue.h>
 
-tile** createMapTiles(void)
+tile** createDungeonTiles(void)
 {
 	tile** tiles = calloc(MAP_HEIGHT, sizeof(tile*));
 

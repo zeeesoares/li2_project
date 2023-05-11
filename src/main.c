@@ -17,7 +17,7 @@ int main(void)
 	{
 		srand(time(NULL));
 
-		dungeon = createMapTiles();
+		dungeon = createDungeonTiles();
 		start_pos = setupMap();
 		player = createPlayer(start_pos);
 

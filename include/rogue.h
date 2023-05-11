@@ -67,7 +67,7 @@ void gameLoop(void);
 void closeGame(void);
 
 //map.c functions
-tile** createMapTiles(void);
+tile** createDungeonTiles(void);
 position setupMap(void);
 void freeMap(void);
 
