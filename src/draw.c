@@ -3,47 +3,63 @@
 // desenha toda a parte gráfica do jogo e é chamada iterativamente na funcao gameLoop(engine.c)
 void drawEverything(gameState * game) {
     clear();
-    if (game->modo == 1) {
-        drawDungeon(game->dungeon);
-        drawPlayer(game->user);
-    }
-    else {
-        drawMap(game->map);
-        handleInventory(game);
-        drawPlayer(game->user);
-        drawInterface();
-        verificaShop(game);
-        drawSelected(game->shop);
-        drawInventory(game->user);
-        drawStatus(game);
-        //drawMob(game->mob, game->map);
-        drawMobs(game->mobs, game->map);
-        drawShop(game->shop, game->map);
-        drawCoins(game->user);
-    }
+    drawMap(game->map);
+    handleInventory(game);
+    drawPlayer(game->user);
+    if (game->interface) drawInterfaceMobStatus(game);
+    else drawInterface();
+    verificaShop(game);
+    drawSelected(game->shop);
+    drawInventory(game->user);
+    drawStatus(game);
+    //isMobVisible(game->shop,game->mobs, game->map);
+    drawMobs(game->mobs, game->map);
+    drawShop(game->shop, game->map);
+    drawCoins(game->user);
 
 }
 
 // draw (em processo) do menu inicial
-void drawMenu() {
-    mvprintw(24,50,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
-    mvprintw(25,50,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
-    mvprintw(26,50," 888     888  888   .d88' 888      888 888            888       8   888");
-    mvprintw(27,50," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
-    mvprintw(28,50," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
-    mvprintw(29,50," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
-    mvprintw(30,50,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
+void drawMenu(menu menu) {
+    mvprintw(14,65,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
+    mvprintw(15,65,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
+    mvprintw(16,65," 888     888  888   .d88' 888      888 888            888       8   888");
+    mvprintw(17,65," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
+    mvprintw(18,65," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
+    mvprintw(19,65," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
+    mvprintw(20,65,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
 
+    if (menu.jogar == 1) {
+        mvprintw(31,65," 888888ba  dP         .d888888  dP    dP          d8     ");
+        mvprintw(32,65," 88    `8b 88        d8'    88  Y8.  .8P         d8'      ");
+        mvprintw(33,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         d8'       ");
+        mvprintw(34,65," 88        88        88     88     88          Y8. 888888888888");
+        mvprintw(35,65," 88        88        88     88     88           Y8.        ");
+        mvprintw(36,65," dP        88888888P 88     88     dP            Y8       ");
 
-    mvprintw(41,90,"       dP                                           d8");
-    mvprintw(42,90,"       88                                          d8'");
-    mvprintw(43,90,"       88 .d8888b. .d8888b. .d8888b. 88d888b.     d8'");
-    mvprintw(44,90,"       88 88'  `88 88'  `88 88'  `88 88'  `88     Y8.  88888888");
-    mvprintw(45,90,"88.  .d8P 88.  .88 88.  .88 88.  .88 88            Y8.");
-    mvprintw(46,90," `Y8888'  `88888P' `8888P88 `88888P8 dP             Y8   ");
-    mvprintw(47,90,"                        .88");
-    mvprintw(48,90,"                    d8888P");
+        mvprintw(41,65," 88888888b dP    dP dP d888888P ");
+        mvprintw(42,65," 88        Y8.  .8P 88    88");
+        mvprintw(43,65,"a88aaaa     Y8aa8P  88    88");
+        mvprintw(44,65," 88        d8'  `8b 88    88");
+        mvprintw(45,65," 88        d8'  `8b 88    88 ");
+        mvprintw(46,65," 88888888P dP    dP dP    dP");                                   
+    }
+    else {
+        mvprintw(31,65," 888888ba  dP         .d888888  dP    dP       ");
+        mvprintw(32,65," 88    `8b 88        d8'    88  Y8.  .8P        ");
+        mvprintw(33,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         ");
+        mvprintw(34,65," 88        88        88     88     88      ");
+        mvprintw(35,65," 88        88        88     88     88            ");
+        mvprintw(36,65," dP        88888888P 88     88     dP           ");
 
+        mvprintw(41,65," 88888888b dP    dP dP d888888P                  d8     ");
+        mvprintw(42,65," 88        Y8.  .8P 88    88                    d8  ");
+        mvprintw(43,65,"a88aaaa     Y8aa8P  88    88                  d8'      ");
+        mvprintw(44,65," 88        d8'  `8b 88    88                 d8' 8888888888888      ");
+        mvprintw(45,65," 88        d8'  `8b 88    88                  Y8.");
+        mvprintw(46,65," 88888888P dP    dP dP    dP                   Y8.");   
+    }
+                                             
 }
 
 // draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
@@ -78,7 +94,7 @@ void drawPlayer(player * user) {
 // draw do mob (experimental)
 void drawMob(entity_mob mob, tile ** map) {
     int margem = 3;
-    if (map[mob.pos.y-margem][mob.pos.x-margem].visible == 1 && mob.vida != 0)
+    if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.vida != 0)
         mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(SWORDC));
 }
 
@@ -127,9 +143,9 @@ void drawInterface() {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MENU INTERFACE=                      |");
     mvprintw(26,160,"|                                       |");
-    mvprintw(27,160,"|  (1) MOB STATUS                       |");
-    mvprintw(28,160,"|  (2) SHOP LIST                        |");
-    mvprintw(29,160,"|  (ESC)                                |");
+    mvprintw(27,160,"|  (m) MAP STATUS                       |");
+    mvprintw(28,160,"|  SHOP LIST                            |");
+    mvprintw(29,160,"|                                       |");
     mvprintw(30,160,"|                                       |");
     mvprintw(31,160,"|                                       |");
     mvprintw(32,160,"|                                       |");
@@ -148,10 +164,53 @@ void drawInterface() {
     mvprintw(45,160,"|                                       |");
     mvprintw(46,160,"|                                       |");
     mvprintw(47,160,"|                                       |");
-    mvprintw(48,160,"+---------------------------------------+");
-
-    
+    mvprintw(48,160,"+---------------------------------------+"); 
 }
+
+void drawInterfaceMobStatus(gameState * game) {
+    mvprintw(24,160,"+---------------------------------------+");
+    mvprintw(25,160,"| =MAP STATUS=                          |");
+    mvprintw(26,160,"|                                       |");
+    mvprintw(27,160,"|  (1) You                              |");
+    if (game->shop->visible == 1)
+        mvprintw(28,160,"|  (2) Shop                             |");
+    else 
+        mvprintw(28,160,"|                                       |");
+    mvprintw(29,160,"|                                       |");
+    mvprintw(30,160,"|                                       |");
+    mvprintw(31,160,"|                                       |");
+    mvprintw(32,160,"|                                       |");
+    mvprintw(33,160,"|                                       |");
+    mvprintw(34,160,"|                                       |");
+    mvprintw(35,160,"|                                       |");
+    mvprintw(36,160,"|                                       |");
+    mvprintw(37,160,"|                                       |");
+    mvprintw(38,160,"|                                       |");
+    mvprintw(39,160,"|                                       |");
+    mvprintw(40,160,"|                                       |");
+    mvprintw(41,160,"|                                       |");
+    mvprintw(42,160,"|                                       |");
+    mvprintw(43,160,"|                                       |");
+    mvprintw(44,160,"|                                       |");
+    mvprintw(45,160,"|                                       |");
+    mvprintw(46,160,"|                                       |");
+    mvprintw(47,160,"|                             (n) sair  |");
+    mvprintw(48,160,"+---------------------------------------+");
+    int j = 0; // variável auxiliar para percorrer a lista de mobs visíveis
+    int i = 1;
+    int linha = 29;
+    while (j < 10) {
+        if ((game->mobs+j)->visible) {
+            mvprintw(linha,161,"  (%d) %5s",i,(game->mobs+j)->nome);
+            linha++;
+            i++;
+        }
+        j++; // atualiza j para o próximo mob
+    }
+}
+
+
+
 
 void drawShopInterface() {
     mvprintw(24,160,"+---------------------------------------+");
@@ -330,32 +389,6 @@ void drawStatus(gameState * game) {
     mvprintw(9,179, "|  Mobs: x/10        |");
     mvprintw(10,179,"|                    |");
     mvprintw(11,179,"+--------------------+");
-}
-
-
-// FUNCOES OLAVO
-void drawDungeon(tile ** dungeon)
-{   
-    int MAP_HEIGHT = 55;
-    int MAP_WIDTH = 145;
-    for (int y = 5; y < MAP_HEIGHT; y++)
-    {
-        for (int x = 5; x < MAP_WIDTH; x++)
-        {
-            if (dungeon[y][x].visible)
-            {
-                mvaddch(y, x, dungeon[y][x].ch | COLOR_PAIR(VISIBLE_COLOR));
-            }
-            else if (dungeon[y][x].seen)
-            {
-                mvaddch(y, x, dungeon[y][x].ch | COLOR_PAIR(SEEN_COLOR));
-            }
-            else
-            {
-                mvaddch(y, x, ' ');
-            }
-        }
-    }
 }
 
 /*

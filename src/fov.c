@@ -46,7 +46,7 @@ void clearFOV(gameState * game) {
 			target.x = x;
 			distance = getdistance(game->user->pos, target);
             if (distance < raio)
-			{   if (isInMap(y-3,x-3))
+			{   if (isInMap(y-3,x-3) && lineOfSight(game->map, game->user->pos, target))
 			    {
                     game->map[y-margem][x-margem].visible = 0;
                     game->map[y-margem][x-margem].seen = 1;

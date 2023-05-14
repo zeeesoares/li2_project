@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include <unistd.h>
+#include <pthread.h>
 
 #define VISIBLE_COLOR 1
 #define SEEN_COLOR 2
@@ -45,6 +47,9 @@ typedef struct player
 typedef struct entity_mob
 {
   position pos;
+  int id;
+  int visible;
+  char *nome;
   char ch;
   int vida;
   int type;
@@ -55,11 +60,17 @@ typedef struct tile
 {
   char ch;
   int color;
+  int walkable;
   int visible;
   int seen;
   int transparent;
 } tile;
 
+typedef struct menu
+{
+  int jogar;
+  int sair;
+} menu;
 
 typedef struct Room
 {
@@ -73,6 +84,7 @@ typedef struct Shop
 {
   position pos;
   char ch;
+  int visible;
   int act;
   int state;
   int sword;
@@ -82,10 +94,10 @@ typedef struct Shop
 
 typedef struct gameState
 {
-  int modo;
+  menu modo;
+  int interface;
   player * user;
   tile ** map;
-  tile ** dungeon;
   entity_mob * mobs;
   shop * shop;
 } gameState;
@@ -95,9 +107,6 @@ typedef struct gameState
 tile ** mapSetUp();
 tile ** createMap();
 void freeMap(tile ** map);
-
-tile** createDungeonTiles();
-position setupMapDungeons(tile ** dungeon);
 
 
 // functions log.c
@@ -112,12 +121,16 @@ player * playerSetUp(tile ** map);
 
 // functions mobs.c
 entity_mob * mobsSetUp(tile ** map);
+void isMobVisible (shop * shop,entity_mob * mobs, tile ** map);
+//void moveMobs(entity_mob * mobs);
+//void moveMob(entity_mob * mob, tile ** map);
 entity_mob *createMobArray(int numMobs, tile **map);
 void freeMobs(entity_mob * mobs);
+//void startMonsterThreads(gameState * game);
 
 // functions draw.c
 void drawEverything(gameState * game);
-void drawMenu();
+void drawMenu(menu menu);
 void drawPlayer(player * user);
 void drawMap(tile ** map);
 void drawInventory(player * user);
@@ -125,6 +138,7 @@ void drawMob(entity_mob mob, tile ** map);
 void drawMobs(entity_mob *mobs, tile **map);
 void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
+void drawInterfaceMobStatus(gameState * game);
 void drawStatus(gameState * game);
 void drawInterface();
 void drawShopInterfaceSword();
@@ -133,9 +147,6 @@ void drawShopInterfacePotions();
 void drawCoins(player * user);
 void drawSelected(shop * shop);
 
-void drawDungeon(tile ** dungeon);
-
-
 // functions engine.c
 int ncursesSetUp();
 int gameLoop(int input, gameState *);
@@ -143,9 +154,6 @@ int menuLoop(int input, gameState * game);
 void closeGame(gameState *);
 
 // functions room.c
-void connectRoomCenters(position centerOne, position centerTwo, tile ** dungeon);
-void addRoomToMap(Room room, tile ** dungeon);
-Room createRoom(int y, int x, int height, int width);
 
 //function inventory.c
 void handleInventory(gameState * game);
@@ -164,6 +172,5 @@ shop * shopSetup(tile ** map);
 void verificaShop(gameState * game);
 void selectItem(shop * shop, int i);
 void buyItem(gameState * game);
-
 
 #endif

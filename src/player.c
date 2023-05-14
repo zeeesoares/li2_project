@@ -94,6 +94,12 @@ void handleInput(int input, gameState * game) {
     case 'b':
         buyItem(game);
         break;
+    case 'm':
+        game->interface =1;
+        break;
+    case 'n':
+        game->interface =0;
+        break;
     default:
         break;
     }
@@ -111,7 +117,7 @@ void movePlayer(int y, int x, player * user) {
 
 void checkMove(int y, int x, gameState * game) {
     int margem = 3;
-    if (game->map[y-margem][x-margem].ch == '.') {
+    if (game->map[y-margem][x-margem].walkable == 1) {
         clearFOV(game);
         movePlayer(y, x, game->user);
         makeFOV(game);

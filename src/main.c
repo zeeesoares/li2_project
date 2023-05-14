@@ -11,45 +11,45 @@ int main(void) {
 
 	gameState * game;
 	game = malloc(sizeof(struct gameState));
-	game->modo = 0;
-
-	position pos_dungeon;
-	player * user;
-	tile ** dungeon;
-	entity_mob * mobs;
-	tile ** map;
-	shop * shop;
+	game->modo.jogar = 1;
+	game->modo.sair = 0;
 	int inputs = 0;
-	int sair = 0;
+	menuLoop(inputs,game);
 
-	//ver map.c
-	map = mapSetUp(createMap());
-	dungeon = createDungeonTiles();
-	pos_dungeon = setupMapDungeons(dungeon);
+	while (game->modo.jogar) {
+		player * user;
+		entity_mob * mobs;
+		tile ** map;
+		shop * shop;
 
-	//ver log.c
-	logSetUp();
+		//ver map.c
+		map = mapSetUp(createMap());
+		//ver log.c
+		logSetUp();
 
-	//setup do "player/user"
-	user = playerSetUp(map);
+		//setup do "player/user"
+		user = playerSetUp(map);
 
-	//setup do "mob"
-	mobs = createMobArray(10,map);
-	shop = shopSetup(map);
-	//inicializaçao do game
-	game->map = map;
-	game->dungeon = dungeon;
-	game->mobs = mobs;
-	game->user = user;
-	game->shop = shop;
-	
-	makeFOV(game);
-	drawEverything(game);
-	// ver engine.cend:
-	while (!sair) {
+		//setup do "mob"
+		mobs = createMobArray(10,map);
+		shop = shopSetup(map);
+		//inicializaçao do game
+		game->map = map;
+		game->interface = 0;
+		game->mobs = mobs;
+		game->user = user;
+		game->shop = shop;
+
+		makeFOV(game);
+		drawEverything(game);
+		// ver engine.cend:
 		gameLoop(inputs,game);
-		sair = 1;
+		clear();
+		closeGame(game);
+		menuLoop(inputs,game);
 	}
-	closeGame(game);
+	clear();
+	endwin();
 	return 0;
+
 }
