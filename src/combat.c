@@ -2,6 +2,72 @@
 
 
 void projetil(char direcao,gameState * game){
+    game->seta->vx=game->user->pos.x;
+    game->seta->vy=game->user->pos.y;
+    game->seta->range=5;
+    game->seta->visivel=FALSE;
+    //
+    if(direcao=='i'){
+        game->seta->vy=-1;
+        game->seta->vx=0;
+        game->seta->visivel=TRUE;
+    }
+
+    if(direcao=='j'){
+        game->seta->vx=-1;
+        game->seta->vy=0;
+        game->seta->visivel=TRUE;
+    }
+
+    if(direcao=='k'){
+        game->seta->vy=1;
+        game->seta->vx=0;
+        game->seta->visivel=TRUE;
+
+    }
+
+    if(direcao=='l'){
+        game->seta->vx=1;
+        game->seta->vy=0;
+        game->seta->visivel=TRUE;
+
+    }
+
+    for(int i=0;i<game->seta->range;i++){
+        
+        if(direcao=='i' || direcao=='k'){
+            if (game->map[game->seta->pos.y][game->seta->pos.x].ch=='.'){
+                //game->map[game->seta->pos.y][game->seta->pos.x].ch='|';
+                if(game->seta->visivel==TRUE)
+                    mvaddch(game->seta->pos.y + game->seta->vy,game->seta->pos.x + game->seta->vx,'|');
+            }
+            if (game->map[game->seta->pos.y][game->seta->pos.x].ch=='#'){
+                //game->map[game->seta->pos.y-game->seta->vy][game->seta->pos.x-game->seta->vx].ch='|';
+                if(game->seta->visivel==TRUE)
+                    mvaddch(game->seta->pos.y - game->seta->vy,game->seta->pos.x - game->seta->vx,'|');
+                break;
+            }
+
+
+        }
+
+
+        if(direcao=='k' || direcao=='l'){
+            if (game->map[game->seta->pos.y][game->seta->pos.x].ch=='.'){
+                //game->map[game->seta->pos.y][game->seta->pos.x].ch='|';
+                if(game->seta->visivel==TRUE)
+                    mvaddch(game->seta->pos.y + game->seta->vy,game->seta->pos.x + game->seta->vx,'|');
+            }
+            if (game->map[game->seta->pos.y][game->seta->pos.x].ch=='#'){
+                //game->map[game->seta->pos.y-game->seta->vy][game->seta->pos.x-game->seta->vx].ch='|';
+                if(game->seta->visivel==TRUE)
+                    mvaddch(game->seta->pos.y - game->seta->vy,game->seta->pos.x - game->seta->vx,'|');
+                break;
+            }
+        }
+
+    }
+
 
 
 

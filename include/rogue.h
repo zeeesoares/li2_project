@@ -61,7 +61,7 @@ typedef struct projetil
   position pos;
   int vx;
   int vy;
-  //int dano;
+  int dano;
   int range;
   int visivel;
 } seta;
@@ -133,6 +133,7 @@ typedef struct gameState
   //seta * setas;
   datas * data;
   shop * shop;
+  seta * seta;
 } gameState;
 
 
