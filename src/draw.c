@@ -8,38 +8,63 @@ void drawEverything(gameState * game) {
     drawMap(game->map);
     //handleInventory(game);
     drawPlayer(game->user);
-    drawInterface();
+    drawInterfaceMobStatus(game);
+    //if (game->interface)
+    //else drawInterface(game->shop);
     verificaShop(game);
     drawSelected(game->shop);
     drawInventory(game->user);
-    drawStatus(game);
-    //drawMob(game->mob, game->map);
+    drawStatus(game,contaMobs(game->mobs));
+    //isMobVisible(game->shop,game->mobs, game->map);
     drawMobs(game->mobs, game->map);
+    drawChests(game->chest, game->map);
+    vericaCoins(game->user, game->mobs, game->chest);
     drawShop(game->shop, game->map);
     drawCoins(game->user);
 
 }
 
 // draw (em processo) do menu inicial
-void drawMenu() {
-    mvprintw(24,50,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
-    mvprintw(25,50,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
-    mvprintw(26,50," 888     888  888   .d88' 888      888 888            888       8   888");
-    mvprintw(27,50," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
-    mvprintw(28,50," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
-    mvprintw(29,50," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
-    mvprintw(30,50,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
+void drawMenu(menu menu) {
+    mvprintw(14,65,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
+    mvprintw(15,65,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
+    mvprintw(16,65," 888     888  888   .d88' 888      888 888            888       8   888");
+    mvprintw(17,65," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
+    mvprintw(18,65," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
+    mvprintw(19,65," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
+    mvprintw(20,65,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
 
+    if (menu.jogar == 1) {
+        mvprintw(31,65," 888888ba  dP         .d888888  dP    dP          d8     ");
+        mvprintw(32,65," 88    `8b 88        d8'    88  Y8.  .8P         d8'      ");
+        mvprintw(33,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         d8'       ");
+        mvprintw(34,65," 88        88        88     88     88          Y8. 888888888888");
+        mvprintw(35,65," 88        88        88     88     88           Y8.        ");
+        mvprintw(36,65," dP        88888888P 88     88     dP            Y8       ");
 
-    mvprintw(41,90,"       dP                                           d8");
-    mvprintw(42,90,"       88                                          d8'");
-    mvprintw(43,90,"       88 .d8888b. .d8888b. .d8888b. 88d888b.     d8'");
-    mvprintw(44,90,"       88 88'  `88 88'  `88 88'  `88 88'  `88     Y8.  88888888");
-    mvprintw(45,90,"88.  .d8P 88.  .88 88.  .88 88.  .88 88            Y8.");
-    mvprintw(46,90," `Y8888'  `88888P' `8888P88 `88888P8 dP             Y8   ");
-    mvprintw(47,90,"                        .88");
-    mvprintw(48,90,"                    d8888P");
+        mvprintw(41,65," 88888888b dP    dP dP d888888P ");
+        mvprintw(42,65," 88        Y8.  .8P 88    88");
+        mvprintw(43,65,"a88aaaa     Y8aa8P  88    88");
+        mvprintw(44,65," 88        d8'  `8b 88    88");
+        mvprintw(45,65," 88        d8'  `8b 88    88 ");
+        mvprintw(46,65," 88888888P dP    dP dP    dP");                                   
+    }
+    else {
+        mvprintw(31,65," 888888ba  dP         .d888888  dP    dP       ");
+        mvprintw(32,65," 88    `8b 88        d8'    88  Y8.  .8P        ");
+        mvprintw(33,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         ");
+        mvprintw(34,65," 88        88        88     88     88      ");
+        mvprintw(35,65," 88        88        88     88     88            ");
+        mvprintw(36,65," dP        88888888P 88     88     dP           ");
 
+        mvprintw(41,65," 88888888b dP    dP dP d888888P                  d8     ");
+        mvprintw(42,65," 88        Y8.  .8P 88    88                    d8  ");
+        mvprintw(43,65,"a88aaaa     Y8aa8P  88    88                  d8'      ");
+        mvprintw(44,65," 88        d8'  `8b 88    88                 d8' 8888888888888      ");
+        mvprintw(45,65," 88        d8'  `8b 88    88                  Y8.");
+        mvprintw(46,65," 88888888P dP    dP dP    dP                   Y8.");   
+    }
+                                             
 }
 
 // draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
@@ -72,16 +97,42 @@ void drawPlayer(player * user) {
 }
 
 // draw do mob (experimental)
-void drawMob(entity_mob * mob, tile ** map) {
+void drawMob(entity_mob mob, tile ** map) {
     int margem = 3;
-    if (map[mob->pos.y-margem][mob->pos.x-margem].visible == 1 && mob->vida != 0)
-        mvaddch(mob->pos.y,mob->pos.x,mob->ch | COLOR_PAIR(SWORDC));
+    if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.vida > 0)
+        mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(SWORDC));
+    else if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.coins > 0)
+        mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(COLOR_MAGENTA));
 }
 
-void drawMobs(mob_node * mobs, tile **map) {
-    while (mobs != NULL) { // enquanto houver nós na lista
-        drawMob(mobs->mob, map); // desenha o mob atual
-        mobs = mobs->next; // avança para o próximo nó
+void drawMobs(entity_mob mobs[], tile **map) {
+    int  numMobs = 12;
+    for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
+        drawMob(mobs[i], map); // desenha o mob atual
+    }
+}
+
+int contaMobs(entity_mob mobs[]) {
+    int numMobs = 12;
+    int count = 0;
+    for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
+        if (mobs[i].vida > 0) count++;// desenha o mob atual
+    }
+    return count;
+}
+
+void drawChest(chest chest, tile ** map) {
+    int margem = 3;
+    if (chest.visible && map[chest.pos.y-margem][chest.pos.x-margem].walkable && chest.vida > 0)
+        mvaddch(chest.pos.y,chest.pos.x,chest.ch | COLOR_PAIR(BOWC));
+    else if (chest.visible && map[chest.pos.y-margem][chest.pos.x-margem].walkable && chest.coins > 0)
+        mvaddch(chest.pos.y,chest.pos.x,chest.ch | COLOR_PAIR(COLOR_MAGENTA));
+}
+
+void drawChests(chest chest[], tile **map) {
+    int  numChests = 8;
+    for (int i = 0; i < numChests; i++) { // percorre o array de mobs
+        drawChest(chest[i], map); // desenha o mob atual
     }
 }
 
@@ -120,13 +171,48 @@ void drawCoins(player * user) {
 }
 
 // draw da interface
-void drawInterface() {
+void drawInterface(shop * shop) {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MENU INTERFACE=                      |");
     mvprintw(26,160,"|                                       |");
-    mvprintw(27,160,"|  (1) MOB STATUS                       |");
-    mvprintw(28,160,"|  (2) SHOP LIST                        |");
-    mvprintw(29,160,"|  (ESC)                                |");
+    mvprintw(27,160,"|  (m) MAP STATUS                       |");
+    if (shop->visible == 1)
+        mvprintw(28,160,"|  (open) Shop                          |");
+    else 
+        mvprintw(28,160,"|  (closed) Shop                        |");
+    mvprintw(29,160,"|                                       |");
+    mvprintw(30,160,"|                                       |");
+    mvprintw(31,160,"|                                       |");
+    mvprintw(32,160,"|                                       |");
+    mvprintw(33,160,"|                                       |");
+    mvprintw(34,160,"|                                       |");
+    mvprintw(35,160,"|                                       |");
+    mvprintw(36,160,"|                                       |");
+    mvprintw(37,160,"|                                       |");
+    mvprintw(38,160,"|                                       |");
+    mvprintw(39,160,"|                                       |");
+    mvprintw(40,160,"|                                       |");
+    mvprintw(41,160,"|                                       |");
+    mvprintw(42,160,"|                                       |");
+    mvprintw(43,160,"|                                       |");
+    mvprintw(44,160,"|                                       |");
+    mvprintw(45,160,"|                                       |");
+    mvprintw(46,160,"|                                       |");
+    mvprintw(47,160,"|                                       |");
+    mvprintw(48,160,"+---------------------------------------+"); 
+}
+
+void drawInterfaceMobStatus(gameState * game) {
+    int numMobs = 12;
+    mvprintw(24,160,"+---------------------------------------+");
+    mvprintw(25,160,"| =MAP STATUS=                          |");
+    mvprintw(26,160,"|                                       |");
+    mvprintw(27,160,"|  (1) You                              |");
+    if (game->shop->visible == 1)
+        mvprintw(28,160,"|  (2) Shop                             |");
+    else 
+        mvprintw(28,160,"|                                       |");
+    mvprintw(29,160,"|                                       |");
     mvprintw(30,160,"|                                       |");
     mvprintw(31,160,"|                                       |");
     mvprintw(32,160,"|                                       |");
@@ -146,9 +232,32 @@ void drawInterface() {
     mvprintw(46,160,"|                                       |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
-
-    
+    int j = 0; // variável auxiliar para percorrer a lista de mobs visíveis
+    int i = 3;
+    int linha = 33;
+    while (j < numMobs) {
+        if ((game->mobs+j)->visible && (game->mobs+j)->coins > 0) {
+            mvprintw(linha,161,"  (%d) %5s | HP: %4d ",i,(game->mobs+j)->nome,(game->mobs+j)->vida);
+            linha++;
+            i++;
+        }
+        j++; // atualiza j para o próximo mob
+    }
+    int l = 0;
+    i = 3;
+    int linha1 = 30;
+    while (l < 8) {
+        if ((game->chest+l)->visible && (game->chest+l)->coins > 0) {
+            mvprintw(linha1,161,"  (%d) Chest | HP: %4d ",i,(game->chest+l)->vida);
+            linha1++;
+            i++;
+        }
+        l++; // atualiza j para o próximo mob
+    }
 }
+
+
+
 
 void drawShopInterface() {
     mvprintw(24,160,"+---------------------------------------+");
@@ -319,14 +428,32 @@ void drawShopInterfacePotions() {
 }
 
 // draw do Status
-void drawStatus(gameState * game) {
+void drawStatus(gameState * game, int num) {
     mvprintw(5,179, "+--------------------+");
     mvprintw(6,179, "|                    |");
-    mvprintw(7,179, "|  HP: %3d/100       |", game->user->vida);
-    mvprintw(8,179, "|  Stamina: %3d/100  |", game->user->stamina);
-    mvprintw(9,179, "|  Mobs: x/10        |");
+    if (game->user->vida > 0)
+        mvprintw(7,179, "|  HP: %3d/500       |", game->user->vida);
+    else mvprintw(7,179, "|  HP:   0/500       |");
+    if (game->user->stamina > 0)
+        mvprintw(8,179, "|  Stamina: %3d/500  |", game->user->stamina);
+    else mvprintw(8,179, "|  Stamina:   0/500  |");
+    mvprintw(9,179, "|  Mobs: %2d/12       |",num);
     mvprintw(10,179,"|                    |");
     mvprintw(11,179,"+--------------------+");
+}
+
+void vericaCoins(player * user, entity_mob * mobs, chest * chests) {
+    int numMobs = 12;
+    for (int i = 0; i< numMobs; i++) {
+        if ((mobs+i)->pos.y == user->pos.y && (mobs+i)->pos.x == user->pos.x && (mobs+i)->vida <= 0) {
+                    user->coins += (mobs+i)->coins;
+                    (mobs+i)->coins = 0;
+                }
+        if ((chests+i)->pos.y == user->pos.y && (chests+i)->pos.x == user->pos.x && (chests+i)->vida <= 0) {
+                    user->coins += (chests+i)->coins;
+                    (chests+i)->coins = 0;
+                }
+    }
 }
 
 /*

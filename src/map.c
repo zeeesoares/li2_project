@@ -11,9 +11,10 @@ tile ** createMap() {
         for (int j = 0; j < cols; j++) {
 			tiles[i][j].ch = '.';
 			tiles[i][j].color = COLOR_PAIR(TRANSPARENT_COLOR);
-			tiles[i][j].seen = 1;
+			tiles[i][j].seen = 0;
+            tiles[i][j].walkable = 1;
 			tiles[i][j].visible = 0;
-            tiles[i][j].transparent = 0;
+            tiles[i][j].transparent = 1;
         }
     }
     return tiles;
@@ -30,11 +31,13 @@ tile ** mapSetUp(tile ** tilesInit) {
         for(int j = 0; j < cols; j++) {
             if (i == 0 || j == 0 || i == rows - 1 || j == cols - 1) {
                 tilesInit[i][j].ch = '#';
+                tilesInit[i][j].walkable = 0;
             }
             else {
                 int r = rand()%4;
                 if(r ==0 ) {
                     tilesInit[i][j].ch = '#';
+                    tilesInit[i][j].walkable = 0;
                     count++;
                 } 
                 else {
@@ -47,28 +50,28 @@ tile ** mapSetUp(tile ** tilesInit) {
         for(int i = 1; i < rows-4; i++) {
             for(int j = 1; j < cols-4; j++) {
                 if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+2].ch)){
-                    char hold=tilesInit[i][j+1].ch;
-                    tilesInit[i][j+1].ch=tilesInit[i][j+2].ch;
-                    tilesInit[i][j+2].ch=hold;
+                    tile hold= tilesInit[i][j+1];
+                    tilesInit[i][j+1]=tilesInit[i][j+2];
+                    tilesInit[i][j+2]=hold;
                 }
                 if((tilesInit[i][j].ch<tilesInit[i+1][j].ch)&& (tilesInit[i+1][j].ch>tilesInit[i+2][j].ch)){
-                    char hold=tilesInit[i+1][j].ch;
-                    tilesInit[i+1][j].ch=tilesInit[i+2][j].ch;
-                    tilesInit[i+2][j].ch=hold;
+                    tile hold=tilesInit[i+1][j];
+                    tilesInit[i+1][j]=tilesInit[i+2][j];
+                    tilesInit[i+2][j]=hold;
                 }
             }
         }
         for(int i = 1; i < rows-6; i++) {
             for(int j = 1; j < cols-6; j++) {
                 if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+3].ch)){
-                    char hold=tilesInit[i][j+1].ch;
-                    tilesInit[i][j+1].ch=tilesInit[i][j+3].ch;
-                    tilesInit[i][j+3].ch=hold;
+                    tile hold=tilesInit[i][j+1];
+                    tilesInit[i][j+1]=tilesInit[i][j+3];
+                    tilesInit[i][j+3]=hold;
                 }
                 if((tilesInit[i][j].ch<tilesInit[i+1][j].ch)&& (tilesInit[i+1][j].ch>tilesInit[i+4][j].ch)){
-                    char hold=tilesInit[i+1][j].ch;
-                    tilesInit[i+1][j].ch=tilesInit[i+4][j].ch;
-                    tilesInit[i+4][j].ch=hold;
+                    tile hold=tilesInit[i+1][j];
+                    tilesInit[i+1][j]=tilesInit[i+4][j];
+                    tilesInit[i+4][j]=hold;
                 }
             }
         }
@@ -77,14 +80,14 @@ tile ** mapSetUp(tile ** tilesInit) {
         for(int i = 1; i < rows-4; i++) {
             for(int j = 1; j < cols-4; j++) {
                 if((tilesInit[i][j].ch<tilesInit[i][j+1].ch)&& (tilesInit[i][j+1].ch>tilesInit[i][j+3].ch)){
-                    char hold=tilesInit[i][j+1].ch;
-                    tilesInit[i][j+1].ch=tilesInit[i][j+3].ch;
-                    tilesInit[i][j+3].ch=hold;
+                    tile hold=tilesInit[i][j+1];
+                    tilesInit[i][j+1]=tilesInit[i][j+3];
+                    tilesInit[i][j+3]=hold;
                 }
                 if((tilesInit[i][j].ch<tilesInit[i+1][j].ch)&& (tilesInit[i+1][j].ch>tilesInit[i+3][j].ch)){
-                    char hold=tilesInit[i+1][j].ch;
-                    tilesInit[i+1][j].ch=tilesInit[i+3][j].ch;
-                    tilesInit[i+3][j].ch=hold;
+                    tile hold=tilesInit[i+1][j];
+                    tilesInit[i+1][j]=tilesInit[i+3][j];
+                    tilesInit[i+3][j]=hold;
                 }
             }
         }
@@ -94,12 +97,14 @@ tile ** mapSetUp(tile ** tilesInit) {
         for(int j = 2; j < cols-2; j++) {
             if((tilesInit[i][j].ch<tilesInit[i][j+1].ch) && tilesInit[i][j].ch<tilesInit[i][j-1].ch && tilesInit[i][j].ch<tilesInit[i+1][j].ch && tilesInit[i][j].ch<tilesInit[i-1][j].ch) {
                 tilesInit[i][j].ch = '.';
+                tilesInit[i][j].walkable = 1;
             }
         }
     }
     for(int i = 1; i < 2; i++) {
         for(int j = 1; j < cols-2; j++) {
             if((tilesInit[i][j].ch<tilesInit[i][j+1].ch) && tilesInit[i][j].ch<tilesInit[i][j-1].ch && tilesInit[i][j].ch<tilesInit[i+1][j].ch) {
+                tilesInit[i][j].walkable = 1;
                 tilesInit[i][j].ch = '.';
             }
         }
@@ -108,6 +113,7 @@ tile ** mapSetUp(tile ** tilesInit) {
         for(int j = 1; j < cols-2; j++) {
             if((tilesInit[i][j].ch<tilesInit[i][j+1].ch) && tilesInit[i][j].ch<tilesInit[i][j-1].ch && tilesInit[i][j].ch<tilesInit[i-1][j].ch) {
                 tilesInit[i][j].ch = '.';
+                tilesInit[i][j].walkable = 1;
             }
         }
     }

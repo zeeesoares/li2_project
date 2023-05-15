@@ -6,6 +6,7 @@ shop * shopSetup(tile ** map) {
     shop * newShop = malloc(sizeof(shop));
     while (map[start_pos.y-3][start_pos.x-3].ch == '#')
         start_pos.x += 2;
+    newShop->visible = 0;
     newShop->ch = '$';
     newShop->pos = start_pos;
     newShop->state = 0;

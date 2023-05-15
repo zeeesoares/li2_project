@@ -6,11 +6,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#include <pthread.h>
 #include <unistd.h>
-#include <stdbool.h>
+#include <pthread.h>
 
-#define VISIBLE_COLOR 1
+// cores para os elementos dos jogos
+#define VISIBLE_COLOR 1 
 #define SEEN_COLOR 2
 #define SWORDC 3
 #define BOWC 4
@@ -18,12 +18,15 @@
 #define MOBCOLOR 6
 #define TRANSPARENT_COLOR 7
 
+
+// struct para guardar posiçoes dos diferentes elementos
 typedef struct position
 { 
   int x;
   int y;
 } position;
 
+// struct para os items/consumiveis
 typedef struct item
 {
   char class;
@@ -31,6 +34,7 @@ typedef struct item
   int get[3];
 } item;
 
+// struct para o user/player do jogo
 typedef struct player
 {
   position pos;
@@ -69,40 +73,40 @@ typedef struct projetil
 
 
 
+// struct para os mobs/monstros do jogo
 typedef struct entity_mob
 {
   position pos;
+  int id;
+  int dano;
+  int visible;
+  char *nome;
   char ch;
   int vida;
+  int coins;
   int type;
 } entity_mob;
 
-typedef struct mob_node {
-    entity_mob * mob;
-    struct mob_node *next;
-} mob_node;
-
+// struct para cada bloco do mapa (tile)
 typedef struct tile 
 {
   char ch;
   int color;
+  int walkable;
   int visible;
   int seen;
   int transparent;
 } tile;
 
+// struct para o menu inicial
 typedef struct menu
 {
   int jogar;
   int sair;
 } menu;
-typedef struct 
-{
-  int x;
-  int y;
-  
-}datas;
 
+
+// struct para a room (dungeon)
 typedef struct Room
 {
   int height; 
@@ -111,10 +115,22 @@ typedef struct Room
   position center;
 } Room;
 
+// struct para a shop
+typedef struct Chest
+{
+  position pos;
+  char ch;
+  int visible;
+  int coins;
+  int vida;
+} chest;
+
+// struct para a shop
 typedef struct Shop
 {
   position pos;
   char ch;
+  int visible;
   int act;
   int state;
   int sword;
@@ -122,20 +138,19 @@ typedef struct Shop
   int potion;
 } shop;
 
+// struct PRINCIPAL responsavel por enviar todos os dados do jogo as funcoes da engine.c
 typedef struct gameState
 {
   menu modo;
   player * user;
   tile ** map;
-  mob_node * mobs;
-  entity_mob * mob;
-  //weapons * arma;
-  //seta * setas;
-  datas * data;
+  entity_mob * mobs;
+  chest * chest;
   shop * shop;
   seta * seta;
 } gameState;
 
+//////////////////////////////// TYPES AND FUNCTIONS ///////////////////////////////////
 
 // functions map.c
 tile ** mapSetUp();
@@ -152,31 +167,45 @@ void handleInput(int input, gameState * game);
 void movePlayer(int x, int y, player * user);
 void checkMove(int y, int x, gameState * game);
 player * playerSetUp(tile ** map);
+void healPlayer(player * user);
+int checkPlayer(player * user);
 
 // functions mobs.c
 entity_mob * mobsSetUp(tile ** map);
-void add_mob_to_list(mob_node **list, tile **map);
-mob_node * createMobLList(int numMobs, tile ** map);
-void freeMobList(mob_node *list);
-void freeMobNode(mob_node *node);
+void isMobVisible (shop * shop,entity_mob * mobs, tile ** map, chest * chest);
+void moveMobs(entity_mob * mobs,tile ** map,player * user);
+void moveMob(entity_mob * mob, tile ** map);
+entity_mob *createMobArray(int numMobs, tile **map);
+chest *createChestArray(int numChests, tile **map);
+void freeMobs(entity_mob * mobs);
+char defineMobChar(int name);
+int defineMobHealth(int name);
+int defineMobCoins(int name);
+int defineMobDano(int name);
+void moveMobTowardsUser(entity_mob * mob, player * user, tile** map);
+int contaMobs(entity_mob mobs[]);
 
 // functions draw.c
 void drawEverything(gameState * game);
-void drawMenu();
+void drawMenu(menu menu);
 void drawPlayer(player * user);
 void drawMap(tile ** map);
 void drawInventory(player * user);
-void drawMob(entity_mob * mob, tile ** map);
-void drawMobs(mob_node *mobs, tile **map);
+void drawMob(entity_mob mob, tile ** map);
+void drawMobs(entity_mob *mobs, tile **map);
 void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
-void drawStatus(gameState * game);
-void drawInterface();
+void drawInterfaceMobStatus(gameState * game);
+void drawStatus(gameState * game, int num);
+void drawInterface(shop * shop);
 void drawShopInterfaceSword();
 void drawShopInterfaceBows();
 void drawShopInterfacePotions();
 void drawCoins(player * user);
 void drawSelected(shop * shop);
+void vericaCoins(player * user, entity_mob * mobs, chest * chests);
+void drawChests(chest chest[], tile **map); 
+void drawChest(chest chest, tile **map);
 
 // functions engine.c
 int ncursesSetUp();
@@ -189,7 +218,6 @@ void closeGame(gameState *);
 //function inventory.c
 //void handleInventory(gameState * game);
 
-//void handleInventory(int input, gameState * game);
 
 // functions fov.c
 void makeFOV(gameState * game);
@@ -208,4 +236,9 @@ void buyItem(gameState * game);
 void projetil(char direcao,gameState * game);
 //void *clean_projetil(void *arg);
 //void create_thread(gameState * game);
+
+void useWeapon(int weapon, gameState * game);
+void useSword(entity_mob *mobs, player *user, chest * chests);
+void checkDano(entity_mob *mobs, player *user);
+
 #endif
