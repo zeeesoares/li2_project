@@ -6,6 +6,7 @@ int ncursesSetUp() {
 	initscr();
 	curs_set(0);
 	printw("Hello World!");
+	cbreak();
 	noecho();
 	start_color();	
 	init_pair(VISIBLE_COLOR, COLOR_WHITE, COLOR_BLACK);

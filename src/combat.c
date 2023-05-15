@@ -1,6 +1,6 @@
 #include <rogue.h>
 
-
+/*
 void projetil(char direcao,gameState * game){
     game->seta->vx=game->user->pos.x;
     game->seta->vy=game->user->pos.y;
@@ -73,6 +73,7 @@ void projetil(char direcao,gameState * game){
 
 }
 
+*/
 
 /*
 fazer uma funcao que verifica se existe um mob perto do player returna 1 ou 0;
@@ -88,12 +89,12 @@ retira o dano da espada do player no campo de vida do mob;
 
 
 
-
-
-
-
-
 /*
+
+
+
+
+
 void *clean_projetil(void *arg) {
     gameState *game = (gameState *)arg;
     int y,x;
@@ -119,6 +120,7 @@ void create_thread(gameState * game){
     pthread_join(thread, NULL);
 }
 
+*/
 
 
 
@@ -127,93 +129,101 @@ void create_thread(gameState * game){
 
 
 void projetil(char direcao,gameState * game){
-    seta * setas;
-    setas = malloc(sizeof(seta));
-    setas->pos.x=5;
-    setas->pos.y=5;
-    setas->range=5;
-    setas->vy=0;
-    setas->vx=0;
-    //int delay=100;
-    int i=0;
+    game->seta = malloc(sizeof(seta));
     
+    game->seta->range=5;
+    int i=0;
+    game->seta->pos.x=game->user->pos.x;
+    game->seta->pos.y=game->user->pos.y;    
 
     if (direcao=='i'){
-        setas->vy=-1;
-        setas->vx=0;
-        setas->pos.x=game->user->pos.x-5;
-        setas->pos.y=game->user->pos.y-6;
+        game->seta->vy=-1;
+        game->seta->vx=0;
     }
     if (direcao=='j'){
-        setas->vx=-1;
-        setas->vy=0;
-        setas->pos.x=game->user->pos.x-6;
-        setas->pos.y=game->user->pos.y-5;
+        game->seta->vx=-1;
+        game->seta->vy=0;
     }
     if (direcao=='k'){
-        setas->vy=1;
-        setas->vx=0;
-        setas->pos.x=game->user->pos.x-5;
-        setas->pos.y=game->user->pos.y-4;
+        game->seta->vy=1;
+        game->seta->vx=0;
     }
     if (direcao=='l'){
-        setas->vx=1;
-        setas->vy=0;
-        setas->pos.x=game->user->pos.x-4;
-        setas->pos.y=game->user->pos.y-5;
+        game->seta->vx=1;
+        game->seta->vy=0;
     }
-        
+            int vx=game->seta->vx;
+            int vy=game->seta->vy;
+            int y=game->seta->pos.y;
+            int x=game->seta->pos.x;
+
     
-            while(i<setas->range){
-                if(direcao=='i' || direcao=='k'){
-                    if(game->map[setas->pos.y][setas->pos.x].ch=='.'){
-                        game->map[setas->pos.y][setas->pos.x].ch='|'; 
-                    }
-                    if(game->map[setas->pos.y][setas->pos.x].ch=='#'){
-                        game->map[setas->pos.y-setas->vy][setas->pos.x-setas->vx].ch='|';
-                        break;
+            while(i<game->seta->range){
+                if (game->map[y][x].ch == '#') {
+                    mvprintw(y-vy, x-vx, "|");
+                    break;
                 }
+                if(game->map[y][x].ch=='.'){
+                        //game->map[y][game->seta->pos.x].ch='|'; 
+                        //mvaddch(y,x,'|');
+                        x+=vx;
+                        y+=vy;
+                        mvprintw(y, x, "|");
+                        //refresh();
                 }
-                if(direcao=='j' || direcao=='l'){
-                    if(game->map[setas->pos.y][setas->pos.x].ch=='.'){
-                        game->map[setas->pos.y][setas->pos.x].ch='-'; 
-                    }
-                    if(game->map[setas->pos.y][setas->pos.x].ch=='#'){
-                        game->map[setas->pos.y-setas->vy][setas->pos.x-setas->vx].ch='-';
-                        break;
-                }
-                }
+
+
+
 
 
                 
 
-                if(direcao=='i'){
-                    game->map[setas->pos.y+1][setas->pos.x].ch='.';
-                    setas->pos.y--;
-                }
-                if(direcao=='j'){
-                    game->map[setas->pos.y][setas->pos.x+1].ch='.';
-                    setas->pos.x--;
-                }
-                if(direcao=='k'){
-                    game->map[setas->pos.y-1][setas->pos.x].ch='.';
-                    setas->pos.y++;
-                }
-                if(direcao=='l'){
-                    game->map[setas->pos.y][setas->pos.x-1].ch='.';
-                    setas->pos.x++;
-                }
+
+
+               
+                    
+                    
+                
+
 
                 i++;
+                
+                refresh();
+                usleep(1000000);
             }
-            game->data->y=setas->pos.y;
-            game->data->x=setas->pos.x;
+            //game->data->y=setas->pos.y;
+            //game->data->x=setas->pos.x;
         
-        
-        
-    
-    free(setas);
-}
 
-*/
+        
+    //mvprintw(y, x, "|");
+    free(game->seta);
+    
+}
+ 
+
+                /*
+              
+                if(direcao=='i'){
+                    //game->map[setas->pos.y+1][setas->pos.x].ch='.';
+                    y--;
+                }
+                if(direcao=='j'){
+                    //game->map[setas->pos.y][setas->pos.x+1].ch='.';
+                    x--;
+                }
+                if(direcao=='k'){
+                    //game->map[setas->pos.y-1][setas->pos.x].ch='.';
+                    y++;
+                }
+                if(direcao=='l'){
+                    //game->map[setas->pos.y][setas->pos.x-1].ch='.';
+                    x++;
+                }
+               
+                  
+
+                */
+
+
 

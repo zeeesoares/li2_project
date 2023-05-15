@@ -205,7 +205,7 @@ void selectItem(shop * shop, int i);
 void buyItem(gameState * game);
 
 //functions combat.c
-//void projetil(char direcao,gameState * game);
+void projetil(char direcao,gameState * game);
 //void *clean_projetil(void *arg);
 //void create_thread(gameState * game);
 #endif

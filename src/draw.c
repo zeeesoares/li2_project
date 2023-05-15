@@ -6,7 +6,7 @@ void drawEverything(gameState * game) {
     drawMap(game->map);    
     clear();
     drawMap(game->map);
-    handleInventory(game);
+    //handleInventory(game);
     drawPlayer(game->user);
     drawInterface();
     verificaShop(game);

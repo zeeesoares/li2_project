@@ -119,6 +119,18 @@ void handleInput(int input, gameState * game) {
     case 'b':
         buyItem(game);
         break;
+    case 'i':
+        projetil('i',game);
+        break;
+    case 'j':
+        projetil('j',game);
+        break;
+    case 'k':
+        projetil('k',game);
+        break;
+    case 'l':
+        projetil('l',game);
+        break;
     default:
         break;
     }
