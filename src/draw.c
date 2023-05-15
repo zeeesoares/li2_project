@@ -7,7 +7,7 @@ void drawEverything(gameState * game) {
     handleInventory(game);
     drawPlayer(game->user);
     if (game->interface) drawInterfaceMobStatus(game);
-    else drawInterface();
+    else drawInterface(game->shop);
     verificaShop(game);
     drawSelected(game->shop);
     drawInventory(game->user);
@@ -99,7 +99,8 @@ void drawMob(entity_mob mob, tile ** map) {
 }
 
 void drawMobs(entity_mob mobs[], tile **map) {
-    for (int i = 0; i < 10; i++) { // percorre o array de mobs
+    int  numMobs = 15;
+    for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
         drawMob(mobs[i], map); // desenha o mob atual
     }
 }
@@ -139,12 +140,15 @@ void drawCoins(player * user) {
 }
 
 // draw da interface
-void drawInterface() {
+void drawInterface(shop * shop) {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MENU INTERFACE=                      |");
     mvprintw(26,160,"|                                       |");
     mvprintw(27,160,"|  (m) MAP STATUS                       |");
-    mvprintw(28,160,"|  SHOP LIST                            |");
+    if (shop->visible == 1)
+        mvprintw(28,160,"|  (open) Shop                          |");
+    else 
+        mvprintw(28,160,"|  (closed) Shop                        |");
     mvprintw(29,160,"|                                       |");
     mvprintw(30,160,"|                                       |");
     mvprintw(31,160,"|                                       |");
@@ -168,6 +172,7 @@ void drawInterface() {
 }
 
 void drawInterfaceMobStatus(gameState * game) {
+    int numMobs = 15;
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MAP STATUS=                          |");
     mvprintw(26,160,"|                                       |");
@@ -197,11 +202,11 @@ void drawInterfaceMobStatus(gameState * game) {
     mvprintw(47,160,"|                             (n) sair  |");
     mvprintw(48,160,"+---------------------------------------+");
     int j = 0; // variável auxiliar para percorrer a lista de mobs visíveis
-    int i = 1;
-    int linha = 29;
-    while (j < 10) {
+    int i = 3;
+    int linha = 30;
+    while (j < numMobs) {
         if ((game->mobs+j)->visible) {
-            mvprintw(linha,161,"  (%d) %5s",i,(game->mobs+j)->nome);
+            mvprintw(linha,161,"  (%d) %5s | HP: %4d ",i,(game->mobs+j)->nome,(game->mobs+j)->vida);
             linha++;
             i++;
         }

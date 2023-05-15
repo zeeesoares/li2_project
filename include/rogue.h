@@ -126,6 +126,8 @@ void isMobVisible (shop * shop,entity_mob * mobs, tile ** map);
 //void moveMob(entity_mob * mob, tile ** map);
 entity_mob *createMobArray(int numMobs, tile **map);
 void freeMobs(entity_mob * mobs);
+char defineMobChar(int name);
+int defineMobHealth(int name);
 //void startMonsterThreads(gameState * game);
 
 // functions draw.c
@@ -140,7 +142,7 @@ void drawShop(shop * shop, tile ** map);
 void drawShopInterface();
 void drawInterfaceMobStatus(gameState * game);
 void drawStatus(gameState * game);
-void drawInterface();
+void drawInterface(shop * shop);
 void drawShopInterfaceSword();
 void drawShopInterfaceBows();
 void drawShopInterfacePotions();

@@ -31,7 +31,7 @@ int main(void) {
 		user = playerSetUp(map);
 
 		//setup do "mob"
-		mobs = createMobArray(10,map);
+		mobs = createMobArray(15,map);
 		shop = shopSetup(map);
 		//inicializaçao do game
 		game->map = map;
@@ -39,8 +39,10 @@ int main(void) {
 		game->mobs = mobs;
 		game->user = user;
 		game->shop = shop;
+		
 
 		makeFOV(game);
+		isMobVisible(game->shop,game->mobs, game->map);
 		drawEverything(game);
 		// ver engine.cend:
 		gameLoop(inputs,game);
