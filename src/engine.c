@@ -6,7 +6,6 @@ int ncursesSetUp() {
 	initscr();
 	curs_set(0);
 	printw("Hello World!");
-	cbreak();
 	noecho();
 	start_color();	
 	init_pair(VISIBLE_COLOR, COLOR_WHITE, COLOR_BLACK);
@@ -24,6 +23,8 @@ int ncursesSetUp() {
 
 // loop principal que faz o jogo acontecer 
 int gameLoop(int input, gameState * game) {
+	cbreak();
+	timeout(20000);
     while ((input = getch()) != 'q') {  // get do char atraves do teclado e o passa as funcoes
 		handleInput(input,game);  // responsavel por mover o player e as suas interaçoes
 		drawEverything(game);  // draw iterativo que "atualiza" o jogo
