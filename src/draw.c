@@ -6,14 +6,17 @@ void drawEverything(gameState * game) {
     drawMap(game->map);
     handleInventory(game);
     drawPlayer(game->user);
-    if (game->interface) drawInterfaceMobStatus(game);
-    else drawInterface(game->shop);
+    drawInterfaceMobStatus(game);
+    //if (game->interface)
+    //else drawInterface(game->shop);
     verificaShop(game);
     drawSelected(game->shop);
     drawInventory(game->user);
-    drawStatus(game);
+    drawStatus(game,contaMobs(game->mobs));
     //isMobVisible(game->shop,game->mobs, game->map);
     drawMobs(game->mobs, game->map);
+    drawChests(game->chest, game->map);
+    vericaCoins(game->user, game->mobs, game->chest);
     drawShop(game->shop, game->map);
     drawCoins(game->user);
 
@@ -94,14 +97,40 @@ void drawPlayer(player * user) {
 // draw do mob (experimental)
 void drawMob(entity_mob mob, tile ** map) {
     int margem = 3;
-    if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.vida != 0)
+    if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.vida > 0)
         mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(SWORDC));
+    else if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.coins > 0)
+        mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(COLOR_MAGENTA));
 }
 
 void drawMobs(entity_mob mobs[], tile **map) {
-    int  numMobs = 15;
+    int  numMobs = 12;
     for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
         drawMob(mobs[i], map); // desenha o mob atual
+    }
+}
+
+int contaMobs(entity_mob mobs[]) {
+    int numMobs = 12;
+    int count = 0;
+    for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
+        if (mobs[i].vida > 0) count++;// desenha o mob atual
+    }
+    return count;
+}
+
+void drawChest(chest chest, tile ** map) {
+    int margem = 3;
+    if (chest.visible && map[chest.pos.y-margem][chest.pos.x-margem].walkable && chest.vida > 0)
+        mvaddch(chest.pos.y,chest.pos.x,chest.ch | COLOR_PAIR(BOWC));
+    else if (chest.visible && map[chest.pos.y-margem][chest.pos.x-margem].walkable && chest.coins > 0)
+        mvaddch(chest.pos.y,chest.pos.x,chest.ch | COLOR_PAIR(COLOR_MAGENTA));
+}
+
+void drawChests(chest chest[], tile **map) {
+    int  numChests = 8;
+    for (int i = 0; i < numChests; i++) { // percorre o array de mobs
+        drawChest(chest[i], map); // desenha o mob atual
     }
 }
 
@@ -172,7 +201,7 @@ void drawInterface(shop * shop) {
 }
 
 void drawInterfaceMobStatus(gameState * game) {
-    int numMobs = 15;
+    int numMobs = 12;
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =MAP STATUS=                          |");
     mvprintw(26,160,"|                                       |");
@@ -199,18 +228,29 @@ void drawInterfaceMobStatus(gameState * game) {
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
     mvprintw(46,160,"|                                       |");
-    mvprintw(47,160,"|                             (n) sair  |");
+    mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
     int j = 0; // variável auxiliar para percorrer a lista de mobs visíveis
     int i = 3;
-    int linha = 30;
+    int linha = 33;
     while (j < numMobs) {
-        if ((game->mobs+j)->visible) {
+        if ((game->mobs+j)->visible && (game->mobs+j)->coins > 0) {
             mvprintw(linha,161,"  (%d) %5s | HP: %4d ",i,(game->mobs+j)->nome,(game->mobs+j)->vida);
             linha++;
             i++;
         }
         j++; // atualiza j para o próximo mob
+    }
+    int l = 0;
+    i = 3;
+    int linha1 = 30;
+    while (l < 8) {
+        if ((game->chest+l)->visible && (game->chest+l)->coins > 0) {
+            mvprintw(linha1,161,"  (%d) Chest | HP: %4d ",i,(game->chest+l)->vida);
+            linha1++;
+            i++;
+        }
+        l++; // atualiza j para o próximo mob
     }
 }
 
@@ -386,14 +426,32 @@ void drawShopInterfacePotions() {
 }
 
 // draw do Status
-void drawStatus(gameState * game) {
+void drawStatus(gameState * game, int num) {
     mvprintw(5,179, "+--------------------+");
     mvprintw(6,179, "|                    |");
-    mvprintw(7,179, "|  HP: %3d/100       |", game->user->vida);
-    mvprintw(8,179, "|  Stamina: %3d/100  |", game->user->stamina);
-    mvprintw(9,179, "|  Mobs: x/10        |");
+    if (game->user->vida > 0)
+        mvprintw(7,179, "|  HP: %3d/500       |", game->user->vida);
+    else mvprintw(7,179, "|  HP:   0/500       |");
+    if (game->user->stamina > 0)
+        mvprintw(8,179, "|  Stamina: %3d/500  |", game->user->stamina);
+    else mvprintw(8,179, "|  Stamina:   0/500  |");
+    mvprintw(9,179, "|  Mobs: %2d/12       |",num);
     mvprintw(10,179,"|                    |");
     mvprintw(11,179,"+--------------------+");
+}
+
+void vericaCoins(player * user, entity_mob * mobs, chest * chests) {
+    int numMobs = 12;
+    for (int i = 0; i< numMobs; i++) {
+        if ((mobs+i)->pos.y == user->pos.y && (mobs+i)->pos.x == user->pos.x && (mobs+i)->vida <= 0) {
+                    user->coins += (mobs+i)->coins;
+                    (mobs+i)->coins = 0;
+                }
+        if ((chests+i)->pos.y == user->pos.y && (chests+i)->pos.x == user->pos.x && (chests+i)->vida <= 0) {
+                    user->coins += (chests+i)->coins;
+                    (chests+i)->coins = 0;
+                }
+    }
 }
 
 /*

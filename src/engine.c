@@ -23,9 +23,15 @@ int ncursesSetUp() {
 // loop principal que faz o jogo acontecer 
 int gameLoop(int input, gameState * game) {
 	//startMonsterThreads(game);
+	cbreak();
     while ((input = getch()) != 'q') {  // get do char atraves do teclado e o passa as funcoes
+		timeout(1200);
+		if (checkPlayer(game->user) == 0) break;
 		handleInput(input,game);  // responsavel por mover o player e as suas interaçoes
-		isMobVisible(game->shop,game->mobs, game->map);
+		healPlayer(game->user);
+		checkDano(game->mobs, game->user);
+		moveMobs(game->mobs,game->map,game->user);
+		isMobVisible(game->shop,game->mobs, game->map, game->chest);
 		drawEverything(game);  // draw iterativo que "atualiza" o jogo
 	}
   return 0;

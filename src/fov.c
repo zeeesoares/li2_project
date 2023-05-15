@@ -3,7 +3,7 @@
 void makeFOV(gameState * game)
 {
 	int y, x, distance;
-	int raio = 15;
+	int raio = 10;
     int margem = 3;
 	position target;
 
@@ -35,7 +35,7 @@ void makeFOV(gameState * game)
 void clearFOV(gameState * game) {
     int x, y, distance;
     int margem = 3;
-    int raio = 15;
+    int raio = 10;
     position target;
 
     for (y= game->user->pos.y - raio; y< game->user->pos.y + raio; y++)
