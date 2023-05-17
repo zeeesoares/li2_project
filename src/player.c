@@ -1,23 +1,34 @@
 #include <rogue.h>
 
 player * playerSetUp(tile ** map) {
-    position start_pos = {rand() % 87 + 30,rand() % 17 + 20};
+    position start_pos = {rand() % 40 + 70,rand() % 17 + 20};
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
     while (map[start_pos.y-3][start_pos.x-3].ch == '#')
         start_pos.x += 2;
     newPlayer->pos = start_pos;
+    newPlayer->vida = 500;
+    newPlayer->stamina = 500;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
     newPlayer->coins = 0;
-    newPlayer->sword.act = 1;
+    newPlayer->weapon = 0;
+    newPlayer->sword.class = 'C';
     newPlayer->sword.dano = 10;
-    newPlayer->bow.act = 0;
+    for (int i = 0; i < 3; i++) newPlayer->sword.get[i] = 0;
+    newPlayer->bow.class = 'C';
     newPlayer->bow.dano = 0;
-    newPlayer->potion.act = 0;
+    for (int i = 0; i < 3; i++) newPlayer->bow.get[i] = 0;
+    newPlayer->potion.class = 'C';
     newPlayer->potion.dano = 0;
+    for (int i = 0; i < 3; i++) newPlayer->potion.get[i] = 0;
     return newPlayer;
+}
+
+int checkPlayer(player * user) {
+    if (user->vida > 0) return 1;
+    else return 0;
 }
 
 void handleInput(int input, gameState * game) {
@@ -25,27 +36,39 @@ void handleInput(int input, gameState * game) {
     switch (input)
     {
     case KEY_UP:
-        checkMove(game->user->pos.y - 1,game->user->pos.x, game);
+        if (game->user->stamina > 20) {
+            checkMove(game->user->pos.y - 1,game->user->pos.x, game);
+            game->user->stamina-= 3;
+        }
         break;
     case KEY_DOWN:
-        checkMove(game->user->pos.y + 1,game->user->pos.x, game);
+        if (game->user->stamina > 20) {
+            checkMove(game->user->pos.y + 1,game->user->pos.x, game);
+            game->user->stamina-= 3;
+        }
         break;
     case KEY_LEFT:
-        checkMove(game->user->pos.y,game->user->pos.x - 1, game);
+        if (game->user->stamina > 20) {
+            checkMove(game->user->pos.y,game->user->pos.x - 1, game);
+            game->user->stamina-= 3;
+        }
         break;
     case KEY_RIGHT:
-        checkMove(game->user->pos.y,game->user->pos.x + 1, game);
+        if (game->user->stamina > 20) {
+            checkMove(game->user->pos.y,game->user->pos.x + 1, game);
+            game->user->stamina-= 3;
+        }
         break;
     case '1':
-        if (game->user->sword.act == 1)
+        if (game->user->sword.dano > 0)
             game->user->weapon = 0;
         break;
     case '2':
-        if (game->user->bow.act == 1)    
+        if (game->user->bow.dano > 0)    
             game->user->weapon = 1;
         break;
     case '3':
-        if (game->user->potion.act == 1)  
+        if (game->user->potion.dano > 0)  
             game->user->weapon = 2;
         break;
     case 'z':
@@ -73,6 +96,14 @@ void handleInput(int input, gameState * game) {
     case 'v':
         game->shop->state = 0;
         break;
+    case 'b':
+        buyItem(game);
+        break;
+    case 10:
+        if (game->user->stamina > 4) {
+            useWeapon(0,game);
+            game->user->stamina -= 7;
+        }
     default:
         break;
     }
@@ -88,9 +119,16 @@ void movePlayer(int y, int x, player * user) {
     move(user -> pos.y, user -> pos.x);
 }
 
+void healPlayer(player * user) {
+    if (user->stamina < 496 && user->stamina >= 0)
+        user->stamina += 4;
+    if (user->vida < 500 && user->vida > 0)
+        user->vida += 1;
+}
+
 void checkMove(int y, int x, gameState * game) {
     int margem = 3;
-    if (game->map[y-margem][x-margem].ch == '.') {
+    if (game->map[y-margem][x-margem].walkable == 1) {
         clearFOV(game);
         movePlayer(y, x, game->user);
         makeFOV(game);
