@@ -216,7 +216,7 @@ void closeGame(gameState *);
 // functions room.c
 
 //function inventory.c
-//void handleInventory(gameState * game);
+void handleInventory(gameState * game);
 
 
 // functions fov.c

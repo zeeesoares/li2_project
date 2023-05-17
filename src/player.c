@@ -60,16 +60,22 @@ void handleInput(int input, gameState * game) {
         }
         break;
     case '1':
-        if (game->user->sword.dano > 0)
+        if (game->user->sword.dano > 0){
             game->user->weapon = 0;
+             handleInventory(game);
+        }
         break;
     case '2':
-        if (game->user->bow.dano > 0)    
+        if (game->user->bow.dano > 0){    
             game->user->weapon = 1;
+            handleInventory(game);
+        }
         break;
     case '3':
-        if (game->user->potion.dano > 0)  
+        if (game->user->potion.dano > 0){
             game->user->weapon = 2;
+            handleInventory(game);
+        }
         break;
     case 'z':
         if (game->shop->act == 1 && game->shop->state == 0)
@@ -100,21 +106,27 @@ void handleInput(int input, gameState * game) {
         buyItem(game);
         break;
     case 'i':
-        projetil('i',game);
+        if(game->user->weapon==1)
+            projetil('i',game);
         break;
     case 'j':
-        projetil('j',game);
+        if(game->user->weapon==1)
+            projetil('j',game);
         break;
     case 'k':
-        projetil('k',game);
+    if(game->user->weapon==1)
+            projetil('k',game);
         break;
     case 'l':
-        projetil('l',game);
+        if(game->user->weapon==1)
+            projetil('l',game);
         break;
-    case 10:
-        if (game->user->stamina > 4) {
-            useWeapon(0,game);
-            game->user->stamina -= 7;
+    case 32:
+        if(game->user->weapon==0){
+            if (game->user->stamina > 4) {
+                useWeapon(0,game);
+                game->user->stamina -= 7;
+            }
         }
     default:
         break;

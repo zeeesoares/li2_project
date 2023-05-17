@@ -4,6 +4,7 @@ void projetil(char direcao,gameState * game){
     game->seta = malloc(sizeof(seta));
     
     game->seta->range=10;
+    game->seta->dano=10;
     int i=0;
     int y=0;
     int x=0;
@@ -40,6 +41,9 @@ void projetil(char direcao,gameState * game){
            
     while(i<game->seta->range){
         if (game->map[y-3][x-3].ch == '#') {
+            //for(int cnt=0;cnt<game->seta->range;cnt++){
+                //game->user->pos.y++;
+            //}
             //mvaddch(y-vy, x-vx, '|');
             break;
         }
@@ -68,6 +72,16 @@ void projetil(char direcao,gameState * game){
                     //refresh();
                 }
         //loop que vou ver a pos da seta se é igual ao array dos mobs se encontrar uma posicao igual dá break
+
+        for(int j=0;j<12;j++){
+            if((x==(game->mobs+j)->pos.x) && (y==(game->mobs+j)->pos.y)){
+                (game->mobs+j)->vida-=game->seta->dano;
+                
+            }
+            
+        }
+        
+
         i++;
         refresh();
         usleep(10000);
