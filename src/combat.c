@@ -41,54 +41,55 @@ void projetil(char direcao,gameState * game){
            
     while(i<game->seta->range){
         if (game->map[y-3][x-3].ch == '#') {
-            //for(int cnt=0;cnt<game->seta->range;cnt++){
-                //game->user->pos.y++;
-            //}
-            //mvaddch(y-vy, x-vx, '|');
             break;
         }
         if(game->map[y-3][x-3].ch=='.' && (direcao=='k' || direcao=='i')){
-                //game->map[y][game->seta->pos.x].ch='|'; 
-                //mvaddch(y,x,'|');
                 mvaddch(y, x, '|');
                 x+=vx;
                 y+=vy;
-                //refresh();
         }
         else    if(game->map[y-3][x-3].ch=='.' && direcao=='j'){
-                    //game->map[y][game->seta->pos.x].ch='|'; 
-                    //mvaddch(y,x,'|');
                     mvaddch(y, x, '<');
                     x+=vx;
                     y+=vy;
-                    //refresh();
                 }
         else    if(game->map[y-3][x-3].ch=='.' && direcao=='l'){
-                    //game->map[y][game->seta->pos.x].ch='|'; 
-                    //mvaddch(y,x,'|');
                     mvaddch(y, x, '>');
                     x+=vx;
                     y+=vy;
-                    //refresh();
                 }
-        //loop que vou ver a pos da seta se é igual ao array dos mobs se encontrar uma posicao igual dá break
 
-        for(int j=0;j<12;j++){
-            if((x==(game->mobs+j)->pos.x) && (y==(game->mobs+j)->pos.y)){
-                (game->mobs+j)->vida-=game->seta->dano;
-                
-            }
-            
+        int numMobs = 12;
+            for (int i = 0; i < numMobs; i++) {
+            if ((game->mobs[i]).pos.y == y &&(game->mobs[i]).pos.x == x) {
+                if ((game->mobs[i]).vida>0)
+                    (game->mobs[i]).vida -= game->seta->dano;
+                }
+        }
+        int numchest=8;
+        for (int i = 0; i < numchest; i++) {
+            if ((game->chest[i]).pos.y == y &&(game->chest[i]).pos.x == x) {
+                if ((game->chest[i]).vida>0)
+                    (game->chest[i]).vida -= game->seta->dano;
+                }                
         }
         
-
         i++;
         refresh();
         usleep(10000);
     }
 
 }
- 
+
+void checkDano_proj(entity_mob *mobs, seta *seta) {
+    int numMobs = 12;
+    for (int i = 0; i < numMobs; i++) {
+        if (mobs[i].pos.y == seta->pos.y && mobs[i].pos.x == seta->pos.x) {
+            if (mobs[i].vida>0)
+                mobs[i].vida -= seta->dano;
+        }
+    }
+}
 
                
 void useWeapon(int weapon, gameState * game) {

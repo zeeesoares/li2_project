@@ -52,7 +52,7 @@ int main(void) {
 		game->shop = shop;
 		
 
-		makeFOV(game);
+		//makeFOV(game);
 		isMobVisible(game->shop,game->mobs, game->map, game->chest);
 		drawEverything(game);
 		// ver engine.cend:

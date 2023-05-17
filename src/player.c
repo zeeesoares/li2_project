@@ -9,7 +9,7 @@ player * playerSetUp(tile ** map) {
         start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->vida = 500;
-    newPlayer->stamina = 500;
+    newPlayer->stamina = 300;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
     newPlayer->coins = 0;
@@ -108,18 +108,22 @@ void handleInput(int input, gameState * game) {
     case 'i':
         if(game->user->weapon==1)
             projetil('i',game);
+            //checkDano_proj(game->mobs,game->seta);
         break;
     case 'j':
         if(game->user->weapon==1)
             projetil('j',game);
+            //checkDano_proj(game->mobs,game->seta);
         break;
     case 'k':
     if(game->user->weapon==1)
             projetil('k',game);
+            //checkDano_proj(game->mobs,game->seta);
         break;
     case 'l':
         if(game->user->weapon==1)
             projetil('l',game);
+            //checkDano_proj(game->mobs,game->seta);
         break;
     case 32:
         if(game->user->weapon==0){

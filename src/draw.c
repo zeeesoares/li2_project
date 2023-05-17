@@ -362,7 +362,7 @@ void drawShopInterfaceSword() {
     mvprintw(39,160,"|                                       |");
     mvprintw(40,160,"|  Dano: 24    Dano: 30     Dano: 40    |");
     mvprintw(41,160,"|  Rank: B     Rank: A      Rank: S     |");
-    mvprintw(42,160,"|  Cost: 4000  Cost: 5000   Cost: 7000  |");
+    mvprintw(42,160,"|  Cost: 3000  Cost: 7000   Cost: 10000 |");
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");

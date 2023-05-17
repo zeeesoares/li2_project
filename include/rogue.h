@@ -60,16 +60,6 @@ typedef struct armas
 } armas;
 */
 
-typedef struct projetil
-{
-  position pos;
-  int vx;
-  int vy;
-  int dano;
-  int range;
-  int visivel;
-} seta;
-
 
 
 
@@ -137,6 +127,16 @@ typedef struct Shop
   int bow;
   int potion;
 } shop;
+typedef struct projetil
+{
+  position pos;
+  int vx;
+  int vy;
+  int dano;
+  int range;
+  int visivel;
+} seta;
+
 
 // struct PRINCIPAL responsavel por enviar todos os dados do jogo as funcoes da engine.c
 typedef struct gameState
@@ -236,6 +236,7 @@ void buyItem(gameState * game);
 void projetil(char direcao,gameState * game);
 //void *clean_projetil(void *arg);
 //void create_thread(gameState * game);
+//void checkDano_proj(entity_mob *mobs, seta *seta)
 
 void useWeapon(int weapon, gameState * game);
 void useSword(entity_mob *mobs, player *user, chest * chests);

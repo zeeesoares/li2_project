@@ -86,20 +86,20 @@ void buyItem(gameState * game) {
             switch (game->shop->sword)
             {
             case 1:
-                if (game->user->coins >= 4000 && game->user->sword.get[0] != 1) {
-                    game->user->coins -= 4000;
+                if (game->user->coins >= 3000 && game->user->sword.get[0] != 1) {
+                    game->user->coins -= 3000;
                     game->user->sword.dano = 24;
                     game->user->sword.class = 'B';
                     game->user->sword.get[0] = 1;
                 }
                 else {
-                    game->user->sword.dano = 24;
+                    game->user->sword.dano = 20;
                     game->user->sword.class = 'B';   
                 }
                 break;
             case 2:
-                if (game->user->coins >= 5000 && game->user->sword.get[1] != 1) {
-                    game->user->coins -= 5000;
+                if (game->user->coins >= 6000 && game->user->sword.get[1] != 1) {
+                    game->user->coins -= 6000;
                     game->user->sword.dano = 30;
                     game->user->sword.class = 'A';
                     game->user->sword.get[1] = 1;
@@ -110,8 +110,8 @@ void buyItem(gameState * game) {
                 }
                 break;
             case 3:
-                if (game->user->coins >= 7000 && game->user->sword.get[2] != 1) {
-                    game->user->coins -= 7000;
+                if (game->user->coins >= 10000 && game->user->sword.get[2] != 1) {
+                    game->user->coins -= 10000;
                     game->user->sword.dano = 40;
                     game->user->sword.class = 'S';
                     game->user->sword.get[2] = 1;
