@@ -30,6 +30,8 @@ entity_mob *createMobArray(int numMobs, tile **map) {
         mobArray[i].id = i;
         mobArray[i].nome = mobNames[name];
         mobArray[i].pos = start_pos;
+        mobArray[i].visible = 0;
+        mobArray[i].visibleT = 0;
         mobArray[i].dano = defineMobDano(name);
         mobArray[i].ch = defineMobChar(name);
         mobArray[i].vida = defineMobHealth(name);
@@ -220,7 +222,7 @@ chest *createChestArray(int numChests, tile **map) {
 
 
 void moveMobs(entity_mob * mobs,tile ** map,player * user) {
-    int numMobs = 12;
+    int numMobs = 30;
     for (int i = 0; i< numMobs; i++) {
         if (!(mobs+i)->visible) {
             if ((mobs+i)->vida > 0)
@@ -323,25 +325,35 @@ void moveMob(entity_mob * mob, tile ** map) {
 void isMobVisible (shop * shop,entity_mob * mobs, tile ** map, chest * chest) {
     int numMobs = 12;
     int numChests = 8;
-    if (map[shop->pos.y - 3][shop->pos.x -3].visible)
+    if (map[shop->pos.y - 3][shop->pos.x -3].visible || map[shop->pos.y - 3][shop->pos.x -3].visibleT)
         shop->visible = 1;
-    else shop->visible = 0;
+    else if (!map[shop->pos.y - 3][shop->pos.x -3].visible && !map[shop->pos.y - 3][shop->pos.x -3].visibleT)
+        shop->visible = 0;
     for (int i = 0; i < numMobs; i++) {
-        if (map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visible)
+        if (map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visible || map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visibleT)
             (mobs+i)->visible = 1;
         else (mobs+i)->visible = 0;
     }
     for (int i = 0; i < numChests; i++) {
-        if (map[(chest+i)->pos.y - 3][(chest+i)->pos.x -3].visible)
+        if (map[(chest+i)->pos.y - 3][(chest+i)->pos.x -3].visible || map[(chest+i)->pos.y - 3][(chest+i)->pos.x -3].visibleT)
             (chest+i)->visible = 1;
         else (chest+i)->visible = 0;
     }
 }
 
 
+
 void freeMobs(entity_mob *mobs) {
-    int numMobs = 12;
+    int numMobs = 30;
     for (int i = 0; i < numMobs; i++) {
             free(mobs+i);
     }
 }
+
+void freeChests(chest *chests) {
+    int numChests = 8;
+    for (int i = 0; i < numChests; i++) {
+            free(chests+i);
+    }
+}
+

@@ -9,6 +9,7 @@ player * playerSetUp(tile ** map) {
         start_pos.x += 2;
     newPlayer->pos = start_pos;
     newPlayer->vida = 300;
+    newPlayer->lanterna = 10;
     newPlayer->stamina = 500;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
@@ -104,6 +105,37 @@ void handleInput(int input, gameState * game) {
             useWeapon(game->user->weapon,game);
             game->user->stamina -= 7;
         }
+        break;
+    case 'i':
+        if(game->user->weapon==1)
+            projetil('i',game);
+            //checkDano_proj(game->mobs,game->seta);
+        break;
+    case 'j':
+        if(game->user->weapon==1)
+            projetil('j',game);
+            //checkDano_proj(game->mobs,game->seta);
+        break;
+    case 'k':
+        if(game->user->weapon==1)
+            projetil('k',game);
+            //checkDano_proj(game->mobs,game->seta);
+        break;
+    case 'l':
+        if(game->user->weapon==1)
+            projetil('l',game);
+            //checkDano_proj(game->mobs,game->seta);
+        break;
+    case 'e':
+        clearFOV(game, game->user->lanterna);
+        if (game->user->lanterna == 10) 
+            game->user->lanterna = 5;
+        else game->user->lanterna = 10;
+        makeFOV(game, game->user->lanterna);
+        break;
+    case 'r':
+        useTocha(game);
+        break;
     default:
         break;
     }
@@ -129,8 +161,8 @@ void healPlayer(player * user) {
 void checkMove(int y, int x, gameState * game) {
     int margem = 3;
     if (game->map[y-margem][x-margem].walkable == 1) {
-        clearFOV(game);
+        clearFOV(game, game->user->lanterna);
         movePlayer(y, x, game->user);
-        makeFOV(game);
+        makeFOV(game, game->user->lanterna);
     }
 }

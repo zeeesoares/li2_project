@@ -38,26 +38,62 @@ int gameLoop(int input, gameState * game) {
 }
 
 
-int menuLoop(int input, gameState * game) {
-	keypad(stdscr, true);
-	drawMenu(game->modo);
-	while ((input = getch()) != 10) {
-		if (game->modo.jogar == 1 && input == KEY_DOWN) {
-			game->modo.jogar = 0;
-			game->modo.sair = 1;
-			clear();
-			drawMenu(game->modo);
-		}
-		else if (game->modo.jogar == 0 && input == KEY_UP) {
-			game->modo.jogar = 1;
-			game->modo.sair = 0;
-			clear();
-			drawMenu(game->modo);
-		}
-	}
-	return 0;
-}
+int menuLoop(int input, gameState *game) {
+    keypad(stdscr, true);
+    drawMenu(game->modo);
+    bool tutorialCompleted = false;
 
+    while ((input = getch()) != 10) {
+        if (game->modo.jogar == 1 && game->modo.sair == 0 && game->modo.tutorial == 0 && input == KEY_DOWN) {
+            game->modo.jogar = 0;
+            game->modo.sair = 1;
+            game->modo.tutorial = 0;
+            clear();
+            drawMenu(game->modo);
+        }
+        else if (game->modo.jogar == 0 && game->modo.sair == 1 && game->modo.tutorial == 0 && input == KEY_UP) {
+            game->modo.jogar = 1;
+            game->modo.sair = 0;
+            game->modo.tutorial = 0;
+            clear();
+            drawMenu(game->modo);
+        }
+        else if (game->modo.jogar == 0 && game->modo.sair == 1 && game->modo.tutorial == 0 && input == KEY_DOWN) {
+            game->modo.jogar = 0;
+            game->modo.sair = 0;
+            game->modo.tutorial = 1;
+            clear();
+            drawMenu(game->modo);
+        } 
+        else if (game->modo.jogar == 0 && game->modo.sair == 0 && game->modo.tutorial == 1 && input == KEY_UP) {
+            game->modo.jogar = 0;
+            game->modo.sair = 1;
+            game->modo.tutorial = 0;
+            clear();
+            drawMenu(game->modo);
+        }
+    }
+    
+    if (game->modo.tutorial == 1) {
+        clear();
+        drawTutorial(game->modo);
+        
+        while ((input = getch()) != 10) {
+        }
+        
+        tutorialCompleted = true;
+    }
+    
+    if (tutorialCompleted) {
+        clear();
+        game->modo.jogar = 0;
+        game->modo.sair = 0;
+        game->modo.tutorial = 1;
+        menuLoop(input,game);
+    }
+    
+    return 0;
+}
 
 void closeGame(gameState * game)  // funcao que encerra o ncurses e liberta a memoria da heap
 {
@@ -65,5 +101,6 @@ void closeGame(gameState * game)  // funcao que encerra o ncurses e liberta a me
 	free(game->shop);
 	free(game->mobs);
 	freeMap(game->map);
+	//freeChests(game->chest);
 	endwin();
 }

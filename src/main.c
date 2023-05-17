@@ -17,6 +17,7 @@ int main(void) {
 	game = malloc(sizeof(struct gameState));
 	game->modo.jogar = 1;
 	game->modo.sair = 0;
+	game->modo.tutorial = 0;
 
 	// loop do menu
 	menuLoop(inputs,game);
@@ -24,7 +25,8 @@ int main(void) {
 	// loop principal do jogo
 	while (game->modo.jogar) {
 		//inicializaçao dos tipos
-		player * user;
+		game->numTochas = 3;
+		player * users;
 		entity_mob * mobs;
 		tile ** map;
 		chest * chest;
@@ -37,10 +39,10 @@ int main(void) {
 		logSetUp();
 
 		//setup do "player/user"
-		user = playerSetUp(map);
+		users = playerSetUp(map);
 
 		//setup do "mob"
-		mobs = createMobArray(12,map);
+		mobs = createMobArray(30,map);
 		chest = createChestArray(8,map);
 		shop = shopSetup(map);
 
@@ -48,18 +50,19 @@ int main(void) {
 		game->map = map;
 		game->chest = chest;
 		game->mobs = mobs;
-		game->user = user;
+		game->user = users;
 		game->shop = shop;
 		
 
-		makeFOV(game);
-		isMobVisible(game->shop,game->mobs, game->map, game->chest);
-		drawEverything(game);
-		// ver engine.cend:
-		gameLoop(inputs,game);
-		clear();
-		closeGame(game);
-		menuLoop(inputs,game);
+		makeFOV(game, game->user->lanterna);
+        isMobVisible(game->shop,game->mobs, game->map, game->chest);
+        drawEverything(game);
+        // ver engine.cend:
+        gameLoop(inputs,game);
+        drawDeath(game->modo);
+        while ((inputs = getch()) != 10) {}
+        closeGame(game);
+        menuLoop(inputs,game);
 	}
 	clear();
 	endwin();

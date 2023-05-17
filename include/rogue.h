@@ -40,6 +40,7 @@ typedef struct player
   position pos;
   int vida;
   int stamina;
+  int lanterna;
   int weapon;
   item sword;
   item bow;
@@ -56,6 +57,7 @@ typedef struct entity_mob
   int id;
   int dano;
   int visible;
+  int visibleT;
   char *nome;
   char ch;
   int vida;
@@ -70,15 +72,20 @@ typedef struct tile
   int color;
   int walkable;
   int visible;
+  int visibleT;
   int seen;
   int transparent;
 } tile;
+
 
 // struct para o menu inicial
 typedef struct menu
 {
   int jogar;
   int sair;
+  int tutorial;
+  int death;
+  int victory;
 } menu;
 
 // struct para a room (dungeon)
@@ -113,15 +120,28 @@ typedef struct Shop
   int potion;
 } shop;
 
+typedef struct projetil
+{
+  position pos;
+  int vx;
+  int vy;
+  int dano;
+  int range;
+  int visivel;
+} seta;
+
+
 // struct PRINCIPAL responsavel por enviar todos os dados do jogo as funcoes da engine.c
 typedef struct gameState
 {
   menu modo;
+  int numTochas;
   player * user;
   tile ** map;
   entity_mob * mobs;
   chest * chest;
   shop * shop;
+  seta * seta;
 } gameState;
 
 //////////////////////////////// TYPES AND FUNCTIONS ///////////////////////////////////
@@ -137,10 +157,11 @@ int logSetUp();
 void invLog(int weapon, int count);
 
 // functions player.c
+player *createPlayerArray(int numPlayers, tile **map);
 void handleInput(int input, gameState * game);
 void movePlayer(int x, int y, player * user);
 void checkMove(int y, int x, gameState * game);
-player * playerSetUp(tile ** map);
+player *playerSetUp(tile ** map);
 void healPlayer(player * user);
 int checkPlayer(player * user);
 
@@ -152,6 +173,7 @@ void moveMob(entity_mob * mob, tile ** map);
 entity_mob *createMobArray(int numMobs, tile **map);
 chest *createChestArray(int numChests, tile **map);
 void freeMobs(entity_mob * mobs);
+void freeChests(chest *chests);
 char defineMobChar(int name);
 int defineMobHealth(int name);
 int defineMobCoins(int name);
@@ -161,10 +183,12 @@ int contaMobs(entity_mob mobs[]);
 
 // functions draw.c
 void drawEverything(gameState * game);
-void drawMenu(menu menu);
+void drawMenu();
+void drawTutorial ();
+void drawDeath ();
 void drawPlayer(player * user);
 void drawMap(tile ** map);
-void drawInventory(player * user);
+void drawInventory(player * user, int numTochas);
 void drawMob(entity_mob mob, tile ** map);
 void drawMobs(entity_mob *mobs, tile **map);
 void drawShop(shop * shop, tile ** map);
@@ -194,8 +218,8 @@ void handleInventory(gameState * game);
 
 
 // functions fov.c
-void makeFOV(gameState * game);
-void clearFOV(gameState * game);
+void makeFOV(gameState * game, int raio);
+void clearFOV(gameState * game, int raio);
 int getdistance (position origem, position alvo);
 int isInMap(int y, int x);
 int lineOfSight(tile ** map, position origem, position alvo);
@@ -211,5 +235,7 @@ void useWeapon(int weapon, gameState * game);
 void useSword(entity_mob *mobs, player *user, chest * chests);
 void usePotion(player * user);
 void checkDano(entity_mob *mobs, player *user);
+void projetil(char direcao,gameState * game);
+void useTocha(gameState* game);
 
 #endif

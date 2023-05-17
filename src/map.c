@@ -14,6 +14,7 @@ tile ** createMap() {
 			tiles[i][j].seen = 0;
             tiles[i][j].walkable = 1;
 			tiles[i][j].visible = 0;
+            tiles[i][j].visibleT = 0;
             tiles[i][j].transparent = 1;
         }
     }
