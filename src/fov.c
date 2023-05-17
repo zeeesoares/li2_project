@@ -1,23 +1,44 @@
 #include "rogue.h"
 
-void makeFOV(gameState * game)
+void makeFOV(gameState * game, int raio)
 {
+
 	int y, x, distance;
-	int raio = 15;
     int margem = 3;
 	position target;
 
 	game->map[game->user->pos.y-margem][game->user->pos.x-margem].visible = 1;
 	game->map[game->user->pos.y-margem][game->user->pos.x-margem].seen = 0;
+    if (game->map[game->user->pos.y -3][game->user->pos.x -3].ch == 'i') {
+        for (y = game->user->pos.y - raio; y < game->user->pos.y + raio; y++)
+	        {
+		    for (x = game->user->pos.x - raio; x < game->user->pos.x + raio; x++)
+		    {
+			    target.y = y;
+			    target.x = x;
+			    distance = getdistance(game->user->pos, target);
 
-	for (y = game->user->pos.y - raio; y < game->user->pos.y + raio; y++)
+	    		if (distance < raio)
+		    	{   if (isInMap(y-3,x-3) && lineOfSight(game->map, game->user->pos, target))
+			    	{
+			    		game->map[y-margem][x-margem].visibleT = 1;
+				    	game->map[y-margem][x-margem].seen = 0;
+                        game->map[y-margem][x-margem].transparent = 0;
+                        game->map[y-margem][x-margem].color = VISIBLE_COLOR;
+	    			}         
+		    	}
+    		}
+	    }
+    }
+	
+    
+    for (y = game->user->pos.y - raio; y < game->user->pos.y + raio; y++)
 	{
 		for (x = game->user->pos.x - raio; x < game->user->pos.x + raio; x++)
 		{
 			target.y = y;
 			target.x = x;
 			distance = getdistance(game->user->pos, target);
-
 			if (distance < raio)
 			{   if (isInMap(y-3,x-3) && lineOfSight(game->map, game->user->pos, target))
 				{
@@ -29,13 +50,13 @@ void makeFOV(gameState * game)
 			}
 		}
 	}
+
 }
 
 
-void clearFOV(gameState * game) {
+void clearFOV(gameState * game, int raio) {
     int x, y, distance;
     int margem = 3;
-    int raio = 15;
     position target;
 
     for (y= game->user->pos.y - raio; y< game->user->pos.y + raio; y++)
@@ -46,7 +67,7 @@ void clearFOV(gameState * game) {
 			target.x = x;
 			distance = getdistance(game->user->pos, target);
             if (distance < raio)
-			{   if (isInMap(y-3,x-3))
+			{   if (isInMap(y-3,x-3) && lineOfSight(game->map, game->user->pos, target))
 			    {
                     game->map[y-margem][x-margem].visible = 0;
                     game->map[y-margem][x-margem].seen = 1;
