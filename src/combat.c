@@ -6,7 +6,9 @@ void useWeapon(int weapon, gameState * game) {
     case 0:
         useSword(game->mobs,game->user,game->chest);
         break;
-    
+    case 2:
+        usePotion(game->user);
+        break;
     default:
         break;
     }
@@ -32,6 +34,37 @@ void useSword(entity_mob *mobs, player *user, chest * chests) {
                 p++;
             }
         }
+    }
+}
+
+void usePotion(player * user) {
+    switch (user->potion.class)
+    {
+    case 'A':
+        /* code */
+        break;
+    case 'H':
+        if (user->vida < 270 && user->potion.get[1] > 0) {
+            user->vida += user->potion.dano;
+            user->potion.get[1]--;
+        }
+        else if (user->potion.get[1] > 0) {
+            user->vida = 300;
+            user->potion.get[1]--;
+        }
+        break;
+    case 'S':
+        if (user->stamina < 470 && user->potion.get[2] > 0) {
+            user->stamina += user->potion.dano;
+            user->potion.get[2]--;
+        }
+        else if (user->potion.get[2] > 0) {
+            user->stamina = 500;
+            user->potion.get[2]--;
+        }
+        break;
+    default:
+        break;
     }
 }
 

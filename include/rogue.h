@@ -209,6 +209,7 @@ void buyItem(gameState * game);
 // functions combat.c
 void useWeapon(int weapon, gameState * game);
 void useSword(entity_mob *mobs, player *user, chest * chests);
+void usePotion(player * user);
 void checkDano(entity_mob *mobs, player *user);
 
 #endif

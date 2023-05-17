@@ -8,11 +8,11 @@ player * playerSetUp(tile ** map) {
     while (map[start_pos.y-3][start_pos.x-3].ch == '#')
         start_pos.x += 2;
     newPlayer->pos = start_pos;
-    newPlayer->vida = 500;
+    newPlayer->vida = 300;
     newPlayer->stamina = 500;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
-    newPlayer->coins = 0;
+    newPlayer->coins = 10000;
     newPlayer->weapon = 0;
     newPlayer->sword.class = 'C';
     newPlayer->sword.dano = 10;
@@ -20,7 +20,7 @@ player * playerSetUp(tile ** map) {
     newPlayer->bow.class = 'C';
     newPlayer->bow.dano = 0;
     for (int i = 0; i < 3; i++) newPlayer->bow.get[i] = 0;
-    newPlayer->potion.class = 'C';
+    newPlayer->potion.class = 'O';
     newPlayer->potion.dano = 0;
     for (int i = 0; i < 3; i++) newPlayer->potion.get[i] = 0;
     return newPlayer;
@@ -35,25 +35,25 @@ void handleInput(int input, gameState * game) {
     keypad(stdscr, true);
     switch (input)
     {
-    case KEY_UP:
+    case 'w':
         if (game->user->stamina > 20) {
             checkMove(game->user->pos.y - 1,game->user->pos.x, game);
             game->user->stamina-= 3;
         }
         break;
-    case KEY_DOWN:
+    case 's':
         if (game->user->stamina > 20) {
             checkMove(game->user->pos.y + 1,game->user->pos.x, game);
             game->user->stamina-= 3;
         }
         break;
-    case KEY_LEFT:
+    case 'a':
         if (game->user->stamina > 20) {
             checkMove(game->user->pos.y,game->user->pos.x - 1, game);
             game->user->stamina-= 3;
         }
         break;
-    case KEY_RIGHT:
+    case 'd':
         if (game->user->stamina > 20) {
             checkMove(game->user->pos.y,game->user->pos.x + 1, game);
             game->user->stamina-= 3;
@@ -83,12 +83,12 @@ void handleInput(int input, gameState * game) {
         if (game->shop->act == 1  && game->shop->state == 0)
             game->shop->state = 3;
         break;
-    case 'a':
+    case 'n':
         if (game->shop->act == 1) {
             selectItem(game->shop,1);
         }
         break;
-    case 'd':
+    case 'm':
         if (game->shop->act == 1) {
             selectItem(game->shop,2);
         }
@@ -99,9 +99,9 @@ void handleInput(int input, gameState * game) {
     case 'b':
         buyItem(game);
         break;
-    case 10:
+    case 32:
         if (game->user->stamina > 4) {
-            useWeapon(0,game);
+            useWeapon(game->user->weapon,game);
             game->user->stamina -= 7;
         }
     default:
@@ -122,7 +122,7 @@ void movePlayer(int y, int x, player * user) {
 void healPlayer(player * user) {
     if (user->stamina < 496 && user->stamina >= 0)
         user->stamina += 4;
-    if (user->vida < 500 && user->vida > 0)
+    if (user->vida < 300 && user->vida > 0)
         user->vida += 1;
 }
 

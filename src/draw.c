@@ -74,7 +74,7 @@ void drawMap(tile ** map) {
 		for (int x = 0; x < cols; x++)
 		{
 			if (map[y][x].visible)
-			{   //se o espaço for visivel, a funcao drawMap desenha o char da cor VISIBLE
+			{   
 				mvaddch(y+3, x+3, map[y][x].ch | COLOR_PAIR(VISIBLE_COLOR) | A_BOLD);
 			}
             if (map[y][x].seen)
@@ -151,8 +151,12 @@ void drawInventory(player * user) {
     if (user->bow.dano > 0)
         mvprintw(18,160,"|  (2) Bow - DG: %d Rank: %c             |", user->bow.dano, user->bow.class);
     else mvprintw(18,160,"|                                       |");
-    if (user->potion.dano > 0)
+    if (user->potion.class == 'A')
         mvprintw(19,160,"|  (3) Potion - DG: %d Rank: %c          |",user->potion.dano, user->potion.class);
+    else if (user->potion.class == 'H')
+        mvprintw(19,160,"|  (3) Potion - HL: %d Rank: %c  Q:%2d    |",user->potion.dano, user->potion.class, user->potion.get[1]);
+    else if (user->potion.class == 'S')
+        mvprintw(19,160,"|  (3) Potion - ST: %d Rank: %c  Q:%2d    |",user->potion.dano, user->potion.class, user->potion.get[2]);
     else mvprintw(19,160,"|                                       |");
     mvprintw(20,160,"|                                       |");
     mvprintw(21,160,"+---------------------------------------+");
@@ -364,7 +368,7 @@ void drawShopInterfaceSword() {
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"| (a) <- | (d) -> | (b) buy |  (v) sair |");
+    mvprintw(46,160,"| (n) <- | (m) -> | (b) buy |  (v) sair |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
@@ -392,7 +396,7 @@ void drawShopInterfaceBows() {
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"| (a) <- | (d) -> | (b) buy |  (v) sair |");
+    mvprintw(46,160,"| (n) <- | (m) -> | (b) buy |  (v) sair |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
@@ -404,23 +408,23 @@ void drawShopInterfacePotions() {
     mvprintw(27,160,"|                                       |");
     mvprintw(28,160,"|                                       |");
     mvprintw(29,160,"|      )           |                    |");
-    mvprintw(30,160,"|     (           -o-           ||      |");
+    mvprintw(30,160,"|     (           -+-           ||      |");
     mvprintw(31,160,"|   .-`-.        /-`-.        __(l      |");
     mvprintw(32,160,"|   :   :        :   :       :   :      |");
-    mvprintw(33,160,"|   :   :        :   :       :   :      |");
+    mvprintw(33,160,"|   :   :        : H :       : M :      |");
     mvprintw(34,160,"|   :___:        :___:       :___:      |");
     mvprintw(35,160,"|                                       |");
-    mvprintw(36,160,"|  Flame        Poison       Granade    |");
-    mvprintw(37,160,"|  Dano: 20     Dano: 15     Dano: 35   |");
-    mvprintw(38,160,"|  Tempo: 1s    Tempo: 2s    Tempo: 1s  |");
-    mvprintw(39,160,"|  Cost: 2000   Cost: 4000   Cost: 6000 |");
-    mvprintw(40,160,"|  Rank: B      Rank: A      Rank: S    |");
+    mvprintw(36,160,"|  Granade      Heal         Stamina    |");
+    mvprintw(37,160,"|  Dano: 20     Use: 30 HP   Use: 30 SM |");
+    mvprintw(38,160,"|  Tempo: 1s    Cost: 1500   Cost: 1500 |");
+    mvprintw(39,160,"|  Cost: 2000                           |");
+    mvprintw(40,160,"|  Rank: B                              |");
     mvprintw(41,160,"|                                       |");
     mvprintw(42,160,"|                                       |");
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"| (a) <- | (d) -> | (b) buy |  (v) sair |");
+    mvprintw(46,160,"| (n) <- | (m) -> | (b) buy |  (v) sair |");
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
@@ -430,8 +434,8 @@ void drawStatus(gameState * game, int num) {
     mvprintw(5,179, "+--------------------+");
     mvprintw(6,179, "|                    |");
     if (game->user->vida > 0)
-        mvprintw(7,179, "|  HP: %3d/500       |", game->user->vida);
-    else mvprintw(7,179, "|  HP:   0/500       |");
+        mvprintw(7,179, "|  HP: %3d/300       |", game->user->vida);
+    else mvprintw(7,179, "|  HP:   0/300       |");
     if (game->user->stamina > 0)
         mvprintw(8,179, "|  Stamina: %3d/500  |", game->user->stamina);
     else mvprintw(8,179, "|  Stamina:   0/500  |");

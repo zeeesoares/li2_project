@@ -226,7 +226,23 @@ void moveMobs(entity_mob * mobs,tile ** map,player * user) {
             if ((mobs+i)->vida > 0)
                 moveMob(mobs+i,map);
         }
-        else if ((mobs+i)->vida > 0) moveMobTowardsUser(mobs+i,user, map);
+        else if ((mobs+i)->vida > 0) {
+            int state = rand() % 3;
+            switch (state)
+            {
+            case 0:
+                moveMobTowardsUser(mobs+i,user, map);
+                break;
+            case 1:
+                moveMobTowardsUser(mobs+i,user, map);
+                break;
+            case 2:
+                moveMob(mobs+i,map);
+                break;
+            default:
+                break;
+            }
+        }
     }
 }
 
