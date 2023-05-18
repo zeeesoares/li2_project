@@ -46,16 +46,16 @@ int defineMobDano(int name) {
     switch (name)
     {
     case 0:
-        res = 10;
+        res = 15;
         break;
     case 1:
-        res = 10;
+        res = 15;
         break;
     case 2:
         res = 5;
         break;
     case 3:
-        res = 15;
+        res = 20;
         break;
     case 4:
         res = 7;
@@ -64,16 +64,16 @@ int defineMobDano(int name) {
         res = 6;
         break;
     case 6:
-        res = 17;
+        res = 20;
         break;
     case 7:
         res = 2;
         break;
     case 8:
-        res = 15;
+        res = 17;
         break;
     case 9:
-        res = 25;
+        res = 30;
         break;
     default:
         break;
@@ -98,7 +98,7 @@ int defineMobCoins(int name) {
         res = 900;
         break;
     case 4:
-        res = 300;
+        res = 400;
         break;
     case 5:
         res = 400;
@@ -166,34 +166,34 @@ int defineMobHealth(int name) {
     switch (name)
     {
     case 0:
-        res = 120;
+        res = 170;
         break;
     case 1:
         res = 170;
         break;
     case 2:
-        res = 50;
-        break;
-    case 3:
-        res = 150;
-        break;
-    case 4:
-        res = 90;
-        break;
-    case 5:
         res = 70;
         break;
-    case 6:
+    case 3:
         res = 200;
         break;
+    case 4:
+        res = 110;
+        break;
+    case 5:
+        res = 90;
+        break;
+    case 6:
+        res = 250;
+        break;
     case 7:
-        res = 30;
+        res = 50;
         break;
     case 8:
-        res = 170;
+        res = 200;
         break;
     case 9:
-        res = 500;
+        res = 600;
         break;
     default:
         break;
@@ -208,11 +208,11 @@ chest *createChestArray(int numChests, tile **map) {
         return NULL;
     }
     for (int i = 0; i < numChests; i++) {
-        position start_pos = {rand() % 90 + 30, (rand() % 35) + 10};
+        position start_pos = {rand() % 90 + 40, (rand() % 40) + 3};
         while (map[start_pos.y-3][start_pos.x-3].ch == '#')
             start_pos.x += 2;
         chestArray[i].ch = '&';
-        chestArray[i].vida = rand() % 4 * 100 + 100;
+        chestArray[i].vida = (rand() % 3 + 1) * 500;
         chestArray[i].pos = start_pos;
         chestArray[i].coins = chestArray[i].vida * 10;
         chestArray[i].visible = 0;  
@@ -224,7 +224,11 @@ chest *createChestArray(int numChests, tile **map) {
 void moveMobs(entity_mob * mobs,tile ** map,player * user) {
     int numMobs = 30;
     for (int i = 0; i< numMobs; i++) {
-        if (!(mobs+i)->visible) {
+        if ((mobs+i)->visibleT) {
+            if ((mobs+i)->vida > 0)
+                moveMob(mobs+i,map);
+        }
+        else if (!(mobs+i)->visible) {
             if ((mobs+i)->vida > 0)
                 moveMob(mobs+i,map);
         }
@@ -323,7 +327,7 @@ void moveMob(entity_mob * mob, tile ** map) {
 }
 
 void isMobVisible (shop * shop,entity_mob * mobs, tile ** map, chest * chest) {
-    int numMobs = 12;
+    int numMobs = 30;
     int numChests = 8;
     if (map[shop->pos.y - 3][shop->pos.x -3].visible || map[shop->pos.y - 3][shop->pos.x -3].visibleT)
         shop->visible = 1;

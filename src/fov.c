@@ -31,25 +31,26 @@ void makeFOV(gameState * game, int raio)
 	    }
     }
 	
-    
-    for (y = game->user->pos.y - raio; y < game->user->pos.y + raio; y++)
-	{
-		for (x = game->user->pos.x - raio; x < game->user->pos.x + raio; x++)
-		{
-			target.y = y;
-			target.x = x;
-			distance = getdistance(game->user->pos, target);
-			if (distance < raio)
-			{   if (isInMap(y-3,x-3) && lineOfSight(game->map, game->user->pos, target))
-				{
-					game->map[y-margem][x-margem].visible = 1;
-					game->map[y-margem][x-margem].seen = 0;
-                    game->map[y-margem][x-margem].transparent = 0;
-                    game->map[y-margem][x-margem].color = VISIBLE_COLOR;
-				}         
-			}
-		}
-	}
+    else {
+        for (y = game->user->pos.y - raio; y < game->user->pos.y + raio; y++)
+	    {
+	    	for (x = game->user->pos.x - raio; x < game->user->pos.x + raio; x++)
+	    	{
+	    		target.y = y;
+	    		target.x = x;
+	    		distance = getdistance(game->user->pos, target);
+	    		if (distance < raio)
+	    		{   if (isInMap(y-3,x-3) && lineOfSight(game->map, game->user->pos, target))
+	    			{
+	    				game->map[y-margem][x-margem].visible = 1;
+	    				game->map[y-margem][x-margem].seen = 0;
+                        game->map[y-margem][x-margem].transparent = 0;
+                        game->map[y-margem][x-margem].color = VISIBLE_COLOR;
+	    			}         
+	    		}
+	    	}
+	    }
+    }
 
 }
 
@@ -137,7 +138,7 @@ int getdistance (position origem, position alvo) {
 }
 
 int isInMap(int y, int x) {
-    if (( 0 <= y && y < 55) && (0 <= x && x <= 150)){
+    if (( 0 <= y && y < 50) && (0 <= x && x <= 145)){
         return 1;
     }
     return 0;

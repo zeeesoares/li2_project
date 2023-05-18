@@ -1,19 +1,19 @@
 #include <rogue.h>
 
 player * playerSetUp(tile ** map) {
-    position start_pos = {rand() % 40 + 70,rand() % 17 + 20};
+    position start_pos = {rand() % 40 + 5 ,rand() % 5+ 40};
     player * newPlayer;
     newPlayer = malloc(sizeof(player));
 
     while (map[start_pos.y-3][start_pos.x-3].ch == '#')
         start_pos.x += 2;
     newPlayer->pos = start_pos;
-    newPlayer->vida = 300;
+    newPlayer->vida = 500;
     newPlayer->lanterna = 10;
     newPlayer->stamina = 500;
     newPlayer->ch = '@';
     newPlayer->color = COLOR_PAIR(SWORDC);
-    newPlayer->coins = 10000;
+    newPlayer->coins = 0;
     newPlayer->weapon = 0;
     newPlayer->sword.class = 'C';
     newPlayer->sword.dano = 10;
@@ -106,22 +106,22 @@ void handleInput(int input, gameState * game) {
             game->user->stamina -= 7;
         }
         break;
-    case 'i':
+    case 'W':
         if(game->user->weapon==1)
             projetil('i',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
-    case 'j':
+    case 'A':
         if(game->user->weapon==1)
             projetil('j',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
-    case 'k':
+    case 'S':
         if(game->user->weapon==1)
             projetil('k',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
-    case 'l':
+    case 'D':
         if(game->user->weapon==1)
             projetil('l',game);
             //checkDano_proj(game->mobs,game->seta);
@@ -154,7 +154,7 @@ void movePlayer(int y, int x, player * user) {
 void healPlayer(player * user) {
     if (user->stamina < 496 && user->stamina >= 0)
         user->stamina += 4;
-    if (user->vida < 300 && user->vida > 0)
+    if (user->vida < 496 && user->vida > 0)
         user->vida += 1;
 }
 

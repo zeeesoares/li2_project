@@ -25,91 +25,80 @@ void drawEverything(gameState * game) {
 // draw (em processo) do menu inicial
 void drawMenu(menu menu) {
     clear();
-    
-    mvprintw(10,65,"oooooooooo.  ooooooooo.     .oooooo.     .oooooo.    ooooo     ooo oooooooooooo");
-    mvprintw(11,65,"`888'   `Y8b `888   `Y88.  d8P'  `Y8b   d8P'  `Y8b   `888'     `8' `888'     `8");
-    mvprintw(12,65," 888     888  888   .d88' 888      888 888            888       8   888");
-    mvprintw(13,65," 888oooo888'  888ooo88P'  888      888 888            888       8   888oooo8");
-    mvprintw(14,65," 888    `88b  888`88b.    888      888 888     ooooo  888       8   888    ");
-    mvprintw(15,65," 888    .88P  888  `88b.  `88b    d88' `88.    .88'   `88.    .8'   888       o");
-    mvprintw(16,65,"o888bood8P'  o888o  o888o  `Y8bood8P'   `Y8bood8P'      `YbodP'    o888ooooood8 ");
+    attron(COLOR_PAIR(SWORDC));
+    mvprintw(10,65," :::::::::::    :::::::        :::       ::::      :::    :::  :::::::: ");
+    mvprintw(11,65,"  +:+    +:+   +:+   +:+     :+: :+:    :+:        :+:    :+:  :+:    :");
+    mvprintw(12,65,"   +:+    +:+  +:+   +:+    +:+   +:+   +:+        +:+    +:+  +#+     ");
+    mvprintw(13,65,"   +#++:++#+   +#++:++#++: +#+     ++: +#+   +:+   +#:    :+#  +#++:+# ");
+    mvprintw(14,65,"   +#+    +#+  +#+   +#+   +#+     +#  +#+  +: +#  +#+    +#+  +#+     ");
+    mvprintw(15,65,"   #+#    #+#  #+#    #+#   ##     ##   ##     ##  #+#    #+#  #+#     ");
+    mvprintw(16,65,"   ###+  +###  ###     ##    ######      ######      ######    ###    #");
+    mvprintw(17,65,"  ##########                                                   ########");
+    attroff(COLOR_PAIR(SWORDC));
+
 
     if ((menu.jogar == 1) && (menu.sair == 0) && (menu.tutorial == 0)) {
-        mvprintw(26,65," 888888ba  dP         .d888888  dP    dP          d8     ");
-        mvprintw(27,65," 88    `8b 88        d8'    88  Y8.  .8P         d8'      ");
-        mvprintw(28,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         d8'       ");
-        mvprintw(29,65," 88        88        88     88     88          Y8. 888888888888");
-        mvprintw(30,65," 88        88        88     88     88           Y8.        ");
-        mvprintw(31,65," dP        88888888P 88     88     dP            Y8       ");
 
-        mvprintw(36,65," 88888888b dP    dP dP d888888P ");
-        mvprintw(37,65," 88        Y8.  .8P 88    88");
-        mvprintw(38,65,"a88aaaa     Y8aa8P  88    88");
-        mvprintw(39,65," 88        d8'  `8b 88    88");
-        mvprintw(40,65," 88        d8'  `8b 88    88 ");
-        mvprintw(41,65," 88888888P dP    dP dP    dP");           
-
-        
-        mvprintw(46,65,"ooooooooooooo ooooo     ooo ooooooooooooo   .oooooo.   ooooooooo.   ooooo       .o.       ooooo");        
-        mvprintw(47,65,"8'   888   `8 `888'     `8' 8'   888   `8  d8P'  `Y8b  `888   `Y88. `888'      .888.      `888'");       
-        mvprintw(48,65,"     888       888       8       888      888      888  888   .d88'  888      .8`888.      888 ");        
-        mvprintw(49,65,"     888       888       8       888      888      888  888ooo88P'   888     .8' `888.     888 ");        
-        mvprintw(50,65,"     888       888       8       888      888      888  888`88b.     888    .88ooo8888.    888 ");        
-        mvprintw(51,65,"     888       `88.    .8'       888      `88b    d88'  888  `88b.   888   .8'     `888.   888       o");
-        mvprintw(52,65,"    o888o        `YbodP'        o888o      `Y8bood8P'  o888o  o888o o888o o88o     o8888o o888ooooood8");
-                                                                                                       
-                                                                                                       
+        mvprintw(26,89,"-|==>");
+        attron(A_REVERSE);
+        mvprintw(26,95,"PLAY");
+        attroff(A_REVERSE);
+        mvprintw(27,95,"SAIR");
+        mvprintw(28,95,"TUTORIAL");
+    
                                                                                                        
                         
     }
     else if ((menu.jogar == 0) && (menu.sair == 1) && (menu.tutorial == 0)) {
-        mvprintw(26,65," 888888ba  dP         .d888888  dP    dP       ");
-        mvprintw(27,65," 88    `8b 88        d8'    88  Y8.  .8P        ");
-        mvprintw(28,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         ");
-        mvprintw(29,65," 88        88        88     88     88      ");
-        mvprintw(30,65," 88        88        88     88     88            ");
-        mvprintw(31,65," dP        88888888P 88     88     dP           ");
+        mvprintw(26,95,"PLAY");
+        mvprintw(27,89,"-|==>");
+        attron(A_REVERSE);
+        mvprintw(27,95,"SAIR");
+        attroff(A_REVERSE);
+        mvprintw(28,95,"TUTORIAL");
 
-        mvprintw(36,65," 88888888b dP    dP dP d888888P                  d8     ");
-        mvprintw(37,65," 88        Y8.  .8P 88    88                    d8  ");
-        mvprintw(38,65,"a88aaaa     Y8aa8P  88    88                  d8'      ");
-        mvprintw(39,65," 88        d8'  `8b 88    88                 d8' 8888888888888      ");
-        mvprintw(40,65," 88        d8'  `8b 88    88                  Y8.");
-        mvprintw(41,65," 88888888P dP    dP dP    dP                   Y8.");   
-
-        mvprintw(46,65,"ooooooooooooo ooooo     ooo ooooooooooooo   .oooooo.   ooooooooo.   ooooo       .o.       ooooo");        
-        mvprintw(47,65,"8'   888   `8 `888'     `8' 8'   888   `8  d8P'  `Y8b  `888   `Y88. `888'      .888.      `888'");       
-        mvprintw(48,65,"     888       888       8       888      888      888  888   .d88'  888      .8`888.      888 ");        
-        mvprintw(49,65,"     888       888       8       888      888      888  888ooo88P'   888     .8' `888.     888 ");        
-        mvprintw(50,65,"     888       888       8       888      888      888  888`88b.     888    .88ooo8888.    888 ");        
-        mvprintw(51,65,"     888       `88.    .8'       888      `88b    d88'  888  `88b.   888   .8'     `888.   888       o");
-        mvprintw(52,65,"    o888o        `YbodP'        o888o      `Y8bood8P'  o888o  o888o o888o o88o     o8888o o888ooooood8");
-                                                                                                       
     } 
     else if ((menu.jogar == 0) && (menu.sair == 0) && (menu.tutorial == 1)) {
-        mvprintw(26,65," 888888ba  dP         .d888888  dP    dP       ");
-        mvprintw(27,65," 88    `8b 88        d8'    88  Y8.  .8P        ");
-        mvprintw(28,65,"a88aaaa8P' 88        88aaaaa88a  Y8aa8P         ");
-        mvprintw(29,65," 88        88        88     88     88      ");
-        mvprintw(30,65," 88        88        88     88     88            ");
-        mvprintw(31,65," dP        88888888P 88     88     dP           ");
+        mvprintw(26,95,"PLAY");
+        mvprintw(27,95,"SAIR");
+        mvprintw(28,89,"-|==>");
+        attron(A_REVERSE);
+        mvprintw(28,95,"TUTORIAL");
+        attroff(A_REVERSE);
+    }
+    
+    char* image[] = {
+  "           ,   ,",
+  "         ,-`{-`/",
+  "      ,-~ , \\ {-~~-,",
+  "    ,~  ,   ,`,-~~-,`,",
+  "  ,`   ,   { {      } }                                             }/",
+  " ;     ,--/`\\ \\    / /                                     }/      /,/",
+  ";  ,-./      \\ \\  { {  (                                  /,;    ,/ ,/",
+  "; /   `       } } \\   `-`-.___                           / `,  ,/  `,/",
+  " (|         ,`,`                                         / ,`,,/  ,`,;",
+  "  `        {  {                                     __  /  ,`/   ,`,;",
+  "        /   \\ \\                                 _,`, `{  `{   `,`;",
+  "       {     } }       /~\\         .-:::-.     (--,   ;\\ `,}  `,`;",
+  "       \\ \\_./ /      /` , \\      ,:::::::::,     `~;   \\},/  `,`;     ,=-",
+  "        `-..-`      /. `  .\\_   ;:::::::::::;  __,{     `/  `,`;     {",
+  "                   / , ~ . ^ `~`\\:::::::::::<<~>-,,`,    `-,  ``,_    }",
+  "                /~~ . `  . ~  , .`~~`:::::::;    _-~  ;__,        `,-`",
+  "       /`\\    /~,  . ~ , '  `  ,  .` `::::;`   <<<~```   ``-,,__   ;",
+  "      /` .`\\ /` .  ^  ,  ~  ,  . ` . ~\\~                       \\ \\, `,__",
+  "     / ` , ,`\\.  ` ~  ,  ^ ,  `  ~ . . ``~~~`,                   `-`--, \\",
+  "    / , ~ . ~ \\ , ` .  ^  `  , . ^   .   , ` .`-,___,---,__            ``",
+  "  /` ` . ~ . ` `\\ `  ~  ,  .  ,  `  ,  . ~  ^  ,  .  ~  , .`~---,___",
+  "/` . `  ,  . ~ , \\  `  ~  ,  .  ^  ,  ~  .  `  ,  ~  .  ^  ,  ~  .  `-,"
+};
 
-        mvprintw(36,65," 88888888b dP    dP dP d888888P ");
-        mvprintw(37,65," 88        Y8.  .8P 88    88 ");
-        mvprintw(38,65,"a88aaaa     Y8aa8P  88    88 ");
-        mvprintw(39,65," 88        d8'  `8b 88    88 ");
-        mvprintw(40,65," 88        d8'  `8b 88    88 ");
-        mvprintw(41,65," 88888888P dP    dP dP    dP ");   
+    for (int i = 0; i < 22; i++) {
 
-        mvprintw(46,65,"ooooooooooooo ooooo     ooo ooooooooooooo   .oooooo.   ooooooooo.   ooooo       .o.       ooooo                      d8");        
-        mvprintw(47,65,"8'   888   `8 `888'     `8' 8'   888   `8  d8P'  `Y8b  `888   `Y88. `888'      .888.      `888'                     d8");       
-        mvprintw(48,65,"     888       888       8       888      888      888  888   .d88'  888      .8`888.      888                    d8'");        
-        mvprintw(49,65,"     888       888       8       888      888      888  888ooo88P'   888     .8' `888.     888                   d8' 8888888888888  ");        
-        mvprintw(50,65,"     888       888       8       888      888      888  888`88b.     888    .88ooo8888.    888                    Y8.");        
-        mvprintw(51,65,"     888       `88.    .8'       888      `88b    d88'  888  `88b.   888   .8'     `888.   888       o             Y8.");
-        mvprintw(52,65,"    o888o        `YbodP'        o888o      `Y8bood8P'  o888o  o888o o888o o88o     o8888o o888ooooood8              Y8.");
-    }                                    
+        mvprintw(30+i,65,"%s\n", image[i]);
+    }  
+
 }
+
 
 void drawTutorial () {
     
@@ -269,7 +258,7 @@ void drawVictory () {
 }
 // draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
 void drawMap(tile ** map) {
-    int rows = 55; 
+    int rows = 50; 
 	int cols = 145;
 	for (int y = 0; y < rows; y++)
 	{
@@ -572,7 +561,7 @@ void drawShopInterfaceSword() {
     mvprintw(39,160,"|                                       |");
     mvprintw(40,160,"|  Dano: 24    Dano: 30     Dano: 40    |");
     mvprintw(41,160,"|  Rank: B     Rank: A      Rank: S     |");
-    mvprintw(42,160,"|  Cost: 4000  Cost: 5000   Cost: 7000  |");
+    mvprintw(42,160,"|  Cost: 3000  Cost: 6000   Cost: 10000 |");
     mvprintw(43,160,"|                                       |");
     mvprintw(44,160,"|                                       |");
     mvprintw(45,160,"|                                       |");
@@ -615,18 +604,18 @@ void drawShopInterfacePotions() {
     mvprintw(26,160,"|                                       |");
     mvprintw(27,160,"|                                       |");
     mvprintw(28,160,"|                                       |");
-    mvprintw(29,160,"|      )           |                    |");
-    mvprintw(30,160,"|     (           -+-           ||      |");
-    mvprintw(31,160,"|   .-`-.        /-`-.        __(l      |");
-    mvprintw(32,160,"|   :   :        :   :       :   :      |");
-    mvprintw(33,160,"|   :   :        : H :       : M :      |");
-    mvprintw(34,160,"|   :___:        :___:       :___:      |");
+    mvprintw(29,160,"|     _            |                    |");
+    mvprintw(30,160,"|   ,|||.         -+-           ||      |");
+    mvprintw(31,160,"|   |||||        /-`-.        __(l      |");
+    mvprintw(32,160,"|   |||||/)       :   :       :   :     |");
+    mvprintw(33,160,"|   \\,,, /       : H :       : M :      |");
+    mvprintw(34,160,"|   |___|        :___:       :___:      |");
     mvprintw(35,160,"|                                       |");
-    mvprintw(36,160,"|  Granade      Heal         Stamina    |");
-    mvprintw(37,160,"|  Dano: 20     Use: 30 HP   Use: 30 SM |");
-    mvprintw(38,160,"|  Tempo: 1s    Cost: 1500   Cost: 1500 |");
-    mvprintw(39,160,"|  Cost: 2000                           |");
-    mvprintw(40,160,"|  Rank: B                              |");
+    mvprintw(36,160,"|  Repulsion      Heal       Stamina    |");
+    mvprintw(37,160,"|  Rank: B      Use:100 HP   Use:100 SM |");
+    mvprintw(38,160,"|  Cost: 2000   Cost: 1000   Cost: 1000 |");
+    mvprintw(39,160,"|                                       |");
+    mvprintw(40,160,"|                                       |");
     mvprintw(41,160,"|                                       |");
     mvprintw(42,160,"|                                       |");
     mvprintw(43,160,"|                                       |");
@@ -637,13 +626,14 @@ void drawShopInterfacePotions() {
     mvprintw(48,160,"+---------------------------------------+");
 }
 
+
 // draw do Status
 void drawStatus(gameState * game, int num) {
     mvprintw(5,179, "+--------------------+");
     mvprintw(6,179, "|                    |");
     if (game->user->vida > 0)
-        mvprintw(7,179, "|  HP: %3d/300       |", game->user->vida);
-    else mvprintw(7,179, "|  HP:   0/300       |");
+        mvprintw(7,179, "|  HP: %3d/500       |", game->user->vida);
+    else mvprintw(7,179, "|  HP:   0/500       |");
     if (game->user->stamina > 0)
         mvprintw(8,179, "|  Stamina: %3d/500  |", game->user->stamina);
     else mvprintw(8,179, "|  Stamina:   0/500  |");
@@ -667,6 +657,30 @@ void vericaCoins(player * user, entity_mob * mobs, chest * chests) {
 }
 
 /*
+
+           ,   ,
+         ,-`{-`/
+      ,-~ , \ {-~~-,
+    ,~  ,   ,`,-~~-,`,
+  ,`   ,   { {      } }                                             }/
+ ;     ,--/`\ \    / /                                     }/      /,/
+;  ,-./      \ \  { {  (                                  /,;    ,/ ,/
+; /   `       } } `, `-`-.___                            / `,  ,/  `,/
+ \|         ,`,`    `~.___,---}                         / ,`,,/  ,`,;
+  `        { {                                     __  /  ,`/   ,`,;
+        /   \ \                                 _,`, `{  `,{   `,`;`
+       {     } }       /~\         .-:::-.     (--,   ;\ `,}  `,`;
+       \\._./ /      /` , \      ,:::::::::,     `~;   \},/  `,`;     ,-=-
+        `-..-`      /. `  .\_   ;:::::::::::;  __,{     `/  `,`;     {
+                   / , ~ . ^ `~`\:::::::::::<<~>-,,`,    `-,  ``,_    }
+                /~~ . `  . ~  , .`~~`:::::::;    _-~  ;__,        `,-`
+       /`\    /~,  . ~ , '  `  ,  .` `::::;`   <<<~```   ``-,,__   ;
+      /` .`\ /` .  ^  ,  ~  ,  . ` . ~\~                       \\, `,__
+     / ` , ,`\.  ` ~  ,  ^ ,  `  ~ . . ``~~~`,                   `-`--, \
+    / , ~ . ~ \ , ` .  ^  `  , . ^   .   , ` .`-,___,---,__            ``
+  /` ` . ~ . ` `\ `  ~  ,  .  ,  `  ,  . ~  ^  ,  .  ~  , .`~---,___
+/` . `  ,  . ~ , \  `  ~  ,  .  ^  ,  ~  .  `  ,  ~  .  ^  ,  ~  .  `-,
+
        |______________
 [======|______________>
        |

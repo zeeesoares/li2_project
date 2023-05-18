@@ -2,7 +2,7 @@
 
 
 tile ** createMap() {
-    int rows = 55;
+    int rows = 50;
 	int cols = 145;
     tile ** tiles = calloc(rows,sizeof(tile *));
 
@@ -22,7 +22,7 @@ tile ** createMap() {
 }
 
 tile ** mapSetUp(tile ** tilesInit) {
-    int rows = 55;
+    int rows = 50;
 	int cols = 145;
     // preencher o array bidimensional com caracteres aleatórios
     int count = 0;
@@ -123,7 +123,7 @@ tile ** mapSetUp(tile ** tilesInit) {
 
 void freeMap(tile ** map)
 {
-    int rows = 55;
+    int rows = 50;
 	for (int y = 0; y < rows; y++)
 	{
 		free(map[y]);

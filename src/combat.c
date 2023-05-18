@@ -45,17 +45,17 @@ void usePotion(player * user) {
         /* code */
         break;
     case 'H':
-        if (user->vida < 270 && user->potion.get[1] > 0) {
+        if (user->vida < 400 && user->potion.get[1] > 0) {
             user->vida += user->potion.dano;
             user->potion.get[1]--;
         }
         else if (user->potion.get[1] > 0) {
-            user->vida = 300;
+            user->vida = 500;
             user->potion.get[1]--;
         }
         break;
     case 'S':
-        if (user->stamina < 470 && user->potion.get[2] > 0) {
+        if (user->stamina < 400 && user->potion.get[2] > 0) {
             user->stamina += user->potion.dano;
             user->potion.get[2]--;
         }
@@ -137,7 +137,7 @@ void projetil(char direcao,gameState * game){
                     y+=vy;
                 }
 
-        int numMobs = 12;
+        int numMobs = 30;
             for (int i = 0; i < numMobs; i++) {
             if ((game->mobs[i]).pos.y == y &&(game->mobs[i]).pos.x == x) {
                 if ((game->mobs[i]).vida>0)
