@@ -39,6 +39,7 @@ void handleInput(int input, gameState * game) {
         if (game->user->stamina > 20) {
             checkMove(game->user->pos.y - 1,game->user->pos.x, game);
             game->user->stamina-= 3;
+
         }
         break;
     case KEY_DOWN:
@@ -105,26 +106,27 @@ void handleInput(int input, gameState * game) {
     case 'b':
         buyItem(game);
         break;
-    case 'i':
+    case 'W':
         if(game->user->weapon==1)
             projetil('i',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
-    case 'j':
+    case 'A':
         if(game->user->weapon==1)
             projetil('j',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
-    case 'k':
+    case 'S':
     if(game->user->weapon==1)
             projetil('k',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
-    case 'l':
+    case 'D':
         if(game->user->weapon==1)
             projetil('l',game);
             //checkDano_proj(game->mobs,game->seta);
         break;
+    //if(input==KEY_UP || input==KEY_DOWN || input==KEY_LEFT || input==KEY_RIGHT){    
     case 32:
         if(game->user->weapon==0){
             if (game->user->stamina > 4) {
@@ -132,6 +134,20 @@ void handleInput(int input, gameState * game) {
                 game->user->stamina -= 7;
             }
         }
+        /*
+        if(game->user->weapon==1 && input==KEY_UP)
+            projetil('i',game);
+
+        if(game->user->weapon==1 && input==KEY_DOWN)
+            projetil('k',game);
+
+        if(game->user->weapon==1 && input==KEY_LEFT)
+            projetil('j',game); 
+
+        if(game->user->weapon==1 && input==KEY_RIGHT)
+            projetil('l',game);       
+        */
+    
     default:
         break;
     }
