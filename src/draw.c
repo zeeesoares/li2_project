@@ -688,7 +688,7 @@ void drawShopInterfacePotions() {
     mvprintw(30,160,"|   ,|||.         -+-           ||      |");
     mvprintw(31,160,"|   |||||        /-`-.        __(l      |");
     mvprintw(32,160,"|   ||||/)       :   :       :   :      |");
-    mvprintw(33,160,"|  \\,,, /       : H :       : M :      |");
+    mvprintw(33,160,"|   \\,,, /       : H :       : M :      |");
     mvprintw(34,160,"|   |___|        :___:       :___:      |");
     mvprintw(35,160,"|                                       |");
     mvprintw(36,160,"|  Repulsion      Heal       Stamina    |");
