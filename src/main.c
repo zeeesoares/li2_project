@@ -1,6 +1,12 @@
 #include <rogue.h>
 
 
+/*
+- a103995 / José Soares
+
+Função main do jogo e iniacialização do mesmo
+*/
+
 int main(void) {
 
 	// setup da lib nCurses (ver engine.c)
@@ -26,6 +32,7 @@ int main(void) {
 	while (game->modo.jogar) {
 		//inicializaçao dos tipos
 		game->numTochas = 3;
+		game->state = 0;
 		player * users;
 		entity_mob * mobs;
 		tile ** map;
@@ -34,9 +41,6 @@ int main(void) {
 
 		//ver map.c
 		map = mapSetUp(createMap());
-
-		//ver log.c
-		logSetUp();
 
 		//setup do "player/user"
 		users = playerSetUp(map);
@@ -53,14 +57,13 @@ int main(void) {
 		game->user = users;
 		game->shop = shop;
 		
-
+		//inicializaçao da parte visual
 		makeFOV(game, game->user->lanterna);
         isMobVisible(game->shop,game->mobs, game->map, game->chest);
         drawEverything(game);
-        // ver engine.cend:
+
+        // ver engine.c
         gameLoop(inputs,game);
-        drawDeath(game->modo);
-        while ((inputs = getch()) != 10) {}
         closeGame(game);
         menuLoop(inputs,game);
 	}
@@ -69,3 +72,5 @@ int main(void) {
 	return 0;
 
 }
+
+

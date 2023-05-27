@@ -1,5 +1,11 @@
 #include <rogue.h>
 
+/*
+- a103995 / José Soares
+
+Função que inicializa o tipo shop
+*/
+
 // setup da shop 
 shop * shopSetup(tile ** map) {
     position start_pos = {rand() % 17 + 39,rand() % 17 + 25};
@@ -16,6 +22,13 @@ shop * shopSetup(tile ** map) {
     newShop->potion = 1;
     return newShop;
 }
+
+
+/*
+- a104526 / Olavo Carreira
+
+Função que desenha as diferentes interface das shops
+*/
 
 // verifica se o user esta na shop
 void verificaShop(gameState * game) {
@@ -37,6 +50,11 @@ void verificaShop(gameState * game) {
     else game->shop->state = 0;
 }
 
+/*
+- a104092 / Diogo Outeiro
+
+Função que compra os items no jogo
+*/
 void selectItem(shop * shop, int i) {
     switch (i)
     {
@@ -77,6 +95,12 @@ void selectItem(shop * shop, int i) {
     }
 }
 
+
+/*
+- a103995 / José Soares
+
+Função que compra os items no jogo
+*/
 
 void buyItem(gameState * game) {
     if (game->shop->act == 1) {
@@ -128,7 +152,7 @@ void buyItem(gameState * game) {
         case 2:
             if (game->user->coins >= 4000 &&  game->user->bow.get[0] != 1) {
                 game->user->coins -= 4000;
-                game->user->bow.dano = 20;
+                game->user->bow.dano = 40;
                 game->user->bow.class = 'A';
                 game->user->bow.get[0] = 1;
                 }

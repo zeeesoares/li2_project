@@ -1,5 +1,11 @@
 #include <rogue.h>
 
+/*
+- a103995 / José Soares
+
+Funções relacionadas à engine/ setup de jogo
+*/
+
 
 // setup das funçoes do ncurses
 int ncursesSetUp() {
@@ -19,6 +25,11 @@ int ncursesSetUp() {
     return 0;
 }
 
+/*
+- a103995 / José Soares
+
+Funções relacionadas à engine/ setup de jogo
+*/
 
 // loop principal que faz o jogo acontecer 
 int gameLoop(int input, gameState * game) {
@@ -33,11 +44,22 @@ int gameLoop(int input, gameState * game) {
 		moveMobs(game->mobs,game->map,game->user);
 		isMobVisible(game->shop,game->mobs, game->map, game->chest);
 		drawEverything(game);  // draw iterativo que "atualiza" o jogo
+        if (contaMobs(game->mobs) == 0) {
+            game->state = 1;
+            break;
+        }
 	}
+    if (game->state == 1) drawVictory();
+    else drawDeath(game->modo);
+    while ((input = getch()) != 10) {}
   return 0;
 }
 
+/*
+- a104526 / Olavo Carreira
 
+Função relacionada à parte do menu inicial
+*/
 int menuLoop(int input, gameState *game) {
     keypad(stdscr, true);
     drawMenu(game->modo);
@@ -95,12 +117,20 @@ int menuLoop(int input, gameState *game) {
     return 0;
 }
 
+
+
+/*
+- a103995 / José Soares
+
+Funções relacionadas ao fecho de jogo
+*/
+
 void closeGame(gameState * game)  // funcao que encerra o ncurses e liberta a memoria da heap
 {
 	free(game->user);
 	free(game->shop);
+	free(game->chest);
 	free(game->mobs);
 	freeMap(game->map);
-	//freeChests(game->chest);
 	endwin();
 }

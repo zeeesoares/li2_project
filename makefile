@@ -5,10 +5,10 @@ SOURCES = ./src/*.c
 all: rogue run clean
 
 rogue: 
-	$(CC) $(SOURCES) $(CFLAGS) -o rogue
+	$(CC) $(SOURCES) $(CFLAGS) -o jogo
 
 run:
-	./rogue
+	./jogo
 
 clean:
-	rm rogue
+	rm jogo

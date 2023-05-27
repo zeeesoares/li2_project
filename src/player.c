@@ -1,5 +1,11 @@
 #include <rogue.h>
 
+/*
+- a103995 / José Soares
+- a104092 / Diogo Outeiro
+
+Funções relacionadas ao movimento do player.
+*/
 player * playerSetUp(tile ** map) {
     position start_pos = {rand() % 40 + 5 ,rand() % 5+ 40};
     player * newPlayer;
@@ -27,10 +33,27 @@ player * playerSetUp(tile ** map) {
     return newPlayer;
 }
 
+
+/*
+- a103995 / José Soares
+
+Função que verifica se o jogador está vivo.
+*/
+
 int checkPlayer(player * user) {
     if (user->vida > 0) return 1;
     else return 0;
 }
+
+
+/*
+- a103995 / José Soares
+- a104092 / Diogo Outeiro
+- a104446 / Nuno Melo
+- a104526 / Olavo Carreira
+
+Função responsável por receber todos os inputs do jogo.
+*/
 
 void handleInput(int input, gameState * game) {
     keypad(stdscr, true);
@@ -141,6 +164,12 @@ void handleInput(int input, gameState * game) {
     }
 }
 
+/*
+- a103995 / José Soares
+- a104092 / Diogo Outeiro
+
+Funções relacionadas ao movimento do player.
+*/
 void movePlayer(int y, int x, player * user) {
 
     user -> pos.x = x;
@@ -158,6 +187,12 @@ void healPlayer(player * user) {
         user->vida += 1;
 }
 
+/*
+- a103995 / José Soares
+- a104092 / Diogo Outeiro
+
+Funções relacionadas ao movimento do player.
+*/
 void checkMove(int y, int x, gameState * game) {
     int margem = 3;
     if (game->map[y-margem][x-margem].walkable == 1) {

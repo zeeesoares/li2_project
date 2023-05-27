@@ -1,5 +1,12 @@
 #include <rogue.h>
 
+/*
+- a104526 / Olavo Carreira
+- a103995 / José Soares
+
+Funções relacionada à parte gráfica do jogo
+*/
+
 // desenha toda a parte gráfica do jogo e é chamada iterativamente na funcao gameLoop(engine.c)
 void drawEverything(gameState * game) {
     clear();
@@ -22,6 +29,13 @@ void drawEverything(gameState * game) {
 
 }
 
+
+/*
+- a104526 / Olavo Carreira
+
+Funções relacionada à parte gráfica do menu
+*/
+
 // draw (em processo) do menu inicial
 void drawMenu(menu menu) {
     clear();
@@ -36,37 +50,6 @@ void drawMenu(menu menu) {
     mvprintw(17,65,"  ##########                                                   ########");
     attroff(COLOR_PAIR(SWORDC));
 
-
-    if ((menu.jogar == 1) && (menu.sair == 0) && (menu.tutorial == 0)) {
-
-        mvprintw(26,89,"-|==>");
-        attron(A_REVERSE);
-        mvprintw(26,95,"PLAY");
-        attroff(A_REVERSE);
-        mvprintw(27,95,"SAIR");
-        mvprintw(28,95,"TUTORIAL");
-    
-                                                                                                       
-                        
-    }
-    else if ((menu.jogar == 0) && (menu.sair == 1) && (menu.tutorial == 0)) {
-        mvprintw(26,95,"PLAY");
-        mvprintw(27,89,"-|==>");
-        attron(A_REVERSE);
-        mvprintw(27,95,"SAIR");
-        attroff(A_REVERSE);
-        mvprintw(28,95,"TUTORIAL");
-
-    } 
-    else if ((menu.jogar == 0) && (menu.sair == 0) && (menu.tutorial == 1)) {
-        mvprintw(26,95,"PLAY");
-        mvprintw(27,95,"SAIR");
-        mvprintw(28,89,"-|==>");
-        attron(A_REVERSE);
-        mvprintw(28,95,"TUTORIAL");
-        attroff(A_REVERSE);
-    }
-    
     char* image[] = {
   "           ,   ,",
   "         ,-`{-`/",
@@ -88,17 +71,53 @@ void drawMenu(menu menu) {
   "      /` .`\\ /` .  ^  ,  ~  ,  . ` . ~\\~                       \\ \\, `,__",
   "     / ` , ,`\\.  ` ~  ,  ^ ,  `  ~ . . ``~~~`,                   `-`--, \\",
   "    / , ~ . ~ \\ , ` .  ^  `  , . ^   .   , ` .`-,___,---,__            ``",
-  "  /` ` . ~ . ` `\\ `  ~  ,  .  ,  `  ,  . ~  ^  ,  .  ~  , .`~---,___",
-  "/` . `  ,  . ~ , \\  `  ~  ,  .  ^  ,  ~  .  `  ,  ~  .  ^  ,  ~  .  `-,"
+  "  /` ` . ~ . ` `\\ `  ~  ,  .  ,  `  ,  . ~  ^  ,  .  ~  , .`~---,Facha",
+  "/` . `  ,  . ~ , \\  `  ~  ,  .  ^  ,  ~  .  `  ,  ~  .  ^  ,  ~  . . - `-,"
 };
 
     for (int i = 0; i < 22; i++) {
 
-        mvprintw(30+i,65,"%s\n", image[i]);
+        mvprintw(30+i,63,"%s\n", image[i]);
     }  
+
+    if ((menu.jogar == 1) && (menu.sair == 0) && (menu.tutorial == 0)) {
+
+        mvprintw(26,89,"-|==>");
+        attron(A_REVERSE | COLOR_PAIR(SWORDC));
+        mvprintw(26,95,"PLAY");
+        attroff(A_REVERSE | COLOR_PAIR(SWORDC));
+        mvprintw(27,95,"SAIR");
+        mvprintw(28,95,"TUTORIAL");
+    
+                                                                                                       
+                        
+    }
+    else if ((menu.jogar == 0) && (menu.sair == 1) && (menu.tutorial == 0)) {
+        mvprintw(26,95,"PLAY");
+        mvprintw(27,89,"-|==>");
+        attron(A_REVERSE | COLOR_PAIR(SWORDC));
+        mvprintw(27,95,"SAIR");
+        attroff(A_REVERSE | COLOR_PAIR(SWORDC));
+        mvprintw(28,95,"TUTORIAL");
+
+    } 
+    else if ((menu.jogar == 0) && (menu.sair == 0) && (menu.tutorial == 1)) {
+        mvprintw(26,95,"PLAY");
+        mvprintw(27,95,"SAIR");
+        mvprintw(28,89,"-|==>");
+        attron(A_REVERSE | COLOR_PAIR(SWORDC));
+        mvprintw(28,95,"TUTORIAL");
+        attroff(A_REVERSE | COLOR_PAIR(SWORDC));
+    }
+    
 
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Funções relacionada à parte gráfica do tutorial
+*/
 
 void drawTutorial () {
     
@@ -201,6 +220,11 @@ void drawTutorial () {
         mvprintw(58,111,"Muito fortes fisicamente e acima de tudo ladroes de elite.");  
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Funções relacionada à parte gráfica de quando o user morre
+*/
 
 void drawDeath () {
 
@@ -234,17 +258,22 @@ void drawDeath () {
         attroff(COLOR_PAIR (101));
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica de quando o user morre
+*/
 void drawVictory () {
 
         clear();
 
-        mvprintw(10,50,"  .oooooo.      .oooooo.   ooooo      ooo  .oooooo..o oooooooooooo   .oooooo.    ooooo     ooo ooooo  .oooooo..o ooooooooooooo oooooooooooo      oooooooooooo  .oooooo..o   .oooooo.         .o.       ooooooooo.         .o.       ooooooooo.");
-        mvprintw(11,50,"d8P'  `Y8b   d8P'   `Y8b  `888b.     `8' d8P'    `Y8  `888'     `8  d8P'  `Y8b   `888'     `8' `888' d8P'    `Y8 8'   888   `8 `888'     `8      `888'     `8 d8P'    `Y8  d8P'  `Y8b       .888.      `888   `Y88.      .888.      `888   `Y88.  ");
-        mvprintw(12,50,"888          888      888  8 `88b.    8  Y88bo.        888         888            888       8   888  Y88bo.           888       888               888         Y88bo.      888              .8'888.      888   .d88'     .8'888.      888   .d88'  ");
-        mvprintw(13,50,"888          888      888  8   `88b.  8   `'Y8888o.    888oooo8    888            888       8   888   `'Y8888o.       888       888oooo8          888oooo8     `Y8888o.  888             .8 `888.       888ooo88P'     .8´ `888.     888ooo88P  ");
-        mvprintw(14,50,"888          888      888  8     `88b.8       `'Y88b   888    '    888     ooooo  888       8   888       `'Y88b      888       888    '          888    '         `'Y88b 888            .88ooo8888.    888           .88ooo8888.    888`88b.    ");
-        mvprintw(15,50,"`88b    ooo  `88b    d88'  8       `888  oo     .d8P   888       o `88.    .88'   `88.    .8'   888  oo     .d8P      888       888       o       888       o oo     .d8P `88b    ooo   .8'     `888.   888          .8'     `888.   888  `88b.   ");
-        mvprintw(16,50," `Y8bood8P'   `Y8bood8P'  o8o        `8  8""88888P'  o888ooooood8   `Y8bood8P'      `YbodP'    o888o 8""88888P'      o888o     o888ooooood8      o888ooooood8 8""88888P'   `Y8bood8P'  o88o     o8888o o888o        o88o     o8888o o888o  o888o ");                                                                                                                                                                                                                                         
+        mvprintw(10,50,"  .oooooo.      .oooooo.   ooooo      ooo  .oooooo..o oooooooooooo   .oooooo.    ooooo     ooo ooooo  .oooooo..o ooooooooooooo oooooooooooo");
+        mvprintw(11,50,"d8P'  `Y8b   d8P'   `Y8b  `888b.     `8' d8P'    `Y8  `888'     `8  d8P'  `Y8b   `888'     `8' `888' d8P'    `Y8 8'   888   `8 `888'     `8");
+        mvprintw(12,50,"888          888      888  8 `88b.    8  Y88bo.        888         888            888       8   888  Y88bo.           888       888");
+        mvprintw(13,50,"888          888      888  8   `88b.  8   `'Y8888o.    888oooo8    888            888       8   888   `'Y8888o.       888       888oooo8");
+        mvprintw(14,50,"888          888      888  8     `88b.8       `'Y88b   888    '    888     ooooo  888       8   888       `'Y88b      888       888    '");
+        mvprintw(15,50,"`88b    ooo  `88b    d88'  8       `888  oo     .d8P   888       o `88.    .88'   `88.    .8'   888  oo     .d8P      888       888       o");
+        mvprintw(16,50," `Y8bood8P'   `Y8bood8P'  o8o        `8  88888888P'  o888ooooood8   `Y8bood8P'      `YbodP'    o888o 88888888P'      o888o     o888ooooood8");                                                                                                                                                                                                                                         
 
         mvprintw(20,50," oooooooooooo  .oooooo..o   .oooooo.         .o.       ooooooooo.         .o.       ooooooooo.");
         mvprintw(21,50," `888'     `8 d8P'    `Y8  d8P'  `Y8b       .888.      `888   `Y88.      .888.      `888   `Y88.  ");
@@ -252,10 +281,18 @@ void drawVictory () {
         mvprintw(23,50,"  888oooo8     `Y8888o.  888              .8 `888.      888ooo88P'     .8' `888.     888ooo88P  ");
         mvprintw(24,50,"  888    '         `'Y88b 888            .88ooo8888.    888           .88ooo8888.    888`88b.    ");
         mvprintw(25,50,"  888       o oo     .d8P `88b    ooo   .8'     `888.   888          .8'     `888.   888  `88b.   ");
-        mvprintw(26,50," o888ooooood8 8""88888P'   `Y8bood8P'  o88o     o8888o o888o        o88o     o8888o o888o  o888o ");                                                                                                                                                                                                                                         
+        mvprintw(26,50," o888ooooood8 88888888P'   `Y8bood8P'  o88o     o8888o o888o        o88o     o8888o o888o  o888o ");                                                                                                                                                                                                                                         
                                                                                                                                                                                                                                                                                                                                             
 
 }
+
+/*
+- a104446 / Nuno Melo
+- a103995 / José Soares
+
+Função relacionada à parte gráfica do mapa
+*/
+
 // draw do map, funcao chamada depois da inicialização e criacao do mapa na drawMap
 void drawMap(tile ** map) {
     int rows = 50; 
@@ -284,12 +321,24 @@ void drawMap(tile ** map) {
 	}
 }
 
+/*
+- a104092 / Diogo Outeiro
+
+Função relacionada à parte gráfica do user
+*/
+
 // draw do player na sua posição atual
 void drawPlayer(player * user) {
     mvaddch(user->pos.y, user->pos.x, user->ch | user->color);
 }
 
-// draw do mob (experimental)
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar os mobs
+*/
+
+// draw do mob 
 void drawMob(entity_mob mob, tile ** map) {
     int margem = 3;
     if (mob.visible && map[mob.pos.y-margem][mob.pos.x-margem].walkable && mob.vida > 0)
@@ -298,6 +347,12 @@ void drawMob(entity_mob mob, tile ** map) {
         mvaddch(mob.pos.y,mob.pos.x,mob.ch | COLOR_PAIR(COLOR_MAGENTA));
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar os mobs
+*/
+
 void drawMobs(entity_mob mobs[], tile **map) {
     int  numMobs = 30;
     for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
@@ -305,14 +360,11 @@ void drawMobs(entity_mob mobs[], tile **map) {
     }
 }
 
-int contaMobs(entity_mob mobs[]) {
-    int numMobs = 30;
-    int count = 0;
-    for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
-        if (mobs[i].vida > 0) count++;// desenha o mob atual
-    }
-    return count;
-}
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar os chests
+*/
 
 void drawChest(chest chest, tile ** map) {
     int margem = 3;
@@ -322,6 +374,12 @@ void drawChest(chest chest, tile ** map) {
         mvaddch(chest.pos.y,chest.pos.x,chest.ch | COLOR_PAIR(COLOR_MAGENTA));
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar os chests
+*/
+
 void drawChests(chest chest[], tile **map) {
     int  numChests = 8;
     for (int i = 0; i < numChests; i++) { // percorre o array de mobs
@@ -330,11 +388,24 @@ void drawChests(chest chest[], tile **map) {
     }
 }
 
+
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar a shop
+*/
+
 void drawShop(shop * shop, tile ** map) {
     int margem = 3;
     if (map[shop->pos.y-margem][shop->pos.x-margem].visible || map[shop->pos.y-margem][shop->pos.x-margem].visibleT)
         mvaddch(shop->pos.y,shop->pos.x,shop->ch | COLOR_PAIR(SWORDC));
 }
+
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar o inventário
+*/
 
 // draw do Inventory do user
 void drawInventory(player * user, int numTochas) {
@@ -359,6 +430,12 @@ void drawInventory(player * user, int numTochas) {
     mvprintw(22,160,"+---------------------------------------+");
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar as coins
+*/
+
 // draw da quantidade de moedas do user
 void drawCoins(player * user) {
     mvprintw(5,160,"+---------+");
@@ -369,37 +446,12 @@ void drawCoins(player * user) {
     mvprintw(10,160,"+---------+");
 }
 
-// draw da interface
-void drawInterface(shop * shop) {
-    mvprintw(24,160,"+---------------------------------------+");
-    mvprintw(25,160,"| =MENU INTERFACE=                      |");
-    mvprintw(26,160,"|                                       |");
-    mvprintw(27,160,"|  (m) MAP STATUS                       |");
-    if (shop->visible == 1)
-        mvprintw(28,160,"|  (open) Shop                          |");
-    else 
-        mvprintw(28,160,"|  (closed) Shop                        |");
-    mvprintw(29,160,"|                                       |");
-    mvprintw(30,160,"|                                       |");
-    mvprintw(31,160,"|                                       |");
-    mvprintw(32,160,"|                                       |");
-    mvprintw(33,160,"|                                       |");
-    mvprintw(34,160,"|                                       |");
-    mvprintw(35,160,"|                                       |");
-    mvprintw(36,160,"|                                       |");
-    mvprintw(37,160,"|                                       |");
-    mvprintw(38,160,"|                                       |");
-    mvprintw(39,160,"|                                       |");
-    mvprintw(40,160,"|                                       |");
-    mvprintw(41,160,"|                                       |");
-    mvprintw(42,160,"|                                       |");
-    mvprintw(43,160,"|                                       |");
-    mvprintw(44,160,"|                                       |");
-    mvprintw(45,160,"|                                       |");
-    mvprintw(46,160,"|                                       |");
-    mvprintw(47,160,"|                                       |");
-    mvprintw(48,160,"+---------------------------------------+"); 
-}
+
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica  de desenhar a interface
+*/
 
 void drawInterfaceMobStatus(gameState * game) {
     int numMobs = 30;
@@ -456,7 +508,11 @@ void drawInterfaceMobStatus(gameState * game) {
 }
 
 
+/*
+- a104526 / Olavo Carreira
 
+Função relacionada à parte gráfica  de desenhar a interface da shop
+*/
 
 void drawShopInterface() {
     mvprintw(24,160,"+---------------------------------------+");
@@ -485,6 +541,12 @@ void drawShopInterface() {
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
+
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica de desenhar o item selecionado
+*/
 
 void drawSelected(shop * shop) {
     switch (shop->state)
@@ -542,6 +604,12 @@ void drawSelected(shop * shop) {
     }
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica de desenhar a pagina Swords
+*/
+
 void drawShopInterfaceSword() {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =Swords=                              |");
@@ -549,11 +617,11 @@ void drawShopInterfaceSword() {
     mvprintw(27,160,"|    __                                 |");
     mvprintw(28,160,"|    ||            /|          N        |");
     mvprintw(29,160,"|   _||_          |||          U        |");
-    mvprintw(30,160,"|  ( || )         |||          N        |");
-    mvprintw(31,160,"|    ||           |||       ___O___     |");
-    mvprintw(32,160,"|    ||           |||         | |       |");
-    mvprintw(33,160,"|    ||           |||         | |       |");
-    mvprintw(34,160,"|    ||           |||         | |       |");
+    mvprintw(30,160,"|  ( || )         |O|          N        |");
+    mvprintw(31,160,"|    ||           |L|       ___O___     |");
+    mvprintw(32,160,"|    ||           |A|         | |       |");
+    mvprintw(33,160,"|    ||           |V|         | |       |");
+    mvprintw(34,160,"|    ||           |O|         | |       |");
     mvprintw(35,160,"|    ||           |||         | |       |");
     mvprintw(36,160,"|    ||        ~-[{o}]-~      | |       |");
     mvprintw(37,160,"|    ||           |/|         | |       |");
@@ -569,6 +637,12 @@ void drawShopInterfaceSword() {
     mvprintw(47,160,"|                                       |");
     mvprintw(48,160,"+---------------------------------------+");
 }
+
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica de desenhar a pagina Bows
+*/
 
 void drawShopInterfaceBows() {
     mvprintw(24,160,"+---------------------------------------+");
@@ -598,6 +672,12 @@ void drawShopInterfaceBows() {
     mvprintw(48,160,"+---------------------------------------+");
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica de desenhar a pagina potions
+*/
+
 void drawShopInterfacePotions() {
     mvprintw(24,160,"+---------------------------------------+");
     mvprintw(25,160,"| =Potions=                             |");
@@ -607,8 +687,8 @@ void drawShopInterfacePotions() {
     mvprintw(29,160,"|     _            |                    |");
     mvprintw(30,160,"|   ,|||.         -+-           ||      |");
     mvprintw(31,160,"|   |||||        /-`-.        __(l      |");
-    mvprintw(32,160,"|   |||||/)       :   :       :   :     |");
-    mvprintw(33,160,"|   \\,,, /       : H :       : M :      |");
+    mvprintw(32,160,"|   ||||/)       :   :       :   :      |");
+    mvprintw(33,160,"|  \\,,, /       : H :       : M :      |");
     mvprintw(34,160,"|   |___|        :___:       :___:      |");
     mvprintw(35,160,"|                                       |");
     mvprintw(36,160,"|  Repulsion      Heal       Stamina    |");
@@ -626,6 +706,11 @@ void drawShopInterfacePotions() {
     mvprintw(48,160,"+---------------------------------------+");
 }
 
+/*
+- a104526 / Olavo Carreira
+
+Função relacionada à parte gráfica de desenhar o status do jogo
+*/
 
 // draw do Status
 void drawStatus(gameState * game, int num) {
@@ -641,6 +726,12 @@ void drawStatus(gameState * game, int num) {
     mvprintw(10,179,"|                    |");
     mvprintw(11,179,"+--------------------+");
 }
+
+/*
+- a104526 / Olavo Carreira
+
+Função que conta e adiciona coins ao status do user
+*/
 
 void vericaCoins(player * user, entity_mob * mobs, chest * chests) {
     int numMobs = 30;
@@ -682,7 +773,7 @@ void vericaCoins(player * user, entity_mob * mobs, chest * chests) {
 /` . `  ,  . ~ , \  `  ~  ,  .  ^  ,  ~  .  `  ,  ~  .  ^  ,  ~  .  `-,
 
        |______________
-[======|______________>
+[======|______________>  
        |
        '
    (
@@ -777,4 +868,39 @@ ___E___
     :   :
     :TNT:
     :___:
+
+    char* image[] = {
+  "                                                                           ,   ,",
+  "                                                                         ,-`{-`/",
+  "                                                                      ,-~ , \\ {-~~-,",
+  "                                                                    ,~  ,   ,`,-~~-,`,",
+  "                                                                  ,`   ,   { {      } }                                             }/    ",
+  "                                                                 ;     ,--/`\\ \\    / /                                     }/      /,/  ",
+  "                                                                ;  ,-./      \\ \\  { {  (                                  /,;    ,/ ,/  ",
+  "                                                                ; /   `       } } \\   `-`-.___                           / `,  ,/  `,/   ",
+  "                                                                 (|         ,`,`                                         / ,`,,/  ,`,;    ",
+  "                                                                  `        {  {                                     __  /  ,`/   ,`,; ",
+  "                                                                        /   \\ \\                                 _,`, `{  `{   `,`;  ",
+  "                                                                       {     } }       /~\\         .-:::-.     (--,   ;\\ `,}  `,`;  ",
+  "                                                                       \\ \\_./ /      /` , \\      ,:::::::::,     `~;   \\},/  `,`;     ,=- ",
+  "                                                                        `-..-`      /. `  .\\_   ;:::::::::::;  __,{     `/  `,`;     {   ",
+  "                                                                                   / , ~ . ^ `~`\\:::::::::::<<~>-,,`,    `-,  ``,_    }  ",
+  "                                                                                /~~ . `  . ~  , .`~~`:::::::;    _-~  ;__,        `,-`    ",
+  "                                                                       /`\\    /~,  . ~ , '  `  ,  .` `::::;`   <<<~```   ``-,,__   ; ",
+  "                                                                      /` .`\\ /` .  ^  ,  ~  ,  . ` . ~\\~                       \\ \\, `,__  ",
+  "                                                                     / ` , ,`\\.  ` ~  ,  ^ ,  `  ~ . . ``~~~`,                   `-`--, \\   ",
+  "                                                                    / , ~ . ~ \\ , ` .  ^  `  , . ^   .   , ` .`-,___,---,__            ``    ",
+  "                         /\\                                       /` ` . ~ . ` `\\ `  ~  ,  .  ,  `  ,  . ~  ^  ,  .  ~  , .`~---,___             ",
+  "                        / ~ \\        /\\                        /` . `  ,  . ~ , \\  `  ~  ,  .  ^  ,  ~  .  `  ,  ~  .  ^  ,  ~  .  ``~---,___     ",
+  "                       /- ' ~ \\     /  \\                      /       ~  ,  ^ ,  `  ~  ~ . ^  ~  ,  ^ ,  `  ~ : ~  ,  ^ ,  `  ~ ,  `` ~  ,  ^ ``~---,__ ",
+  "                     / `  ,  ^ \\   / ^ , \\                   /   ~  ,  ^ ,  `  ~ ^ ,  `  ~  , .`~ ~  ,  ^ ,  `  ~  ~  ,  ^ ,  `  ~      ~  ,  ^ ,  `  ~ ~---,___ `",
+  "                    / `  ~ , ^  \\  / ^ ,  ` \\               / ~  ,  ^ ,  `  ~   ~  ,  ^ ,  `  ~   ,  . ~  ,  ^ ,  `  ~  ~  ,  ^ ,  `  ~ ;   ~  ,  ^ ,  `  ~     ~---,___",
+  "                  / ~ ~ `  ~ ,  ^ ,      /  ^ ,  ___,---,    /  ~/ ,  ^,  ^ ,  `  ~ ~  ,  ^ ,  `  ~    ~  ,  ^ ,  `  ~  ,  ^ ,  `  ~  ~  ,  `~ ~  ,  ^ ,  `  ~  ~  ,  ^ ,  ~---,___",
+  "       ___,---,__ / ` `  ~ ,  ^ ,     `    `  ~ ^  `     \\/,  `  ~ ~  ,  ^ ~   `  ~ . . ~  ,  ^ ,  `  ~ ~  ,  ^ ,  `  `~ ~  ,  `  `~ ~  ,  `  ~  ~  ,  ^ , `  ~  ~  ,  ^ ,~  ,  ^ ,~---,___",
+  ",___,-  `  ~ ^ ,  ,  ^ ,  `  ~ ^ ,  `  ~ ~  ,  ^ ,  `  ~   `  ~  ~  ,  .  ,  `  ,  . ~  ^  `~ ~  ,  ^ ,  `  ~  ~  , ,  `  `~ ~  ,   ,  `  `~ ~  ,      ,  `  `~ ~  , ,    `~ ~  ,  ^ ,  `  ~~---,___",
+  ",  ^ ,  `  ~ ^ ,   ~  ,  ^ ,  `  ~ ,  ^ ,  `  ~  ,  `  ~ ^  `  , . ^   .   , ` .`~ ~  ,  ^ ,  `  ~  ~  ,  ^ , `  ~  ~  ,  `  `~ ~  ,   ,  `  `~ ~  ,   ,  ^ ,~  ,  ^ ,  `  ~  ~  ,  ^ ,   ~  ,  ^ ,   ~---,___",
+  " ,  ^ ,  `  ~ ^ ,   ,  ^ ,  `  ~ ^ ,  `  ~ ~  ,  ^ ,  `  ~   `  ~  ~  ,  .  ,  `  ,  . ~  ^  `~ ~  ,  ^ ,  `  ~  ~    ` ,  `  `~ ~  ,   ,  `  `~ ~  ,   ,  `  `~ ~  ,  ~ ,  `  `~ ~  ,   ~    ,,  ^ , ,  ^ ,   ~  ~  ^ ,     ",
+  "  ,  ^ ,  `  ~ ^ ,  ~  ,  ^ ,  `  ~ ,  ^ ,  `  ~  ,  `  ~ ^  `  , . ^   .   , ` .`~ ~  ,  ^ ,  `  ~  ~  ,  ^ , `  ~  ~ ,  `  `~ ~  ,   ,  `  `~ ~  ,   ,  `  `~ ~  ,    ,  ^ ,~  ,  ^ ,  `  ~  ~  ,  ^ ,   ~,  ^ ,   ~,  ^ ,    ",
+  ",  ^ ,  `  ~ ^ ,  ,  ^ ,  `  ~ ^ ,  `  ~ ~  ,  ^ ,  `  ~   `  ~  ~  ,  .  ,  `  ,  . ~  ^  `~ ~  ,  ^ ,  `  ~  ~     ,  `  `~ ~  ,   ,  `  `~ ~  ,  `~ ~  ,  ^ ,  `   `~ ~  ,  ^ ,  `  ~  ~ ,  ^ ,   ~,  ^ ,   ~,  ^ ,   ~,  ^ ,   ~,  ^ ,   ~    "
+};
 */

@@ -1,5 +1,13 @@
 #include "rogue.h"
 
+/*
+- a104092 / Diogo Outeiro
+
+Funções relacionads ao campo de visão
+*/
+
+
+// Função que faz o FOV (Field of View) do jogo e atualiza o estado do mapa
 void makeFOV(gameState * game, int raio)
 {
 
@@ -54,7 +62,14 @@ void makeFOV(gameState * game, int raio)
 
 }
 
+/*
+- a104092 / Diogo Outeiro
 
+Funções relacionads ao campo de visão
+*/
+
+
+// Função que limpa o FOV, feito pela makeFOV, e atualiza o mapa/FOV.
 void clearFOV(gameState * game, int raio) {
     int x, y, distance;
     int margem = 3;
@@ -80,6 +95,14 @@ void clearFOV(gameState * game, int raio) {
     }
 }
 
+/*
+- a104092 / Diogo Outeiro
+
+Funções relacionads ao campo de visão
+*/
+
+
+// Função que verifica em todas as direçoes dentro de um determinado raio tudo o que é visivel (CONDIÇAO MAKEFOV/CLEARFOV)
 int lineOfSight(tile ** map, position origem, position alvo) {
     int delta_x = alvo.x - origem.x;
     int delta_y = alvo.y - origem.y;
@@ -127,6 +150,14 @@ int lineOfSight(tile ** map, position origem, position alvo) {
     return 1;
 }
 
+/*
+- a104092 / Diogo Outeiro
+
+Funções relacionads ao campo de visão
+*/
+
+
+// Função que calcula a distancia entre dois targets
 int getdistance (position origem, position alvo) {
     double dx;
     double dy;
@@ -137,6 +168,13 @@ int getdistance (position origem, position alvo) {
     return distance;
 }
 
+/*
+- a104092 / Diogo Outeiro
+
+Funções relacionads ao campo de visão
+*/
+
+// Função que verifica se a posição que estamos a analizar está dentro do mapa
 int isInMap(int y, int x) {
     if (( 0 <= y && y < 50) && (0 <= x && x <= 145)){
         return 1;

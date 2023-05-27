@@ -1,6 +1,10 @@
 #include <rogue.h>
 
+/*
+- a104446 / Nuno Melo
 
+Funções relacionadas à produção do mapa e organização de mapa.
+*/
 tile ** createMap() {
     int rows = 50;
 	int cols = 145;
@@ -21,6 +25,11 @@ tile ** createMap() {
     return tiles;
 }
 
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas à produção do mapa e organização de mapa.
+*/
 tile ** mapSetUp(tile ** tilesInit) {
     int rows = 50;
 	int cols = 145;
@@ -121,6 +130,11 @@ tile ** mapSetUp(tile ** tilesInit) {
     return tilesInit;
 }
 
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas à produção do mapa e organização de mapa.
+*/
 void freeMap(tile ** map)
 {
     int rows = 50;
