@@ -1,20 +1,12 @@
 #include <rogue.h>
 
-char* mobNames[] = {"Kobold", "Orc", "Goblin", "Troll", "Zombie", "Creeper", "Demon", "Slime", "Wyrm", "DarqueMan"};
+char* mobNames[] = {"Kobold", "Orc", "Goblin", "Troll", "Zombie", "Grifo", "Demon", "Slime", "Wyrm", "DarqueMan"};
 
-entity_mob * mobsSetUp(tile ** map) {
-    position start_pos = {rand() % 90 + 20, (rand() % 35) + 10};
-    entity_mob * mob;
-    mob = malloc(sizeof(entity_mob));
-    while (map[start_pos.y-3][start_pos.x-3].ch == '#')
-        start_pos.x += 2;
-    mob->pos = start_pos;
-    mob->ch = 'O';
-    mob->visible = 0;
-    mob->vida = 100;
-    mob->type = 0;
-    return mob;
-}
+/*
+- a103995 / José Soares
+
+Função que cria array de mobs
+*/
 
 entity_mob *createMobArray(int numMobs, tile **map) {
     entity_mob *mobArray = malloc(numMobs * sizeof(entity_mob));
@@ -41,45 +33,57 @@ entity_mob *createMobArray(int numMobs, tile **map) {
     return mobArray;
 }
 
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas ao balanceamento e gestão de jogo.
+*/
+
 int defineMobDano(int name) {
     int res = 0;
     switch (name)
     {
     case 0:
-        res = 10;
+        res = 15;
         break;
     case 1:
-        res = 10;
+        res = 15;
         break;
     case 2:
         res = 5;
         break;
     case 3:
-        res = 15;
+        res = 20;
         break;
     case 4:
         res = 7;
         break;
     case 5:
-        res = 6;
+        res = 17;
         break;
     case 6:
-        res = 17;
+        res = 20;
         break;
     case 7:
         res = 2;
         break;
     case 8:
-        res = 15;
+        res = 17;
         break;
     case 9:
-        res = 25;
+        res = 30;
         break;
     default:
         break;
     }
     return res;
 }
+
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas ao balanceamento e gestão de jogo.
+*/
 
 int defineMobCoins(int name) {
     int res = 0;
@@ -98,10 +102,10 @@ int defineMobCoins(int name) {
         res = 900;
         break;
     case 4:
-        res = 300;
+        res = 400;
         break;
     case 5:
-        res = 400;
+        res = 1000;
         break;
     case 6:
         res = 1200;
@@ -120,6 +124,12 @@ int defineMobCoins(int name) {
     }
     return res;
 }
+
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas ao balanceamento e gestão de jogo.
+*/
 
 char defineMobChar(int name) {
     char res = 'O';
@@ -141,7 +151,7 @@ char defineMobChar(int name) {
         res = 'Z';
         break;
     case 5:
-        res = 'C';
+        res = 'Q';
         break;
     case 6:
         res = 'D';
@@ -161,45 +171,57 @@ char defineMobChar(int name) {
     return res;
 }
 
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas ao balanceamento e gestão de jogo.
+*/
+
 int defineMobHealth(int name) {
     int res = 0;
     switch (name)
     {
     case 0:
-        res = 120;
+        res = 170;
         break;
     case 1:
         res = 170;
         break;
     case 2:
-        res = 50;
-        break;
-    case 3:
-        res = 150;
-        break;
-    case 4:
-        res = 90;
-        break;
-    case 5:
         res = 70;
         break;
-    case 6:
+    case 3:
         res = 200;
         break;
+    case 4:
+        res = 110;
+        break;
+    case 5:
+        res = 200;
+        break;
+    case 6:
+        res = 250;
+        break;
     case 7:
-        res = 30;
+        res = 50;
         break;
     case 8:
-        res = 170;
+        res = 200;
         break;
     case 9:
-        res = 500;
+        res = 600;
         break;
     default:
         break;
     }
     return res;
 }
+
+/*
+- a103995 / José Soares
+
+Função que cria array de chest
+*/
 
 chest *createChestArray(int numChests, tile **map) {
     chest *chestArray = malloc(numChests * sizeof(chest));
@@ -208,23 +230,32 @@ chest *createChestArray(int numChests, tile **map) {
         return NULL;
     }
     for (int i = 0; i < numChests; i++) {
-        position start_pos = {rand() % 90 + 30, (rand() % 35) + 10};
+        position start_pos = {rand() % 90 + 40, (rand() % 40) + 3};
         while (map[start_pos.y-3][start_pos.x-3].ch == '#')
             start_pos.x += 2;
         chestArray[i].ch = '&';
-        chestArray[i].vida = rand() % 4 * 100 + 100;
+        chestArray[i].vida = (rand() % 3 + 1) * 100;
         chestArray[i].pos = start_pos;
-        chestArray[i].coins = chestArray[i].vida * 10;
+        chestArray[i].coins = (rand() % 3 + 1) * 500;
         chestArray[i].visible = 0;  
     }
     return chestArray;
 }
 
+/*
+- a103995 / José Soares
+
+Função que move os mobs todos da lista
+*/
 
 void moveMobs(entity_mob * mobs,tile ** map,player * user) {
     int numMobs = 30;
     for (int i = 0; i< numMobs; i++) {
-        if (!(mobs+i)->visible) {
+        if ((mobs+i)->visibleT) {
+            if ((mobs+i)->vida > 0)
+                moveMob(mobs+i,map);
+        }
+        else if (!(mobs+i)->visible) {
             if ((mobs+i)->vida > 0)
                 moveMob(mobs+i,map);
         }
@@ -247,6 +278,12 @@ void moveMobs(entity_mob * mobs,tile ** map,player * user) {
         }
     }
 }
+
+/*
+- a103995 / José Soares
+
+Função que move os mobs em direção ao user
+*/
 
 void moveMobTowardsUser(entity_mob * mob, player * user, tile** map) {
     // Lista de possíveis movimentos
@@ -285,7 +322,11 @@ void moveMobTowardsUser(entity_mob * mob, player * user, tile** map) {
     mob->pos = destination;
 }
 
+/*
+- a103995 / José Soares
 
+Função que move os mobs de forma aleatória
+*/
 void moveMob(entity_mob * mob, tile ** map) {
 
     int direcao = rand() % 10;
@@ -322,16 +363,38 @@ void moveMob(entity_mob * mob, tile ** map) {
     }
 }
 
+/*
+- a103995 / José Soares
+
+Função que conta o numero de mobs vivos no jogo.
+*/
+int contaMobs(entity_mob mobs[]) {
+    int numMobs = 30;
+    int count = 0;
+    for (int i = 0; i < numMobs; i++) { // percorre o array de mobs
+        if (mobs[i].vida > 0) count++;// desenha o mob atual
+    }
+    return count;
+}
+
+
+/*
+- a103995 / José Soares
+
+Função que verifica em todas as listas/entidades estão no FOV
+*/
 void isMobVisible (shop * shop,entity_mob * mobs, tile ** map, chest * chest) {
-    int numMobs = 12;
+    int numMobs = 30;
     int numChests = 8;
     if (map[shop->pos.y - 3][shop->pos.x -3].visible || map[shop->pos.y - 3][shop->pos.x -3].visibleT)
         shop->visible = 1;
     else if (!map[shop->pos.y - 3][shop->pos.x -3].visible && !map[shop->pos.y - 3][shop->pos.x -3].visibleT)
         shop->visible = 0;
     for (int i = 0; i < numMobs; i++) {
-        if (map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visible || map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visibleT)
+        if (map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visible)
             (mobs+i)->visible = 1;
+        else if (map[(mobs+i)->pos.y - 3][(mobs+i)->pos.x -3].visibleT)
+            (mobs+i)->visibleT = 1;
         else (mobs+i)->visible = 0;
     }
     for (int i = 0; i < numChests; i++) {
@@ -340,20 +403,3 @@ void isMobVisible (shop * shop,entity_mob * mobs, tile ** map, chest * chest) {
         else (chest+i)->visible = 0;
     }
 }
-
-
-
-void freeMobs(entity_mob *mobs) {
-    int numMobs = 30;
-    for (int i = 0; i < numMobs; i++) {
-            free(mobs+i);
-    }
-}
-
-void freeChests(chest *chests) {
-    int numChests = 8;
-    for (int i = 0; i < numChests; i++) {
-            free(chests+i);
-    }
-}
-

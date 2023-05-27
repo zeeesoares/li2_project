@@ -1,8 +1,12 @@
 #include <rogue.h>
 
+/*
+- a104446 / Nuno Melo
 
+Funções relacionadas à produção do mapa e organização de mapa.
+*/
 tile ** createMap() {
-    int rows = 55;
+    int rows = 50;
 	int cols = 145;
     tile ** tiles = calloc(rows,sizeof(tile *));
 
@@ -21,8 +25,13 @@ tile ** createMap() {
     return tiles;
 }
 
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas à produção do mapa e organização de mapa.
+*/
 tile ** mapSetUp(tile ** tilesInit) {
-    int rows = 55;
+    int rows = 50;
 	int cols = 145;
     // preencher o array bidimensional com caracteres aleatórios
     int count = 0;
@@ -121,9 +130,14 @@ tile ** mapSetUp(tile ** tilesInit) {
     return tilesInit;
 }
 
+/*
+- a104446 / Nuno Melo
+
+Funções relacionadas à produção do mapa e organização de mapa.
+*/
 void freeMap(tile ** map)
 {
-    int rows = 55;
+    int rows = 50;
 	for (int y = 0; y < rows; y++)
 	{
 		free(map[y]);

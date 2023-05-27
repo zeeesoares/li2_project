@@ -130,11 +130,16 @@ typedef struct projetil
   int visivel;
 } seta;
 
+typedef struct bomba {
+  position pos;
+  char ch;
+} bomba;
 
 // struct PRINCIPAL responsavel por enviar todos os dados do jogo as funcoes da engine.c
 typedef struct gameState
 {
   menu modo;
+  int state;
   int numTochas;
   player * user;
   tile ** map;
@@ -142,6 +147,7 @@ typedef struct gameState
   chest * chest;
   shop * shop;
   seta * seta;
+  bomba * bomba;
 } gameState;
 
 //////////////////////////////// TYPES AND FUNCTIONS ///////////////////////////////////
@@ -150,11 +156,6 @@ typedef struct gameState
 tile ** mapSetUp();
 tile ** createMap();
 void freeMap(tile ** map);
-
-
-// functions log.c
-int logSetUp();
-void invLog(int weapon, int count);
 
 // functions player.c
 player *createPlayerArray(int numPlayers, tile **map);
@@ -186,6 +187,8 @@ void drawEverything(gameState * game);
 void drawMenu();
 void drawTutorial ();
 void drawDeath ();
+void drawVictory ();
+void drawbomb(gameState * game);
 void drawPlayer(player * user);
 void drawMap(tile ** map);
 void drawInventory(player * user, int numTochas);
@@ -211,11 +214,8 @@ int gameLoop(int input, gameState *);
 int menuLoop(int input, gameState * game);
 void closeGame(gameState *);
 
-// functions room.c
-
 //function inventory.c
 void handleInventory(gameState * game);
-
 
 // functions fov.c
 void makeFOV(gameState * game, int raio);
@@ -233,7 +233,7 @@ void buyItem(gameState * game);
 // functions combat.c
 void useWeapon(int weapon, gameState * game);
 void useSword(entity_mob *mobs, player *user, chest * chests);
-void usePotion(player * user);
+void usePotion(player * user,gameState * game, entity_mob * mobs);
 void checkDano(entity_mob *mobs, player *user);
 void projetil(char direcao,gameState * game);
 void useTocha(gameState* game);
