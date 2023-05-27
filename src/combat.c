@@ -63,10 +63,10 @@ void usePotion(player * user,gameState * game, entity_mob * mobs) {
             for (int k = j; k < j + 5; k++) {
                 int p = 0;
                 while (p < 30) {
-                    if ((mobs+p)->pos.y == i && (mobs+p)->pos.x == k && (mobs+p)->vida > 0 && game->map[(mobs+p)->pos.y + 3][(mobs+p)->pos.x].walkable) {
-                        (mobs+p)->pos.y = (mobs+p)->pos.y +3;
-                    if ((mobs+p)->pos.y == i && (mobs+p)->pos.x == k && (mobs+p)->vida > 0 && game->map[(mobs+p)->pos.y + 2][(mobs+p)->pos.x].walkable){
-                        (mobs+p)->pos.y = (mobs+p)->pos.y +2;
+                    if ((mobs+p)->pos.y == i && (mobs+p)->pos.x == k && (mobs+p)->vida > 0 && game->map[(mobs+p)->pos.y-3][(mobs+p)->pos.x].walkable) {
+                        (mobs+p)->pos.x = (mobs+p)->pos.x +3;
+                    if ((mobs+p)->pos.y == i && (mobs+p)->pos.x == k && (mobs+p)->vida > 0 && game->map[(mobs+p)->pos.y-3][(mobs+p)->pos.x].walkable){
+                        (mobs+p)->pos.x = (mobs+p)->pos.x +2;
                         if ((mobs+p)->vida < 0)
                             (mobs+p)->vida = 0; 
                     }

@@ -691,7 +691,7 @@ void drawShopInterfacePotions() {
     mvprintw(33,160,"|   \\,,, /       : H :       : M :      |");
     mvprintw(34,160,"|   |___|        :___:       :___:      |");
     mvprintw(35,160,"|                                       |");
-    mvprintw(36,160,"|  Repulsion      Heal       Stamina    |");
+    mvprintw(36,160,"|  Teleporter     Heal       Stamina    |");
     mvprintw(37,160,"|  Rank: B      Use:100 HP   Use:100 SM |");
     mvprintw(38,160,"|  Cost: 2000   Cost: 1000   Cost: 1000 |");
     mvprintw(39,160,"|                                       |");

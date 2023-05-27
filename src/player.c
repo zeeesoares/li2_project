@@ -107,12 +107,12 @@ void handleInput(int input, gameState * game) {
         if (game->shop->act == 1  && game->shop->state == 0)
             game->shop->state = 3;
         break;
-    case 'n':
+    case KEY_LEFT:
         if (game->shop->act == 1) {
             selectItem(game->shop,1);
         }
         break;
-    case 'm':
+    case KEY_RIGHT:
         if (game->shop->act == 1) {
             selectItem(game->shop,2);
         }
