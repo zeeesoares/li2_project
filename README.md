@@ -1,5 +1,6 @@
 # LI2_project :wave:
 
+![MENU](menu.png)
 - Projeto baseado num jogo Roguelike produzido em C, coma biblioteca ncurses.
 
 ## :space_invader: Colaborators:
